@@ -36,9 +36,13 @@ screen real estate */
 }
 
 .nav-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 5vh;
   width: 100vw;
   background-color: blanchedalmond;
+  font-family: ;
 }
 
 .dynamic-box {
@@ -69,4 +73,10 @@ screen real estate */
   display: flex;
   width: 15vh;
   height: 15vh;
+}
+
+.machineImg
+
+.score {
+
 }

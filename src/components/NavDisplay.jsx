@@ -1,11 +1,13 @@
 
 
 
-function NavDisplay () {
+function NavDisplay ({ initials, email}) {
   
   return (
     <div className="nav-box row">
-      NavDisplay
+      <div>burger</div>
+      <div>{initials}</div>
+      <div>{email}</div>
     </div>
   )
 }
