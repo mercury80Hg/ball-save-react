@@ -10,27 +10,59 @@ function Profile ( { user, currentUser } ) {
   const score = machines.map(mach => mach.score.map(x => x.value))
     console.log('SCORE:', score)
  
+
+  
   
 
   return (
     <div className="profile " >
       
-      {/* sort the currentUser scoreObj array in most recent first and return the first three */}
-      {/* { for(let i = 0; i < 3; i++) {
-        <div score-card row>
+      {/* TODO: refactor into one loop */}
+      {/* map the sorted scores from highest to lowest */}
+
+      <div className="score-card-box-col " >
+        <div className="score-card row">
           <img className="machineImg" src="" alt="" />
-          <div className="score" >
-            {score[1].map(x => x)}
+          <div className="score-box " >
+            {score[0].map((x, i) => (
+            <div className="row">
+              <div key={i} className="score-num" >{x} </div>
+              <div>{machines[0].score[i].date}</div>
+            </div>
+            )
+            )}
           </div>
         </div>
-        }
-      } */}
+
+        <div className="score-card row">
+          <img className="machineImg" src="" alt="" />
+          <div className="score-box " >
+            {score[1].map((x, i) => (
+            <div className="row">  
+              <div key={i} className="score-num" >{x}</div>
+              <div>{machines[1].score[i].date}</div>
+            </div>
+            ) 
+            )}
+          </div>
+        </div>
+
+        <div className="score-card row">
+          <img className="machineImg" src="" alt="" />
+          <div className="score-box " >
+            {score[2].map((x, i) => (
+            <div className="row">  
+              <div key={i} className="score-num" >{x}</div>
+              <div>{machines[2].score[i].date}</div>
+            </div>
+            ) 
+            )}
+          </div>
+        </div>
+      </div>
+      
 
       
-     
-      
-
-        {/* map the sorted scores from highest to lowest */}
 
       
 

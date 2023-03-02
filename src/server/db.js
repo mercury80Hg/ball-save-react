@@ -10,15 +10,15 @@ export const userList = [
         machineId: 'Attack From Mars',
         locationId: 'The Nest',
         score: [{
-          date: '',
+          date: 'today',
           value: 4000
           },
           {
-            date: '',
+            date: 'tomorrow',
             value: 3000
           },
           {
-            date: '',
+            date: 'yesterday',
             value: 2000
           }, 
         ]
@@ -27,15 +27,15 @@ export const userList = [
         machineId: 'Attack From Mars',
         locationId: 'Ground Kontrol',
         score: [{
-          date: '',
+          date: 'today',
           value: 5000
           },
           {
-            date: '',
+            date: 'tomorrow',
             value: 6000
           },
           {
-            date: '',
+            date: 'yesterday',
             value: 7000
           }, 
         ]
@@ -44,15 +44,15 @@ export const userList = [
         machineId: 'Road Show',
         locationId: 'Ground Kontrol',
         score: [{
-          date: '',
+          date: 'today',
           value: 4444
           },
           {
-            date: '',
+            date: 'tomorrow',
             value: 3333
           },
           {
-            date: '',
+            date: 'yesterday',
             value: 2222
           }, 
         ]
