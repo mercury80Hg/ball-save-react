@@ -60,11 +60,6 @@ function Profile ( { user, currentUser } ) {
           </div>
         </div>
       </div>
-      
-
-      
-
-      
 
     </div>
   )

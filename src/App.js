@@ -9,6 +9,7 @@ import Add from './components/Add';
 import UserScoreHistory from './components/UserScoreHistory'
 
 import { userList } from './server/db';
+import { pinMachines } from './server/api/api';
 
 
 
@@ -19,6 +20,7 @@ import { userList } from './server/db';
 function App() {
   const [currentUser, setCurrentUser] = useState(userList.find(({ userId }) => userId === "12345"))
   console.log("Current USER: ", currentUser)
+  console.log("PinMACHINES:", pinMachines)
 
   return (
     
