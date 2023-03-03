@@ -10,7 +10,7 @@ import UserScoreHistory from './components/UserScoreHistory';
 import { userList } from './db';
 import { fetchMachines } from './api/api';
 
-export const baseURL = 'localhost:3001'
+export const baseURL = 'http://localhost:3001'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(
@@ -19,8 +19,9 @@ function App() {
   const [machines, setMachines] = useState([]);
     console.log('Current USER: ', currentUser);
     console.log('PinMACHINES:', machines);
+    
 
-  useEffect(() => {
+    useEffect(() => {
     async function getData() {
       const result = await fetchMachines();
 
@@ -48,7 +49,7 @@ function App() {
         />
         <Route
           path='/add'
-          element={<DynamicBox user={currentUser} data={<Add />} />}
+          element={<DynamicBox user={currentUser} data={<Add user={currentUser} machines={machines} />} />}
         />
         <Route
           path='/history'

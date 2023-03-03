@@ -1,115 +1,131 @@
-import { useState } from "react"
-import { baseURL } from "../App"
+import { useState } from 'react';
+import { baseURL } from '../App';
+import AutoComplete from './AutoComplete';
 
 
+function Add({ user, machines }) {
+  const [machineInput, setMachineInput] = useState('');
+  const [locationInput, setLocationInput] = useState('');
+  const [scoreInput, setScoreInput] = useState('');
 
-function Add () {
-  const [machineInput, setMachineInput] = useState('')
-  const [locationInput, setLocationInput] = useState('')
-  const [scoreInput, setScoreInput] = useState('')
- 
   const initialSubmitState = {
-    user: '',
+    email: '',
+    externalMachineId: '',
+    machineImgUrl: '',
     machineName: '',
+    score: 0,
     location: '',
-    date: '',
-    score: '',
+  };
+
+  const [submit, setSubmit] = useState(initialSubmitState);
+  machines.find({  })
+
+  function addScore(event) {
+    fetch(baseURL + '/scores', { 
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(event),
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err)); //eslint-disable-line no-console
   }
 
-  const [submitState, setSubmitState] = useState(initialSubmitState)
-
-
-  const addScore = event =>
-  fetch(baseURL + '/events', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(event)
-  })
-    .then(res => res.json())
-    .catch(err => console.log(err)); //eslint-disable-line no-console
-
-  
   function handleSubmit(event) {
-    event.preventDefault()
-    const { user, machineName, location, date, score } = submitState
-    if (machineName && location && score) {
+    event.preventDefault();
+
+    setSubmit({
+      email: user.email,
+      externalMachineId: '',
+      machineImgUrl: '',
+      machineName: machineInput,
+      score: scoreInput,
+      location: locationInput,
+    });
+
+    if (machineInput && locationInput && scoreInput) {
       try {
-        addScore({
-          
-        })
-        setSubmitState(initialSubmitState)
-      } catch(error) {
-        console.error(error)
+        addScore(submit);
+        setSubmit(initialSubmitState);
+      } catch (error) {
+        console.error(error);
       }
     }
   }
 
   function handleMachineInput(event) {
-    setMachineInput(event.target.value)
+    setMachineInput(event.target.value);
   }
 
   function handleLocationInput(event) {
-    setLocationInput(event.target.value)
+    setLocationInput(event.target.value);
   }
 
   function handleScoreInput(event) {
-    setScoreInput(event.target.value)
+    setScoreInput(event.target.value);
   }
 
   return (
-    <div className="add-machine-container" >
+    <div className='add-machine-container'>
       <form onSubmit={handleSubmit}>
-
-        <div className="add-input-box" >
-          <label className="label" htmlFor="machine-input">
+        <div className='add-input-box'>
+          <label className='label' htmlFor='machine-input'>
             Pinball Machine
           </label>
-          
-          <input 
+
+          <input
             name='machine'
             id='machine-input'
             type='text'
+            list='games'
             value={machineInput}
             onChange={handleMachineInput}
             placeholder='Type a pinball machine...'
-            required />
+            required
+          />
+          <datalist id="games">
+            {machines.map(({ name }, i) => <option key={name + i} value={name} />)}
+            </datalist>
+
         </div>
-       
-        <div className="add-input-box" >
-          <label className="label" htmlFor="location-input"> 
+
+        {/* <AutoComplete machines={machines} /> */}
+
+        <div className='add-input-box'>
+          <label className='label' htmlFor='location-input'>
             Machine Location
           </label>
-         
-          <input 
+
+          <input
             name='location'
             id='location-input'
             type='text'
             value={locationInput}
             onChange={handleLocationInput}
             placeholder='Type a location...'
-            required />
+            required
+          />
         </div>
 
-        <div className="add-input-box" >
-          <label className="label" htmlFor="score-input"> 
+        <div className='add-input-box'>
+          <label className='label' htmlFor='score-input'>
             Score
           </label>
-         
-          <input 
+
+          <input
             name='score'
             id='score-input'
             type='text'
             value={scoreInput}
             onChange={handleScoreInput}
             placeholder='Put that rad score here...'
-            required />
+            required
+          />
         </div>
 
-        <input className="add-submit" type="submit" value='Add' />
-      
+        <input className='add-submit' type='submit' value='Add' />
       </form>
     </div>
-  )
+  );
 }
 
-export default Add
+export default Add;
