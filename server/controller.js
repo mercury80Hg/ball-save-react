@@ -9,9 +9,15 @@ async function getUsers(ctx) {
   }
 }
 
-async function getScores(ctx) {
+async function getScoresByEmail(ctx) {
   try {
-    ctx.response.body = await models.Score.find({});
+    let user = await models.User.findOne({
+      email: ctx.params.email,
+    });
+    
+    const scores = await models.Score.find({ user }).populate('machine');
+
+    ctx.response.body = scores;
   } catch (error) {
     ctx.status = 400;
   }
@@ -77,4 +83,4 @@ async function addScore(ctx) {
 // }
 
 // make sure exports match function names when you name them
-module.exports = { getUsers, getScores, addUser, addScore };
+module.exports = { getUsers, getScoresByEmail, addUser, addScore };

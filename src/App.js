@@ -18,18 +18,17 @@ function App() {
     userList.find(({ userId }) => userId === '12345')
   );
   const [machines, setMachines] = useState([]);
-    console.log('Current USER: ', currentUser);
-    console.log('PinMACHINES:', machines);
+    // console.log('Current USER: ', currentUser);
+    // console.log('PinMACHINES:', machines);
     
 
     useEffect(() => {
-    async function getData() {
-      const result = await fetchMachines();
-
-      setMachines(result.machines);
-    }
-    getData();
-  }, []);
+      async function getData() {
+        const result = await fetchMachines();
+        setMachines(result.machines);
+      }
+      getData();
+    }, []);
 
   return (
     <div className='App'>
@@ -55,7 +54,7 @@ function App() {
         <Route
           path='/history'
           element={
-            <DynamicBox user={currentUser} data={<UserScoreHistory />} />
+            <DynamicBox user={currentUser} data={<UserScoreHistory  user={currentUser} />} />
           }
         />
       </Routes>

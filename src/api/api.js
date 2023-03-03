@@ -10,3 +10,16 @@ export async function fetchMachines() {
   }
   return { machines: [] };
 }
+
+export async function fetchScores(email) {
+  try {
+    const scores = await fetch(
+      `http://localhost:3001/scores/${email}`
+    );
+    const result = await scores.json();
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+  // return { machines: [] };
+}

@@ -2,26 +2,14 @@ import { useState } from 'react';
 import { baseURL } from '../App';
 // import AutoComplete from './AutoComplete';
 
-
 function Add({ user, machines }) {
+  console.log(user);
   const [machineInput, setMachineInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
   const [scoreInput, setScoreInput] = useState('');
 
-  const initialSubmitState = {
-    email: "",
-    externalMachineId: "",
-    machineImgUrl: "",
-    machineName: "",
-    score: 0,
-    location: "",
-  };
-
-  const [submit, setSubmit] = useState(initialSubmitState);
-  
-
   function addScore(event) {
-    fetch(baseURL + '/scores', { 
+    fetch(baseURL + '/score', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(event),
@@ -32,25 +20,29 @@ function Add({ user, machines }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const machineObj = machines.find(({ name }) => name === machineInput)
+    const machineObj = machines.find(({ name }) => name === machineInput);
 
-    setSubmit({
+    const submit = {
       email: user.email,
-      externalMachineId: (machineObj.ipdb_id ? machineObj.ipdb_id : machineObj.opdb_id),
-      machineImgUrl:( machineObj.opdb_img ? machineObj.opdb_img : "../../public/images/no-photo-available.webp"),
+      externalMachineId: machineObj.ipdb_id || machineObj.opdb_id,
+      machineImgUrl:
+        machineObj.opdb_img || '../../public/images/no-photo-available.webp',
       machineName: machineInput,
       score: scoreInput,
       location: locationInput,
-    });
+    };
 
     if (machineInput && locationInput && scoreInput) {
       try {
         addScore(submit);
-        console.log('SUBMIT: ', submit)
-        setSubmit(initialSubmitState);
+        console.log('SUBMIT: ', submit);
       } catch (error) {
         console.error(error);
       }
+      setLocationInput('')
+      setMachineInput('')
+      setScoreInput('')
+      
     }
   }
 
@@ -84,10 +76,11 @@ function Add({ user, machines }) {
             placeholder='Type a pinball machine...'
             required
           />
-          <datalist id="games">
-            {machines.map(({ name }, i) => <option key={name + i} value={name} />)}
-            </datalist>
-
+          <datalist id='games'>
+            {machines.map(({ name }, i) => (
+              <option key={name + i} value={name} />
+            ))}
+          </datalist>
         </div>
 
         {/* <AutoComplete machines={machines} /> */}
