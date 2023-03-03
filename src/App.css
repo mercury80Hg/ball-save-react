@@ -1,5 +1,7 @@
 
-
+body {
+  background-color: rgb(48,48,48);
+}
 .App {
   box-sizing: border;
   display: flex;
@@ -9,7 +11,7 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  
+ 
 }
 
 /* currently accounting for top/bottom mobile browser search bar and nav buttons
@@ -27,7 +29,7 @@ screen real estate */
   letter-spacing: .5em;
   text-align: center;
   /* vertical-align: middle; */
-  background-color: green;
+  background-color: rgb(226, 34, 73);
   width: 100vw;
 }
 
@@ -42,7 +44,7 @@ screen real estate */
   align-items: center;
   height: 5vh;
   width: 100vw;
-  background-color: blanchedalmond;
+  background-color:rgb(48, 190, 190);
   font-family: ;
   padding-left: 5px;
   padding-right: 5px;
@@ -51,7 +53,8 @@ screen real estate */
 .dynamic-box {
   height: 85vh;
   width: 100vw;
-  background-color: crimson;
+  background-color: rgb(48,48,48);
+  
 }
 
 .add-btn {
@@ -63,7 +66,7 @@ screen real estate */
   right: 15px;
   border: none;
   border-radius: 100px;
-  background-color: orange;
+  background-color: crimson;
 
   font-size: 5vh;
   color: white;
@@ -74,11 +77,13 @@ screen real estate */
   width: 15vh;
   height: 15vh;
 }
+/* ///////// Profile ///////// */
 
 .profile {
   display: flex;
   flex-direction: column;
-  
+  color: white;
+
 }
 
 .score-card-box-col {
@@ -110,4 +115,35 @@ screen real estate */
 
 .score-num {
   padding: 0 5px 0 5px;
+}
+
+
+/* /////// ADD //////// */
+
+.add-machine-container {
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: center;
+  height: inherit;
+  padding-top: 10vh;
+  color: white;
+
+}
+
+.add-input-box {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  width: 30vh;
+}
+
+.label {
+  padding-bottom: 5px;
+}
+
+.add-submit {
+  margin-top: 0px;
 }

@@ -1,40 +1,62 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-
 import './App.css';
 import DynamicBox from './components/DynamicBox';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Add from './components/Add';
-import UserScoreHistory from './components/UserScoreHistory'
+import UserScoreHistory from './components/UserScoreHistory';
 
-import { userList } from './server/db';
-import { pinMachines } from './server/api/api';
+import { userList } from './db';
+import { fetchMachines } from './api/api';
 
-
-
-
-
-
+export const baseURL = 'localhost:3001'
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(userList.find(({ userId }) => userId === "12345"))
-  console.log("Current USER: ", currentUser)
-  console.log("PinMACHINES:", pinMachines)
+  const [currentUser, setCurrentUser] = useState(
+    userList.find(({ userId }) => userId === '12345')
+  );
+  const [machines, setMachines] = useState([]);
+    console.log('Current USER: ', currentUser);
+    console.log('PinMACHINES:', machines);
+
+  useEffect(() => {
+    async function getData() {
+      const result = await fetchMachines();
+
+      setMachines(result.machines);
+    }
+    getData();
+  }, []);
 
   return (
-    
-    <div className="App">
+    <div className='App'>
       <div className='dead-div top'></div>
 
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="login" element={<Login />} />
-          {/* <Route path="/dynamic" element={<DynamicBox />} /> */}
-          <Route path="/profile" element={<DynamicBox user={currentUser} data={<Profile user={currentUser}  />} />} />
-          <Route path="/add" element={<DynamicBox user={currentUser} data={<Add />} />} />
-          <Route path="/history" element={<DynamicBox user={currentUser} data={<UserScoreHistory />} />} />
-        </Routes>
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='login' element={<Login />} />
+        {/* <Route path="/dynamic" element={<DynamicBox />} /> */}
+        <Route
+          path='/profile'
+          element={
+            <DynamicBox
+              user={currentUser}
+              data={<Profile user={currentUser} />}
+            />
+          }
+        />
+        <Route
+          path='/add'
+          element={<DynamicBox user={currentUser} data={<Add />} />}
+        />
+        <Route
+          path='/history'
+          element={
+            <DynamicBox user={currentUser} data={<UserScoreHistory />} />
+          }
+        />
+      </Routes>
 
       <div className='dead-div bottom'></div>
     </div>
