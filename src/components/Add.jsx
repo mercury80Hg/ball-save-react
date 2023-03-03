@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { baseURL } from '../App';
-import AutoComplete from './AutoComplete';
+// import AutoComplete from './AutoComplete';
 
 
 function Add({ user, machines }) {
@@ -9,16 +9,16 @@ function Add({ user, machines }) {
   const [scoreInput, setScoreInput] = useState('');
 
   const initialSubmitState = {
-    email: '',
-    externalMachineId: '',
-    machineImgUrl: '',
-    machineName: '',
+    email: "",
+    externalMachineId: "",
+    machineImgUrl: "",
+    machineName: "",
     score: 0,
-    location: '',
+    location: "",
   };
 
   const [submit, setSubmit] = useState(initialSubmitState);
-  machines.find({  })
+  
 
   function addScore(event) {
     fetch(baseURL + '/scores', { 
@@ -32,11 +32,12 @@ function Add({ user, machines }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    const machineObj = machines.find(({ name }) => name === machineInput)
 
     setSubmit({
       email: user.email,
-      externalMachineId: '',
-      machineImgUrl: '',
+      externalMachineId: (machineObj.ipdb_id ? machineObj.ipdb_id : machineObj.opdb_id),
+      machineImgUrl:( machineObj.opdb_img ? machineObj.opdb_img : "../../public/images/no-photo-available.webp"),
       machineName: machineInput,
       score: scoreInput,
       location: locationInput,
@@ -45,6 +46,7 @@ function Add({ user, machines }) {
     if (machineInput && locationInput && scoreInput) {
       try {
         addScore(submit);
+        console.log('SUBMIT: ', submit)
         setSubmit(initialSubmitState);
       } catch (error) {
         console.error(error);

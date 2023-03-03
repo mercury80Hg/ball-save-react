@@ -13,7 +13,8 @@ import { fetchMachines } from './api/api';
 export const baseURL = 'http://localhost:3001'
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(
+  // eslint-disable-next-line no-unused-vars
+  const [currentUser, setCurrentUser] = useState( 
     userList.find(({ userId }) => userId === '12345')
   );
   const [machines, setMachines] = useState([]);
