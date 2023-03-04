@@ -3,7 +3,7 @@ const models = require('./models');
 
 async function getUsers(ctx) {
   try {
-    ctx.response.body = await models.User.findOne({});
+    ctx.response.body = await models.User.find({});
   } catch (error) {
     ctx.status = 400;
   }

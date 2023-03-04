@@ -30,21 +30,32 @@ function App() {
   // console.log('PinMACHINES:', machines);
 
   useEffect(() => {
-    async function getUsersData() {
-      const result = await fetchUsers();
-      setUsers(result);
-    }
     getUsersData();
   }, []);
   console.log('USERs: ', users);
 
+  async function getUsersData() {
+    const result = await fetchUsers();
+    setUsers(result);
+  }
+
   return (
     <div className='App'>
-      <div className='dead-div top'></div>
+      
 
       <Routes>
         <Route path='/' element={<Login />} />
-        <Route path='login' element={<Login users={users} />} />
+        <Route
+          path='login'
+          element={
+            <Login
+              users={users}
+              setCurrentUser={setCurrentUser}
+              setUsers={setUsers}
+              getUsers={getUsersData}
+            />
+          }
+        />
         {/* <Route path="/dynamic" element={<DynamicBox />} /> */}
         <Route
           path='/profile'
@@ -75,7 +86,7 @@ function App() {
         />
       </Routes>
 
-      <div className='dead-div bottom'></div>
+ 
     </div>
   );
 }
