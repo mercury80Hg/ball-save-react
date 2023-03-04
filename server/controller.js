@@ -14,7 +14,7 @@ async function getScoresByEmail(ctx) {
     let user = await models.User.findOne({
       email: ctx.params.email,
     });
-    
+
     const scores = await models.Score.find({ user }).populate('machine');
 
     ctx.response.body = scores;
@@ -33,7 +33,7 @@ async function addUser(ctx) {
 
     ctx.response.body = item;
   } catch (error) {
-    ctx.status = 500; 
+    ctx.status = 500;
   }
 }
 

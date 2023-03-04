@@ -39,10 +39,9 @@ function Add({ user, machines }) {
       } catch (error) {
         console.error(error);
       }
-      setLocationInput('')
-      setMachineInput('')
-      setScoreInput('')
-      
+      setLocationInput('');
+      setMachineInput('');
+      setScoreInput('');
     }
   }
 

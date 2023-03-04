@@ -1,3 +1,5 @@
+/////// MOCK DATABASE ////////
+
 export const userList = [
   {
     userId: '12345',

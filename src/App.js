@@ -11,35 +11,34 @@ import UserScoreHistory from './components/UserScoreHistory';
 import { fetchMachines } from './api/api';
 import { fetchUsers } from './api/api';
 
-export const baseURL = 'http://localhost:3001'
+export const baseURL = 'http://localhost:3001';
 
 function App() {
   // eslint-disable-next-line no-unused-vars
   const [currentUser, setCurrentUser] = useState({});
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
   const [machines, setMachines] = useState([]);
 
-    useEffect(() => {
-      async function getMachineData() {
-        const result = await fetchMachines();
-        setMachines(result.machines);
-      }
-      getMachineData();
-    }, []);
-        // console.log('Current USER: ', currentUser);
-        // console.log('PinMACHINES:', machines);
+  useEffect(() => {
+    async function getMachineData() {
+      const result = await fetchMachines();
+      setMachines(result.machines);
+    }
+    getMachineData();
+  }, []);
+  // console.log('Current USER: ', currentUser);
+  // console.log('PinMACHINES:', machines);
 
-    useEffect(() => {
-      async function getUsersData() {
-        const result = await fetchUsers();
-        setUsers(result);
-      }
-      getUsersData();
-    }, []);
-        console.log('USERs: ', users);
-        
+  useEffect(() => {
+    async function getUsersData() {
+      const result = await fetchUsers();
+      setUsers(result);
+    }
+    getUsersData();
+  }, []);
+  console.log('USERs: ', users);
 
-  return ( 
+  return (
     <div className='App'>
       <div className='dead-div top'></div>
 
@@ -58,12 +57,20 @@ function App() {
         />
         <Route
           path='/add'
-          element={<DynamicBox user={currentUser} data={<Add user={currentUser} machines={machines} />} />}
+          element={
+            <DynamicBox
+              user={currentUser}
+              data={<Add user={currentUser} machines={machines} />}
+            />
+          }
         />
         <Route
           path='/history'
           element={
-            <DynamicBox user={currentUser} data={<UserScoreHistory  user={currentUser} />} />
+            <DynamicBox
+              user={currentUser}
+              data={<UserScoreHistory user={currentUser} />}
+            />
           }
         />
       </Routes>
