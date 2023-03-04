@@ -7,36 +7,45 @@ import Profile from './components/Profile';
 import Add from './components/Add';
 import UserScoreHistory from './components/UserScoreHistory';
 
-import { userList } from './db';
+// import { userList } from './db';
 import { fetchMachines } from './api/api';
+import { fetchUsers } from './api/api';
 
 export const baseURL = 'http://localhost:3001'
 
 function App() {
   // eslint-disable-next-line no-unused-vars
-  const [currentUser, setCurrentUser] = useState( 
-    userList.find(({ userId }) => userId === '12345')
-  );
+  const [currentUser, setCurrentUser] = useState({});
+  const [users, setUsers] = useState([])
   const [machines, setMachines] = useState([]);
-    // console.log('Current USER: ', currentUser);
-    // console.log('PinMACHINES:', machines);
-    
 
     useEffect(() => {
-      async function getData() {
+      async function getMachineData() {
         const result = await fetchMachines();
         setMachines(result.machines);
       }
-      getData();
+      getMachineData();
     }, []);
+        // console.log('Current USER: ', currentUser);
+        // console.log('PinMACHINES:', machines);
 
-  return (
+    useEffect(() => {
+      async function getUsersData() {
+        const result = await fetchUsers();
+        setUsers(result);
+      }
+      getUsersData();
+    }, []);
+        console.log('USERs: ', users);
+        
+
+  return ( 
     <div className='App'>
       <div className='dead-div top'></div>
 
       <Routes>
         <Route path='/' element={<Login />} />
-        <Route path='login' element={<Login />} />
+        <Route path='login' element={<Login users={users} />} />
         {/* <Route path="/dynamic" element={<DynamicBox />} /> */}
         <Route
           path='/profile'

@@ -33,7 +33,7 @@ async function addUser(ctx) {
 
     ctx.response.body = item;
   } catch (error) {
-    ctx.status = 500;
+    ctx.status = 500; 
   }
 }
 

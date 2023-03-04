@@ -17,7 +17,7 @@ function UserScoreHistory ({ user }) {
 
   return (
     <div>
-      {scoreHistory.map(el => <img src={el.machine.imgUrl}></img>)}
+      {scoreHistory.map(el => <img src={el.machine.imgUrl} alt=''></img>)}
     </div>
   )
 }

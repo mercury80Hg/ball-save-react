@@ -21,5 +21,18 @@ export async function fetchScores(email) {
   } catch (error) {
     console.error(error);
   }
-  // return { machines: [] };
+ 
+}
+
+export async function fetchUsers() {
+  try {
+    const users = await fetch(
+      `http://localhost:3001/users/`
+    ); 
+    const result = await users.json();
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+ 
 }
