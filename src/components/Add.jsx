@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { baseURL } from '../App';
 // import AutoComplete from './AutoComplete';
 
@@ -7,7 +8,14 @@ function Add({ user, machines }) {
   const [machineInput, setMachineInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
   const [scoreInput, setScoreInput] = useState('');
+  const navigate = useNavigate()
 
+  useEffect(() => {
+    if(!user.email) {
+      navigate('/login')
+    }
+  }, [])
+  
   function addScore(event) {
     fetch(baseURL + '/score', {
       method: 'POST',
@@ -42,6 +50,7 @@ function Add({ user, machines }) {
       setLocationInput('');
       setMachineInput('');
       setScoreInput('');
+      navigate('/history')
     }
   }
 

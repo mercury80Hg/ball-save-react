@@ -1,7 +1,10 @@
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 
 
 function Profile ( { user, currentUser } ) {
+  const navigate = useNavigate()
 
   const locations = user.machines.filter(({ locationId }) => locationId === "Ground Kontrol")
     console.log('LOCATIONS: ', locations)
@@ -11,7 +14,11 @@ function Profile ( { user, currentUser } ) {
     console.log('SCORE:', score)
  
 
-  
+  useEffect(() => {
+    if(!user.email) {
+      navigate('/login')
+    }
+  }, [])
   
 
   return (

@@ -1,16 +1,18 @@
+import { Link, useNavigate } from "react-router-dom"
 
 
 
 function AddButton () {
+ 
   
   return (
     <div>
 
-      <button className="pinBall add-btn">
+      <Link to='/add' className="pinBall add-btn">
       
         <img className="pinBall" src="/images/black-pinball-trans.png" alt="metallic silver pinball button" />
         
-      </button>
+      </Link>
       
     </div>
   )

@@ -22,16 +22,21 @@ async function getScoresByEmail(ctx) {
     ctx.status = 400;
   }
 }
-
+// find or create user
 async function addUser(ctx) {
   try {
-    const item = new models.User({
-      initials: ctx.request.body.initials,
+    let user = await models.User.findOne({
       email: ctx.request.body.email,
     });
-    await item.save();
-
-    ctx.response.body = item;
+    console.log(user, ctx.request.body);
+    if (!user) {
+      user = new models.User({
+        initials: ctx.request.body.initials,
+        email: ctx.request.body.email,
+      });
+      await user.save();
+    }
+    ctx.response.body = user;
   } catch (error) {
     ctx.status = 500;
   }

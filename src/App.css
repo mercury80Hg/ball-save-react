@@ -60,12 +60,12 @@ input {
   letter-spacing: .5em;
   text-align: center;
 
-  background-color: rgb(226, 34, 73);
+  background-color: rgb(163, 29, 29);
   border-radius: 25px;
   border-top: solid 3px rgb(33, 33, 33);
   border-left: solid 3px rgb(33, 33, 33);
-  border-bottom: solid 3px rgb(118, 118, 118);
-  border-right: solid 3px rgb(118, 118, 118);
+  border-bottom: solid 2px rgb(118, 118, 118);
+  border-right: solid 2px rgb(118, 118, 118);
 
   /* box-shadow: 3px gray; */
   width: 80vw;
@@ -85,10 +85,10 @@ input {
   padding-left: 20px;
   padding-right: 15px;
   border-radius: 25px;
-  border-top: solid 3px rgb(33, 33, 33);
-  border-left: solid 3px rgb(33, 33, 33);
-  border-bottom: solid 3px rgb(118, 118, 118);
-  border-right: solid 3px rgb(118, 118, 118);
+  border-top: solid 2px rgb(33, 33, 33);
+  border-left: solid 2px rgb(33, 33, 33);
+  border-bottom: solid 2px rgb(118, 118, 118);
+  border-right: solid 2px rgb(118, 118, 118);
 }
 
 /* ///////// Button ///////// */
@@ -198,4 +198,29 @@ input {
 
 .input-titles {
   font-size: 3vh;
+}
+
+/* ////////////// History ////////////// */
+
+.history-container {
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+width: 100vw;
+height: 80vh;
+}
+
+.score-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100vw;
+  height: 25vh;
+  padding: 10px;
+}
+
+.score-card-img {
+  width: 20vh;
+  height: 20vh;
 }

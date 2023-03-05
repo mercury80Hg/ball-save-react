@@ -1,19 +1,25 @@
 import { useState } from 'react';
 import { baseURL } from '../App';
+import { useNavigate } from 'react-router-dom';
 
-function Login({ users, setCurrentUser, setUsers, getUsers }) {
+function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
   const [initialInput, setInitialInput] = useState('');
   const [marquee, setMarquee] = useState('Go Ahead & Login!');
+  const navigate = useNavigate();
 
-  function addUser(event) {
-    fetch(baseURL + '/user', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(event),
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err)); //eslint-disable-line no-console
+  async function addUser(event) {
+    try {
+      const user = await fetch(baseURL + '/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(event),
+      });
+      const result = await user.json();
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function handleEmailInput(event) {
@@ -24,29 +30,28 @@ function Login({ users, setCurrentUser, setUsers, getUsers }) {
     setInitialInput(event.target.value);
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    const loggedInUser = users.find(({ email }) => email === emailInput);
 
     function resetInputs() {
       setEmailInput('');
       setInitialInput('');
     }
 
-    // TODO: Refactor this
-    if (loggedInUser) {
-      setCurrentUser(loggedInUser);
-      setMarquee('Logged In!');
+    try {
+      const newUser = await addUser({
+        initials: initialInput,
+        email: emailInput,
+      });
+
+      console.log(newUser)
+      setCurrentUser(newUser);
       resetInputs();
-    } else {
-      addUser({ initials: initialInput, email: emailInput });
-      setUsers(getUsers);
-      setCurrentUser(users.find(({ email }) => email === emailInput));
-      setMarquee('New User Created');
-      resetInputs();
+
+      navigate('/history');
+    } catch (err) {
+      console.error(err);
     }
-    this.props.history.push('/history')
-    
   }
 
   return (
@@ -93,10 +98,7 @@ function Login({ users, setCurrentUser, setUsers, getUsers }) {
 
         <input className='add-submit' type='submit' value='Login' />
       </form>
-      <div style={{padding: "20px"}} >
-        {marquee}
-      </div>
-      
+      <div style={{ padding: '20px' }}>{marquee}</div>
     </div>
   );
 }
