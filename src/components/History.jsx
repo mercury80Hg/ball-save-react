@@ -8,7 +8,6 @@ function UserScoreHistory({ user }) {
 
   useEffect(() => {
     if (!user.email) {
-      // navigate them to login
       navigate('/login')
     } else {
       async function getData() {
@@ -23,11 +22,16 @@ function UserScoreHistory({ user }) {
 
   return (
     <div className='history-container'>
-      <div className='score-card'>
-        {scoreHistory.map((el) => (
-          <img className='score-card-img' src={el.machine.imgUrl} alt=''></img>
-        ))}
-      </div>
+        {scoreHistory.map((el, i) => (
+          <div key={i} className='score-card'>
+            <img className='score-card-img' src={el.machine.imgUrl} alt=''></img>
+            <div>
+              <ul>
+                {el.value.map((score, i) => <li key={i}>{score}</li>)}
+              </ul>
+            </div>
+          </div>
+        ))} 
     </div>
   );
 }

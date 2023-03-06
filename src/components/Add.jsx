@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { baseURL } from '../App';
+import { fetchScores } from '../api/api';
+
 // import AutoComplete from './AutoComplete';
 
 function Add({ user, machines }) {
@@ -8,23 +10,53 @@ function Add({ user, machines }) {
   const [machineInput, setMachineInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
   const [scoreInput, setScoreInput] = useState('');
+  
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if(!user.email) {
+
+  useEffect(() => { 
+    if (!user.email) {
       navigate('/login')
+    } else {
+      async function getData() {
+        const result = await fetchScores(user.email);
+        
+      }
+      getData();
     }
-  }, [])
-  
-  function addScore(event) {
-    fetch(baseURL + '/score', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(event),
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err)); //eslint-disable-line no-console
+  }, [user.email]);
+
+
+  async function addScore(event) {
+    try {
+      const score = await fetch(baseURL + '/score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(event)
+      });
+    const result = await score.json();
+    return result
+    } catch(error) {
+      console.log(error)
+    }
   }
+
+  /*  TODO: Finish figuring out where you want the score state
+  data to be. */
+
+  // async function updateScore(event) {
+  //   try {
+  //     const additionalScore = await fetch(baseURL + '/score', {
+  //       method: 'PUT',
+  //       headers: { 'Content-Type': 'application/json'},
+  //       body: JSON.stringify(event)
+  //     });
+  //   const result = await score.json();
+  //   return result
+  //   } catch(error) {
+  //     console.log(error)
+  //   }
+  // }
 
   function handleSubmit(event) {
     event.preventDefault();

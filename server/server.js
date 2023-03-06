@@ -15,7 +15,7 @@ app.use(cors());
 
 app.use(router.routes()); // this will fail until router has been created
 
-app.listen(PORT, (err) => {
-  if (err) console.log(err);
+app.listen(PORT, (error) => {
+  if (error) console.error(error);
   else console.log(`I am a server. I live on http://localhost:${PORT}`); // eslint-disable-line no-console
 });

@@ -6,7 +6,10 @@ import React from "react";
 import Downshift from 'downshift';
 
 ///////// Downshift /////////
-
+/* Downshift was my first implementation of an autocomplete to 
+populate the machineInput field, but I ended up using Datalist.
+It still exists, for the moment, in case I run into browser 
+problems with Datalist.  Did not like this UI design either*/
 
 
  

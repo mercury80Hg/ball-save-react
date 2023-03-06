@@ -1,6 +1,10 @@
 import AddButton from "./AddButton"
 import NavDisplay from "./NavDisplay"
 
+/*
+Dynamic Box was conceived as an focused re-rendering field, but
+It may actually be a redundancy.
+ */
 
 function DynamicBox ({data, user}) {
   
