@@ -1,7 +1,18 @@
+@font-face {
+  font-family: dotrice-bold-expanded;
+  src: url(./fonts/dotrice.bold-expanded.otf);
+}
+
+@font-face {
+  font-family: dotrice;
+  src: url(./fonts/dotrice-family_woff/dotrice.bold-condensed.woff);
+  /* src: url(./fonts/dotrice-family_woff/dotrice.bold.woff); */
+  /* src: url(./fonts/dotrice-family_woff/dotrice.expanded.woff); */
+  /* src: url(./fonts/dotrice.bold.otf); */
+}
 
 body {
-  background-color: rgb(48,48,48);
-
+  background-color: rgb(48, 48, 48);
 }
 
 .App {
@@ -13,15 +24,11 @@ body {
   align-items: center;
   height: 100vh;
   width: 100vw;
-  
+  font-family: dotrice;
+  font-size: 2vh;
+  color: orange;
 }
 
-/* currently accounting for top/bottom mobile browser search bar and nav buttons
-screen real estate */
-.dead-div {
-  height: 5vh;
-  width: 100vw;
-}
 
 input {
   background-color: black;
@@ -29,13 +36,15 @@ input {
   padding: 10px 20px;
   margin: 10px 0;
   border-radius: 50px;
+  font-size: 1.8vh;
+  font-family: dotrice;
+  color: orange;
 }
 
 .row {
   display: flex;
   flex-direction: row;
 }
-
 
 /* ///////// Dynamic Box ///////// */
 
@@ -47,10 +56,8 @@ input {
   height: 100vh;
   width: 100vw;
   padding: 5vh 5vh 2vh 5vh;
-  background-color: rgb(48,48,48);
-  
+  background-color: rgb(48, 48, 48);
 }
-
 
 .ball-save-title {
   display: flex;
@@ -60,7 +67,7 @@ input {
   font-size: 4vh;
   font-weight: 800;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  letter-spacing: .7vh;
+  letter-spacing: .4vh;
   text-align: center;
   background-color: rgb(163, 29, 29);
   border-radius: 50px;
@@ -81,8 +88,9 @@ input {
   height: 5vh;
   width: 80vw;
   background-color: black;
-  color: gray;
-  /* font-family: ; */
+  color: orange;
+  font-family: dotrice;
+  font-size: 3vh;
   margin-top: 2vh;
   padding-left: 20px;
   padding-right: 15px;
@@ -120,45 +128,12 @@ input {
   display: flex;
   flex-direction: column;
   color: white;
-
-}
-
-.score-card-box-col {
-  display: flex;
-  flex-direction: column;
-
-  padding: 20px;
-
-}
-
-.score-card {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 12vh;
-  padding: 10px 0;
-}
-
-.machineImg {
-  display: flex;
-  background-color: aliceblue;
-  height: 10vh;
-  width: 10vh;
-}
-
-.score-box {
-  padding-left: 20px;
-}
-
-.score-num {
-  padding: 0 5px 0 5px;
 }
 
 
 /* /////// ADD //////// */
 
 .add-machine-container {
-
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -166,7 +141,6 @@ input {
   height: inherit;
   padding-top: 5vh;
   color: white;
-
 }
 
 .add-input-box {
@@ -174,7 +148,6 @@ input {
   flex-direction: column;
   margin-bottom: 3vh;
   width: 35vh;
-
 }
 
 .label {
@@ -185,10 +158,15 @@ input {
   margin-top: 0px;
 }
 
-
 /* ////////////// Login ////////////// */
 
 .login-main-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: dotrice-bold-expanded;
+  
   color: black;
 }
 .login-container {
@@ -199,7 +177,6 @@ input {
   text-align: center;
   height: inherit;
   color: white;
- 
 }
 
 .pinBall {
@@ -207,6 +184,8 @@ input {
 }
 
 .input-titles {
+  font-family: dotrice;
+  color: orange;
   font-size: 3vh;
 }
 
@@ -226,11 +205,64 @@ input {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  width: 100vw;
-  height: 25vh;
+  width: 90vw;
+  height: 15vh;
+  font-family: dotrice;
+  font-size: 2.5vh;
+  color: orange;
+  margin-left: 20px;
+  padding: 10px 0;
 }
 
 .score-card-img {
+  width: 15vh;
+  height: 15vh;
+  border-radius: 25px;
+  border-top: solid 2px rgb(33, 33, 33);
+  border-left: solid 2px rgb(33, 33, 33);
+  border-bottom: solid 2px rgb(118, 118, 118);
+  border-right: solid 2px rgb(118, 118, 118);
+  
+}
+
+
+/* /////////// Hamburger Menu ////////// */
+
+.hamburger-button {
+  color:orange;
+  background-color: black;
+  border-style:none;
+  font-size: 3vh;
+  text-align: center;
+}
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+
+  
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: 100%;
+  overflow: auto;
+  box-shadow: 0px 10px 10px 0px rgba(0,0,0,1);
+  
+}
+.dropdown:hover .dropdown-content {
+  display: block;
   width: 20vh;
-  height: 20vh;
+  
+}
+.dropdown-content a {
+  display: block;
+  color: orange;
+  padding: 5px;
+  text-decoration: none;
+  background-color: black;
+}
+.dropdown-content a:hover {
+  color: orangered;
+  
 }

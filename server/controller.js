@@ -87,5 +87,4 @@ async function addScore(ctx) {
 //   }
 // }
 
-// make sure exports match function names when you name them
 module.exports = { getUsers, getScoresByEmail, addUser, addScore };

@@ -22,7 +22,7 @@ const machineSchema = new Schema({
 });
 
 const scoreSchema = new Schema({
-  value: Array,
+  value: Number,
   location: String,
   user: { type: mongoose.Types.ObjectId, ref: 'Score' }, // a user has many scores
   machine: { type: mongoose.Types.ObjectId, ref: 'Machine' }, // a machine has many scores

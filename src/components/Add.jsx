@@ -5,58 +5,54 @@ import { fetchScores } from '../api/api';
 
 // import AutoComplete from './AutoComplete';
 
-function Add({ user, machines }) {
+function Add({ user, machines, scoreHistory, setScoreHistory }) {
   console.log(user);
   const [machineInput, setMachineInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
   const [scoreInput, setScoreInput] = useState('');
-  
-  const navigate = useNavigate()
 
+  const navigate = useNavigate();
 
-  useEffect(() => { 
+  useEffect(() => {
     if (!user.email) {
-      navigate('/login')
-    } else {
-      async function getData() {
-        const result = await fetchScores(user.email);
-        
-      }
-      getData();
+      navigate('/login');
     }
   }, [user.email]);
-
 
   async function addScore(event) {
     try {
       const score = await fetch(baseURL + '/score', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify(event)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(event),
       });
-    const result = await score.json();
-    return result
-    } catch(error) {
-      console.log(error)
+      const result = await score.json();
+      return result;
+    } catch (error) {
+      console.error(error);
     }
   }
 
-  /*  TODO: Finish figuring out where you want the score state
-  data to be. */
 
-  // async function updateScore(event) {
-  //   try {
-  //     const additionalScore = await fetch(baseURL + '/score', {
-  //       method: 'PUT',
-  //       headers: { 'Content-Type': 'application/json'},
-  //       body: JSON.stringify(event)
-  //     });
-  //   const result = await score.json();
-  //   return result
-  //   } catch(error) {
-  //     console.log(error)
-  //   }
-  // }
+  async function updateScore(event) {
+    try {
+      const additionalScore = await fetch(baseURL + '/score', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(event)
+      });
+    const result = await additionalScore.json();
+    return result
+    } catch(error) {
+      console.error(error)
+    }
+  }
+
+  function resetInputs() {
+    setLocationInput('');
+    setMachineInput('');
+    setScoreInput('')
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -73,16 +69,29 @@ function Add({ user, machines }) {
     };
 
     if (machineInput && locationInput && scoreInput) {
-      try {
-        addScore(submit);
-        console.log('SUBMIT: ', submit);
-      } catch (error) {
-        console.error(error);
+      if (
+        scoreHistory.includes(
+          (obj) =>
+            obj.location === locationInput && obj.machine.name === machineInput
+        )
+      ) {
+        try {
+          updateScore(submit);
+        } catch (error) {
+          console.error(error);
+        }
+        resetInputs()
+        navigate('/history');
+      } else {
+        try {
+          addScore(submit);
+          console.log('SUBMIT: ', submit);
+        } catch (error) {
+          console.error(error);
+        }
+        resetInputs()
+        navigate('/history');
       }
-      setLocationInput('');
-      setMachineInput('');
-      setScoreInput('');
-      navigate('/history')
     }
   }
 
@@ -149,7 +158,7 @@ function Add({ user, machines }) {
           <input
             name='score'
             id='score-input'
-            type='text'
+            type='number'
             value={scoreInput}
             onChange={handleScoreInput}
             placeholder='Put that rad score here...'

@@ -17,6 +17,7 @@ function App() {
   // eslint-disable-next-line no-unused-vars
   const [currentUser, setCurrentUser] = useState({});
   const [machines, setMachines] = useState([]);
+  const [scoreHistory, setScoreHistory] = useState([]);
 
   useEffect(() => {
     async function getMachineData() {
@@ -51,7 +52,14 @@ function App() {
           element={
             <DynamicBox
               user={currentUser}
-              data={<Add user={currentUser} machines={machines} />}
+              data={
+                <Add
+                  user={currentUser}
+                  machines={machines}
+                  scoreHistory={scoreHistory}
+                  setScoreHistory={setScoreHistory}
+                />
+              }
             />
           }
         />
@@ -60,7 +68,13 @@ function App() {
           element={
             <DynamicBox
               user={currentUser}
-              data={<UserScoreHistory user={currentUser} />}
+              data={
+                <UserScoreHistory
+                  user={currentUser}
+                  scoreHistory={scoreHistory}
+                  setScoreHistory={setScoreHistory}
+                />
+              }
             />
           }
         />

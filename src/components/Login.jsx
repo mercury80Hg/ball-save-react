@@ -45,7 +45,7 @@ function Login({ setCurrentUser }) {
         email: emailInput,
       });
 
-      console.log(newUser)
+      console.log(newUser);
       setCurrentUser(newUser);
       resetInputs();
 
@@ -57,10 +57,10 @@ function Login({ setCurrentUser }) {
 
   return (
     <div className='login-container'>
-    <div className='login-main-title' >
-      <Title />
-    </div>
-      
+      <div className='login-main-title'>
+        <Title />
+      </div>
+
       <img
         className='pinBall'
         src='/images/black-pinball-trans.png'
