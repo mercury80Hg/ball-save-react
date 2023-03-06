@@ -2,8 +2,8 @@ import AddButton from "./AddButton"
 import NavDisplay from "./NavDisplay"
 
 /*
-Dynamic Box was conceived as an focused re-rendering field, but
-It may actually be a redundancy.
+Dynamic Box was conceived as anfocused re-rendering field, but
+It may actually be a redundancy and be removed.
  */
 
 function DynamicBox ({data, user}) {

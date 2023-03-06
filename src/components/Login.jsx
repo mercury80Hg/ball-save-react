@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { baseURL } from '../App';
 import { useNavigate } from 'react-router-dom';
+import Title from './Title';
 
 function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
@@ -56,6 +57,10 @@ function Login({ setCurrentUser }) {
 
   return (
     <div className='login-container'>
+    <div className='login-main-title' >
+      <Title />
+    </div>
+      
       <img
         className='pinBall'
         src='/images/black-pinball-trans.png'
