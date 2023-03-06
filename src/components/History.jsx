@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchScores } from '../api/api';
+import AddButton from './AddButton';
 
 function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
  
@@ -15,7 +16,6 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
         const machineHistory = {}
 
         result.forEach((el) => {
-          console.log(el)
           if (machineHistory[el.machine._id]) {
             machineHistory[el.machine._id].scores.push(el.value)
           } else {
@@ -26,7 +26,7 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
       }
       getData();
     }
-  }, [user.email]);
+  }, []);
 
   console.log('SCORE HISTORY: ', scoreHistory);
 
@@ -34,14 +34,17 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
     <div className='history-container'>
         {scoreHistory.map((el, i) => (
           <div key={i} className='score-card'>
-            <img className='score-card-img' src={el.imgUrl} alt=''></img>
-            <div>
+            <img className='score-card-img' src={el.imgUrl || "images/no-photo-available.webp"} alt=''></img>
+            <div className='score-card-info-box'>
+              <div>{el.name}</div>
+              <div>{el.location}</div>
               <ul>
                 {el.scores.map((score, i) => <li key={i}>{score.toLocaleString()}</li>)}
               </ul>
             </div>
           </div>
         ))} 
+        <AddButton />
     </div>
   );
 }

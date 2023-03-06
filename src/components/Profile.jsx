@@ -13,7 +13,7 @@ function Profile({ user }) {
     if (!user.email) {
       navigate('/login');
     }
-  }, [user.email]);
+  }, []);
 
   return <div className='profile '>Profile</div>;
 }

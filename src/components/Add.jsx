@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { baseURL } from '../App';
 import { fetchScores } from '../api/api';
+import AddButton from './AddButton';
 
 // import AutoComplete from './AutoComplete';
 
 function Add({ user, machines, scoreHistory, setScoreHistory }) {
-  console.log(user);
   const [machineInput, setMachineInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
   const [scoreInput, setScoreInput] = useState('');
@@ -17,7 +17,7 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
     if (!user.email) {
       navigate('/login');
     }
-  }, [user.email]);
+  }, []);
 
   async function addScore(event) {
     try {
@@ -27,26 +27,16 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
         body: JSON.stringify(event),
       });
       const result = await score.json();
+      setScoreHistory((prevScores) => {
+        const newScores = [...prevScores, event]
+        return newScores
+      })
       return result;
     } catch (error) {
       console.error(error);
     }
   }
 
-
-  async function updateScore(event) {
-    try {
-      const additionalScore = await fetch(baseURL + '/score', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify(event)
-      });
-    const result = await additionalScore.json();
-    return result
-    } catch(error) {
-      console.error(error)
-    }
-  }
 
   function resetInputs() {
     setLocationInput('');
@@ -69,29 +59,14 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
     };
 
     if (machineInput && locationInput && scoreInput) {
-      if (
-        scoreHistory.includes(
-          (obj) =>
-            obj.location === locationInput && obj.machine.name === machineInput
-        )
-      ) {
-        try {
-          updateScore(submit);
-        } catch (error) {
-          console.error(error);
-        }
-        resetInputs()
-        navigate('/history');
-      } else {
-        try {
-          addScore(submit);
-          console.log('SUBMIT: ', submit);
-        } catch (error) {
-          console.error(error);
-        }
-        resetInputs()
-        navigate('/history');
+      try {
+        addScore(submit);
+        console.log('SUBMIT: ', submit);
+      } catch (error) {
+        console.error(error);
       }
+      resetInputs()
+      navigate('/history');
     }
   }
 
@@ -168,6 +143,7 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
 
         <input className='add-submit' type='submit' value='Add' />
       </form>
+      <AddButton />
     </div>
   );
 }

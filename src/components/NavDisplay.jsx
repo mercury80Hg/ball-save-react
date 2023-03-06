@@ -4,21 +4,22 @@ import { Link } from 'react-router-dom';
 for the dropdown which will contain the links currently just 
 sitting there*/
 
-function NavDisplay({ initials, email }) {
-  const shortEmail = email.split('@')[0]
+function NavDisplay({ user }) {
+
+
   return (
     <div className='nav-box row'>
-        <div class="dropdown">
+        <div className="dropmenu">
           <button className='hamburger-button' >☰</button>
-          <div class="dropdown-content">
+          <div className="dropmenu-content">
             {/* <Link to='/profile' >profile</Link> */}
             <Link to='/history'>history</Link>
             <Link to='/add'>add</Link>
           </div>
         </div>
 
-      <div>{initials}</div>
-      <div>{shortEmail}</div>
+      <div>{user.initials}</div>
+      <div>{user.email && user.email.split('@')[0]}</div>
     </div>
   );
 }

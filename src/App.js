@@ -7,7 +7,6 @@ import Profile from './components/Profile';
 import Add from './components/Add';
 import UserScoreHistory from './components/History';
 
-// import { userList } from './db';
 import { fetchMachines } from './api/api';
 import { fetchUsers } from './api/api';
 
@@ -26,8 +25,9 @@ function App() {
     }
     getMachineData();
   }, []);
-  // console.log('Current USER: ', currentUser);
-  // console.log('PinMACHINES:', machines);
+  console.log('Current USER: ', currentUser);
+  console.log('PinMACHINES:', machines);
+  console.log('SCORE history:', scoreHistory)
 
   return (
     <div className='App'>
@@ -79,6 +79,7 @@ function App() {
           }
         />
       </Routes>
+      
     </div>
   );
 }

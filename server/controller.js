@@ -28,7 +28,6 @@ async function addUser(ctx) {
     let user = await models.User.findOne({
       email: ctx.request.body.email,
     });
-    console.log(user, ctx.request.body);
     if (!user) {
       user = new models.User({
         initials: ctx.request.body.initials,

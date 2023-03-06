@@ -21,6 +21,7 @@ export async function fetchScores(email) {
   }
 }
 
+// TODO: am i using this?
 export async function fetchUsers() {
   try {
     const users = await fetch(`http://localhost:3001/users/`);
