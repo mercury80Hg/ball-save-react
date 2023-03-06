@@ -34,10 +34,10 @@ body {
 input {
   background-color: black;
   color: white;
-  padding: 10px 20px;
+  padding: 5px 20px;
   margin: 10px 0;
   border-radius: 50px;
-  font-size: 1.8vh;
+  font-size: 3vh;
   font-family: dotrice;
   color: orange;
 }
@@ -147,6 +147,7 @@ input {
 .add-input-box {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-bottom: 3vh;
   width: 35vh;
 }
@@ -180,6 +181,11 @@ input {
 
 .pinBall {
   margin: 40px 0;
+  border-radius: 100px;
+  padding: unset;
+  border: unset;
+  box-shadow: 0px 20px 50px 0px rgba(0,0,0,1);
+
 }
 
 .input-titles {

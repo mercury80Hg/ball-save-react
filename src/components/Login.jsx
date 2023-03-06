@@ -78,7 +78,7 @@ function Login({ setCurrentUser }) {
             type='email'
             value={emailInput}
             onChange={handleEmailInput}
-            placeholder='Enter email'
+            placeholder='Enter email...'
             required
           />
         </div>
@@ -89,13 +89,15 @@ function Login({ setCurrentUser }) {
           </label>
 
           <input
+            style={{width: "15vw"}}
             name='initials'
             id='initials-input'
             type='text'
             value={initialInput}
             onChange={handleInitialsInput}
-            placeholder='RIP'
+            placeholder='RIP..'
             pattern='\w{3}'
+            maxLength={3}
             required
           />
           <div style={{ fontSize: '1.75vh' }}>3 Characters for Initials</div>
