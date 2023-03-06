@@ -3,6 +3,7 @@
   src: url(./fonts/dotrice.bold-expanded.otf);
 }
 
+/* Fonts from:  https://www.fontget.com/font/dotrice-family/ */
 @font-face {
   font-family: dotrice;
   src: url(./fonts/dotrice-family_woff/dotrice.bold-condensed.woff);
@@ -112,7 +113,7 @@ input {
   border: none;
   border-radius: 100px;
   background-color: crimson;
-
+  box-shadow: 0px 20px 50px 0px rgba(0,0,0,1);
   font-size: 5vh;
   color: white;
 }
@@ -197,6 +198,7 @@ input {
   width: 100vw;
   height: 70vh;
   overflow: scroll;
+  padding-top: 20px;
 }
 
 .score-card {
@@ -215,7 +217,14 @@ input {
 .score-card-info-box {
   display: flex;
   flex-direction: column;
-  
+  align-items: center;
+  width: 50vw;
+  padding: 0 20px;
+}
+ul {
+  padding-inline-start: unset;
+  overflow: scroll;
+
 }
 
 .score-card-img {

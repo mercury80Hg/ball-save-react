@@ -26,7 +26,7 @@ function App() {
     getMachineData();
   }, []);
   console.log('Current USER: ', currentUser);
-  console.log('PinMACHINES:', machines);
+  // console.log('PinMACHINES:', machines);
   console.log('SCORE history:', scoreHistory)
 
   return (

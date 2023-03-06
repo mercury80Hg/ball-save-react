@@ -22,6 +22,9 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
             machineHistory[el.machine._id] = {...el.machine, scores: [el.value]}
           }
         })
+        console.log("MACHINE HISTORY: ", machineHistory)
+
+        //\\\\
         setScoreHistory(Object.values(machineHistory));
       }
       getData();
@@ -36,7 +39,7 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
           <div key={i} className='score-card'>
             <img className='score-card-img' src={el.imgUrl || "images/no-photo-available.webp"} alt=''></img>
             <div className='score-card-info-box'>
-              <div>{el.name}</div>
+              <div style={{textAlign: "center"}} >{el.name}</div>
               <div>{el.location}</div>
               <ul>
                 {el.scores.map((score, i) => <li key={i}>{score.toLocaleString()}</li>)}
