@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { baseURL } from '../App';
 import { fetchScores } from '../api/api';
 import AddButton from './AddButton';
+import NavDisplay from './NavDisplay';
 
 // import AutoComplete from './AutoComplete';
 
@@ -17,7 +18,7 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
     if (!user.email) {
       navigate('/login');
     }
-  }, []);
+  }, [user.email]);
 
   async function addScore(event) {
     try {
@@ -83,68 +84,74 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
   }
 
   return (
-    <div className='add-machine-container'>
-      <form onSubmit={handleSubmit}>
-        <div className='add-input-box'>
-          <label className='label' htmlFor='machine-input'>
-            Pinball Machine
-          </label>
+    <div className='container' > 
+      <NavDisplay user={user}  />
+      <div className='add-machine-container'>
+     
+        <div className='add-title' >Add-a-Score</div>
+        <form onSubmit={handleSubmit}>
+          <div className='add-input-box'>
+            <label className='label' htmlFor='machine-input'>
+              Pinball Machine
+            </label>
 
-          <input
-            name='machine'
-            id='machine-input'
-            type='text'
-            list='games'
-            value={machineInput}
-            onChange={handleMachineInput}
-            placeholder='Type a pinball machine...'
-            required
-          />
-          <datalist id='games'>
-            {machines.map(({ name }, i) => (
-              <option key={name + i} value={name} />
-            ))}
-          </datalist>
-        </div>
+            <input
+              name='machine'
+              id='machine-input'
+              type='text'
+              list='games'
+              value={machineInput}
+              onChange={handleMachineInput}
+              placeholder='Name of machine...'
+              required
+            />
+            <datalist id='games'>
+              {machines.map(({ name }, i) => (
+                <option key={name + i} value={name} />
+              ))}
+            </datalist>
+          </div>
 
-        {/* <AutoComplete machines={machines} /> */}
+          {/* <AutoComplete machines={machines} /> */}
 
-        <div className='add-input-box'>
-          <label className='label' htmlFor='location-input'>
-            Machine Location
-          </label>
+          <div className='add-input-box'>
+            <label className='label' htmlFor='location-input'>
+              Machine Location
+            </label>
 
-          <input
-            name='location'
-            id='location-input'
-            type='text'
-            value={locationInput}
-            onChange={handleLocationInput}
-            placeholder='Type a location...'
-            required
-          />
-        </div>
+            <input
+              name='location'
+              id='location-input'
+              type='text'
+              value={locationInput}
+              onChange={handleLocationInput}
+              placeholder='Enter a location...'
+              required
+            />
+          </div>
 
-        <div className='add-input-box'>
-          <label className='label' htmlFor='score-input'>
-            Score
-          </label>
+          <div className='add-input-box'>
+            <label className='label' htmlFor='score-input'>
+              Score
+            </label>
 
-          <input
-            name='score'
-            id='score-input'
-            type='number'
-            value={scoreInput}
-            onChange={handleScoreInput}
-            placeholder='Put that rad score here...'
-            required
-          />
-        </div>
+            <input
+              name='score'
+              id='score-input'
+              type='number'
+              value={scoreInput}
+              onChange={handleScoreInput}
+              placeholder='Rad score here...'
+              required
+            />
+          </div>
 
-        <input className='add-submit' type='submit' value='Add' />
-      </form>
-      <AddButton />
+          <input className='add-submit' type='submit' value='Add' />
+        </form>
+      
+      </div>
     </div>
+    
   );
 }
 

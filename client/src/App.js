@@ -9,6 +9,8 @@ import UserScoreHistory from './components/History';
 
 import { fetchMachines } from './api/api';
 import { fetchUsers } from './api/api';
+import Title from './components/Title';
+import NavDisplay from './components/NavDisplay';
 
 export const baseURL = 'http://localhost:3001';
 
@@ -31,6 +33,9 @@ function App() {
 
   return (
     <div className='App'>
+      <Title />
+      
+
       <Routes>
         <Route path='/' element={<Login setCurrentUser={setCurrentUser} />} />
         <Route
@@ -41,41 +46,43 @@ function App() {
         <Route
           path='/profile'
           element={
-            <DynamicBox
-              user={currentUser}
-              data={<Profile user={currentUser} />}
-            />
+            <Profile user={currentUser} />
+            // <DynamicBox
+            //   user={currentUser}
+            //   data={<Profile user={currentUser} />}
+            // />
           }
         />
         <Route
           path='/add'
           element={
-            <DynamicBox
-              user={currentUser}
-              data={
-                <Add
+            <Add
                   user={currentUser}
                   machines={machines}
                   scoreHistory={scoreHistory}
                   setScoreHistory={setScoreHistory}
                 />
-              }
-            />
+         
           }
         />
         <Route
           path='/history'
           element={
-            <DynamicBox
-              user={currentUser}
-              data={
-                <UserScoreHistory
+            <UserScoreHistory
                   user={currentUser}
                   scoreHistory={scoreHistory}
                   setScoreHistory={setScoreHistory}
-                />
-              }
-            />
+              />
+            // <DynamicBox
+            //   user={currentUser}
+            //   data={
+            //     <UserScoreHistory
+            //       user={currentUser}
+            //       scoreHistory={scoreHistory}
+            //       setScoreHistory={setScoreHistory}
+            //     />
+            //   }
+            // />
           }
         />
       </Routes>

@@ -58,7 +58,6 @@ function Login({ setCurrentUser }) {
   return (
     <div className='login-container'>
       <div className='login-main-title'>
-        <Title />
       </div>
 
       <img
@@ -78,7 +77,7 @@ function Login({ setCurrentUser }) {
             type='email'
             value={emailInput}
             onChange={handleEmailInput}
-            placeholder='Enter email...'
+            placeholder='... Enter email ...'
             required
           />
         </div>
@@ -95,7 +94,7 @@ function Login({ setCurrentUser }) {
             type='text'
             value={initialInput}
             onChange={handleInitialsInput}
-            placeholder='RIP..'
+            placeholder='..RIP..'
             pattern='\w{3}'
             maxLength={3}
             required

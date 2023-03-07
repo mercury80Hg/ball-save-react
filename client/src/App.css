@@ -13,6 +13,7 @@
 }
 
 body {
+
   background-color: rgb(48, 48, 48);
 }
 
@@ -28,14 +29,23 @@ body {
   font-family: dotrice;
   font-size: 2vh;
   color: orange;
+  padding: 5vh 0 ;
+ 
 }
 
+.container {
+  display: flex;
+  flex-direction: inherit;
+  position: relative;
+  justify-content: flex-start;
+  align-items: center;
+}
 
 input {
   background-color: black;
   color: white;
-  padding: 5px 20px;
-  margin: 10px 0;
+  padding: 1vh 2vh;
+  margin: 1.75vh 0;
   border-radius: 50px;
   font-size: 3vh;
   font-family: dotrice;
@@ -72,10 +82,11 @@ input {
   text-align: center;
   background-color: rgb(163, 29, 29);
   border-radius: 50px;
+  border-style: outset;
   border-top: solid 3px rgb(33, 33, 33);
-  border-left: solid 3px rgb(33, 33, 33);
+  border-left: solid 1.5px rgb(33, 33, 33);
   border-bottom: solid 2px rgb(118, 118, 118);
-  border-right: solid 2px rgb(118, 118, 118);
+  border-right: solid 1.5px rgb(118, 118, 118);
 
   /* box-shadow: 3px gray; */
   width: 80vw;
@@ -92,10 +103,11 @@ input {
   color: orange;
   font-family: dotrice;
   font-size: 3vh;
-  margin-top: 2vh;
-  padding-left: 20px;
-  padding-right: 15px;
+  margin: 2vh 0;
+  padding-left: 2vh;
+  padding-right: 3vh;
   border-radius: 25px;
+  border-style: outset;
   border-top: solid 2px rgb(33, 33, 33);
   border-left: solid 2px rgb(33, 33, 33);
   border-bottom: solid 2px rgb(118, 118, 118);
@@ -105,15 +117,16 @@ input {
 /* ///////// Button ///////// */
 .add-btn {
   display: flex;
+  position: absolute;
+
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 15px;
+  bottom: 0px;
   right: 15px;
   border: none;
   border-radius: 100px;
   background-color: crimson;
-  box-shadow: 0px 20px 50px 0px rgba(0,0,0,1);
   font-size: 5vh;
   color: white;
 }
@@ -122,7 +135,14 @@ input {
   display: flex;
   width: 15vh;
   height: 15vh;
+  margin: 40px 30px;
+  border-radius: 100px;
+  padding: unset;
+  border: unset;
+  box-shadow: 0px 20px 40px 0px rgba(0,0,0,1);
+
 }
+
 /* ///////// Profile ///////// */
 
 .profile {
@@ -136,12 +156,21 @@ input {
 
 .add-machine-container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
   text-align: center;
-  height: inherit;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
   padding-top: 5vh;
   color: white;
+}
+.add-title {
+  display: flex;
+  font-size: 4vh;
+  width:60vw;
+  justify-content: center;
+  padding: 3vh 0;
 }
 
 .add-input-box {
@@ -172,21 +201,14 @@ input {
 .login-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
   height: inherit;
   color: white;
 }
 
-.pinBall {
-  margin: 40px 0;
-  border-radius: 100px;
-  padding: unset;
-  border: unset;
-  box-shadow: 0px 20px 50px 0px rgba(0,0,0,1);
 
-}
 
 .input-titles {
   font-family: dotrice;
@@ -202,9 +224,9 @@ input {
   justify-content: flex-start;
   align-items: center;
   width: 100vw;
-  height: 70vh;
+  height: 40vh;
   overflow: scroll;
-  padding-top: 20px;
+  padding: 3vh 0 30vh 0;
 }
 
 .score-card {
