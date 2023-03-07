@@ -28,10 +28,10 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
         body: JSON.stringify(event),
       });
       const result = await score.json();
-      setScoreHistory((prevScores) => {
-        const newScores = [...prevScores, event]
-        return newScores
-      })
+      // setScoreHistory((prevScores) => {
+      //   const newScores = [...prevScores, event]
+      //   return newScores
+      // })
       return result;
     } catch (error) {
       console.error(error);

@@ -7,13 +7,13 @@ sitting there*/
 
 function NavDisplay({ user }) {
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user.email) {
-      navigate('/login');
-    }
-  }, [user.email]);
+  // useEffect(() => {
+  //   if (!user.email) {
+  //     navigate('/login');
+  //   }
+  // }, [user.email]);
 
 
   return (

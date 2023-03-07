@@ -51,7 +51,7 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
               <div style={{ textAlign: 'center' }}>{el.name}</div>
               {/* <div>{el.location}</div> */}
               <ul>
-                {el.scores.map((score, i) => (
+                {el.scores?.map((score, i) => (
                   <li key={i + 'a'}>{score.toLocaleString()}</li>
                 ))}
               </ul>
