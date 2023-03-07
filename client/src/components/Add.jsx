@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { baseURL } from '../App';
 import { fetchScores } from '../api/api';
 import AddButton from './AddButton';
 import NavDisplay from './NavDisplay';
+import Photo from './Photo';
 
 // import AutoComplete from './AutoComplete';
 
@@ -38,11 +39,10 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
     }
   }
 
-
   function resetInputs() {
     setLocationInput('');
     setMachineInput('');
-    setScoreInput('')
+    setScoreInput('');
   }
 
   function handleSubmit(event) {
@@ -66,7 +66,7 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
       } catch (error) {
         console.error(error);
       }
-      resetInputs()
+      resetInputs();
       navigate('/history');
     }
   }
@@ -83,12 +83,12 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
     setScoreInput(event.target.value);
   }
 
+
   return (
-    <div className='container' > 
-      <NavDisplay user={user}  />
+    <div className='container'>
+      <NavDisplay user={user} />
       <div className='add-machine-container'>
-     
-        <div className='add-title' >Add-a-Score</div>
+        <div className='add-title'>Add-a-Score</div>
         <form onSubmit={handleSubmit}>
           <div className='add-input-box'>
             <label className='label' htmlFor='machine-input'>
@@ -134,24 +134,29 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
             <label className='label' htmlFor='score-input'>
               Score
             </label>
-
-            <input
-              name='score'
-              id='score-input'
-              type='number'
-              value={scoreInput}
-              onChange={handleScoreInput}
-              placeholder='Rad score here...'
-              required
-            />
+            <div className='row'>
+              <input
+                
+                name='score'
+                id='score-input'
+                type='number'
+                value={scoreInput}
+                onChange={handleScoreInput}
+                placeholder='Rad score here...'
+                required
+              />
+              
+              <Link to='/photo'>
+                <img className='photo-img' src="/images/camera-retro.svg" alt="camera button" />
+              </Link>
+            </div>
           </div>
+         
 
           <input className='add-submit' type='submit' value='Add' />
         </form>
-      
       </div>
     </div>
-    
   );
 }
 

@@ -314,3 +314,12 @@ ul {
   color: orangered;
   
 }
+
+/* /////////// Photo //////////// */
+
+.photo-img {
+  padding: 1vh;
+  width: 9vh;
+  height: 7vh;
+  /* backgroundColor: orangered; */
+}

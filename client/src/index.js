@@ -4,10 +4,19 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+import * as serviceWorker from './serviceWorker';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <App />
   </BrowserRouter>
 );
+
+serviceWorker.register();
+// eslint-disable-next-line no-restricted-globals
+const ignored = self.__WB_MANIFEST;
+
+// Your custom service worker code goes here.
+
+
  
