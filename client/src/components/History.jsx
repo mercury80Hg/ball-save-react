@@ -60,7 +60,7 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
         ))}
         
       </div>
-      <AddButton />
+        <AddButton />
     </div>
   );
 }

@@ -3,15 +3,13 @@ import { Link, useNavigate } from "react-router-dom"
 /* Big metallic ball/button that is a persistent quick button to
  navigate to the add-score screen */
 
-function AddButton () {
+function AddButton ({ shadow }) {
  
   
   return (
-    <div>
-      <Link to='/add' className="pinBall add-btn">
+      <Link to='/add' className=" add-btn">
         <img className="pinBall" src="/images/black-pinball-trans.png" alt="metallic silver pinball button" />
       </Link>
-    </div>
   )
 }
 

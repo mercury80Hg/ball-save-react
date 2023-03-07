@@ -34,8 +34,6 @@ function App() {
   return (
     <div className='App'>
       <Title />
-      
-
       <Routes>
         <Route path='/' element={<Login setCurrentUser={setCurrentUser} />} />
         <Route

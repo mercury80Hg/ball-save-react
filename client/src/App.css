@@ -13,8 +13,10 @@
 }
 
 body {
-
+  
   background-color: rgb(48, 48, 48);
+  background: linear-gradient(black, rgb(48, 48, 48));
+
 }
 
 .App {
@@ -30,11 +32,12 @@ body {
   font-size: 2vh;
   color: orange;
   padding: 5vh 0 ;
- 
+  overscroll-behavior-y:none ;
 }
 
 .container {
   display: flex;
+  height: 100vh;
   flex-direction: inherit;
   position: relative;
   justify-content: flex-start;
@@ -59,7 +62,7 @@ input {
 
 /* ///////// Dynamic Box ///////// */
 
-.dynamic-box {
+/* .dynamic-box {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -68,7 +71,7 @@ input {
   width: 100vw;
   padding: 5vh 5vh 2vh 5vh;
   background-color: rgb(48, 48, 48);
-}
+} */
 
 .ball-save-title {
   display: flex;
@@ -99,7 +102,7 @@ input {
   align-items: center;
   height: 5vh;
   width: 80vw;
-  background-color: black;
+  background-color:  rgb(31, 28, 28);
   color: orange;
   font-family: dotrice;
   font-size: 3vh;
@@ -118,19 +121,21 @@ input {
 .add-btn {
   display: flex;
   position: absolute;
-
+  width: 15vh;
+  height: 15vh;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  bottom: 0px;
-  right: 15px;
+  bottom: 10vh;
+  right: 4vh;
   border: none;
   border-radius: 100px;
-  background-color: crimson;
+  background-color: rgb(31, 30, 30);
+  box-shadow: 0px 20px 40px 0px black;
   font-size: 5vh;
   color: white;
 }
 
+/* ////////// Login Pinball Img /////////// */
 .pinBall {
   display: flex;
   width: 15vh;
@@ -139,7 +144,7 @@ input {
   border-radius: 100px;
   padding: unset;
   border: unset;
-  box-shadow: 0px 20px 40px 0px rgba(0,0,0,1);
+  box-shadow: 0px 20px 40px 0px rgb(48, 48, 48);
 
 }
 
@@ -167,7 +172,7 @@ input {
 }
 .add-title {
   display: flex;
-  font-size: 4vh;
+  font-size: 4.5vh;
   width:60vw;
   justify-content: center;
   padding: 3vh 0;
@@ -182,7 +187,8 @@ input {
 }
 
 .label {
-  padding-bottom: 5px;
+  font-size: 2.5vh;
+  padding-bottom: 0vh;
 }
 
 .add-submit {
@@ -224,7 +230,7 @@ input {
   justify-content: flex-start;
   align-items: center;
   width: 100vw;
-  height: 40vh;
+  height: 48vh;
   overflow: scroll;
   padding: 3vh 0 30vh 0;
 }
@@ -271,7 +277,7 @@ ul {
 
 .hamburger-button {
   color:orange;
-  background-color: black;
+  background-color: rgb(31, 28, 28);
   border-style:none;
   font-size: 3vh;
   text-align: center;
@@ -301,7 +307,8 @@ ul {
   color: orange;
   padding: 5px;
   text-decoration: none;
-  background-color: black;
+  background-color: rgb(31, 28, 28);
+ 
 }
 .dropmenu-content a:hover {
   color: orangered;
