@@ -175,7 +175,7 @@ input {
   font-size: 4.5vh;
   width:60vw;
   justify-content: center;
-  padding: 3vh 0;
+  padding: 0 0 7vh 0;
 }
 
 .add-input-box {
@@ -318,8 +318,65 @@ ul {
 /* /////////// Photo //////////// */
 
 .photo-img {
-  padding: 1vh;
-  width: 9vh;
-  height: 7vh;
+  height: 4vh;
+  /* width: 7vh; */
   /* backgroundColor: orangered; */
+}
+
+.photo-icon-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5vh;
+  width: 6vh;
+  margin-left: 1vh;
+  background-color: rgb(62, 58, 58);
+  border-radius: 15px;
+  border-bottom: solid 2px rgb(33, 33, 33);
+  border-right: solid 2px rgb(33, 33, 33);
+  border-top: solid 2px rgb(118, 118, 118);
+  border-left: solid 2px rgb(118, 118, 118);
+  
+}
+
+.score-input-imgButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 9vh;
+}
+
+.photo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100vw;
+  height: 85vh;
+  
+}
+
+.add-photo-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.photo-capture {
+  display: flex;
+  width:fit-content;
+  width: 80vw;
+  height: 55vh;
+  border-radius: 25px;
+  border-top: solid 2px rgb(33, 33, 33);
+  border-left: solid 2px rgb(33, 33, 33);
+  border-bottom: solid 2px rgb(118, 118, 118);
+  border-right: solid 2px rgb(118, 118, 118);
+  
+}
+
+#icon-button-file {
+  background-color: black;
 }

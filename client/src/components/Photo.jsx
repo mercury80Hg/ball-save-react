@@ -11,7 +11,7 @@ function Photo({ imgSource, setImgSource, user }) {
     }
   }, [user.email]);
 
-  function handleCapture(target){
+  function handleCapture(target) {
     if (target.files) {
       if (target.files.length !== 0) {
         const file = target.files[0];
@@ -19,25 +19,27 @@ function Photo({ imgSource, setImgSource, user }) {
         setImgSource(newUrl);
       }
     }
-  };
+  }
 
   return (
-    <div className=''>
-      {/* <NavDisplay /> */}
+    <div className='photo-container'>
+      <NavDisplay user={user} />
 
-      <div className='add-input-box'>
-        <label className='label' htmlFor='icon-button-file'>
+      <div className='add-photo-box'>
+        {/* <label className='label' htmlFor='icon-button-file'>
      
-        </label>
+        </label> */}
         {/* https://engineering.99x.io/how-to-access-the-camera-of-a-mobile-device-using-react-progressive-web-app-pwa-9d77168e5f2d */}
+        <img className='photo-capture' src={imgSource} alt={''}></img>
         <input
           accept='image/*'
           id='icon-button-file'
           type='file'
           capture='environment'
+          onChange={(event) => handleCapture(event.target)}
         />
+
       </div>
-      <img src={imgSource} alt={''}></img>
     </div>
   );
 }

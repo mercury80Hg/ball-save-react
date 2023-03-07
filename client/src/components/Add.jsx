@@ -134,7 +134,7 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
             <label className='label' htmlFor='score-input'>
               Score
             </label>
-            <div className='row'>
+            <div className='score-input-imgButton row'>
               <input
                 
                 name='score'
@@ -146,9 +146,12 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
                 required
               />
               
-              <Link to='/photo'>
-                <img className='photo-img' src="/images/camera-retro.svg" alt="camera button" />
-              </Link>
+              <div className='photo-icon-box' >
+                <Link to='/photo'>
+                  <img className='photo-img' src="/images/camera-retro.svg" alt="camera button" />
+                </Link>
+              </div>
+              
             </div>
           </div>
          
