@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { baseURL } from '../App';
 import { useNavigate } from 'react-router-dom';
-import Title from './Title';
 
 function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');

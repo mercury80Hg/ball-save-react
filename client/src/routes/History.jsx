@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchScores } from '../api/api';
-import AddButton from './AddButton';
-import NavDisplay from './NavDisplay';
+import AddButton from '../components/AddButton';
+import NavDisplay from '../components/NavDisplay';
 
 function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
   const navigate = useNavigate();
@@ -58,9 +58,8 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
             </div>
           </div>
         ))}
-        
       </div>
-        <AddButton />
+      <AddButton />
     </div>
   );
 }

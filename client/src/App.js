@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import DynamicBox from './components/DynamicBox';
 import Login from './components/Login';
-import Profile from './components/Profile';
 import Add from './components/Add';
-import UserScoreHistory from './components/History';
+import UserScoreHistory from './routes/History';
 
 import { fetchMachines } from './api/api';
 import { fetchUsers } from './api/api';

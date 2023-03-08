@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 /* Big metallic ball/button that is a persistent quick button to
  navigate to the add-score screen */
