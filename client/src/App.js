@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import Login from './components/Login';
-import Add from './components/Add';
+import Login from './routes/Login';
+import Add from './routes/Add';
 import UserScoreHistory from './routes/History';
 
 import { fetchMachines } from './api/api';
 import { fetchUsers } from './api/api';
 import Title from './components/Title';
-import NavDisplay from './components/NavDisplay';
-import Photo from './components/Photo';
+// import NavDisplay from './components/NavDisplay';
+import Photo from './routes/Photo';
 
 export const baseURL = 'http://localhost:3001';
 

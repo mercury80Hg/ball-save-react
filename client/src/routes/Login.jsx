@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { baseURL } from '../App';
 import { useNavigate } from 'react-router-dom';
+import pinballImage from '../images/black-pinball-trans.png';
 
 function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
@@ -56,14 +57,9 @@ function Login({ setCurrentUser }) {
 
   return (
     <div className='login-container'>
-      <div className='login-main-title'>
-      </div>
+      <div className='login-main-title'></div>
 
-      <img
-        className='pinBall'
-        src='/images/black-pinball-trans.png'
-        alt='big black pinball'
-      />
+      <img className='pinBall' src={pinballImage} alt='big black pinball' />
       <form onSubmit={handleSubmit}>
         <div className='add-input-box'>
           <label className='label' htmlFor='location-input'>
@@ -87,7 +83,7 @@ function Login({ setCurrentUser }) {
           </label>
 
           <input
-            style={{width: "15vw"}}
+            style={{ width: '15vw' }}
             name='initials'
             id='initials-input'
             type='text'

@@ -15,7 +15,7 @@ function Profile({ user }) {
     }
   }, []);
 
-  return <div className='profile '>Profile</div>;
+  return <div className='profile'>Profile</div>;
 }
 
 export default Profile;

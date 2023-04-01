@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { baseURL } from '../App';
 import { fetchScores } from '../api/api';
-import AddButton from './AddButton';
-import NavDisplay from './NavDisplay';
-import Photo from './Photo';
+import AddButton from '../components/AddButton';
+import NavDisplay from '../components/NavDisplay';
+// import Photo from './Photo';
 
 // import AutoComplete from './AutoComplete';
 
@@ -148,7 +148,7 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
               
               <div className='photo-icon-box' >
                 <Link to='/photo'>
-                  <img className='photo-img' src="/images/camera-retro.svg" alt="camera button" />
+                  <img className='photo-img' src="/client/public/images/camera-retro.svg" alt="camera button" />
                 </Link>
               </div>
               

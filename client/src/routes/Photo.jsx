@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NavDisplay from './NavDisplay';
+import NavDisplay from '../components/NavDisplay';
 
 function Photo({ imgSource, setImgSource, user }) {
   const navigate = useNavigate();
