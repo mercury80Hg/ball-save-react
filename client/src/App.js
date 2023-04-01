@@ -6,7 +6,7 @@ import Add from './routes/Add';
 import UserScoreHistory from './routes/History';
 
 import { fetchMachines } from './api/api';
-import { fetchUsers } from './api/api';
+// import { fetchUsers } from './api/api';
 import Title from './components/Title';
 // import NavDisplay from './components/NavDisplay';
 import Photo from './routes/Photo';
