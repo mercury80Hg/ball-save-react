@@ -1,18 +1,17 @@
 {
   "files": {
     "main.css": "/ball-save-react/static/css/main.5de181bf.css",
-    "main.js": "/ball-save-react/static/js/main.63ae37fb.js",
+    "main.js": "/ball-save-react/static/js/main.ccac2630.js",
     "static/media/black-pinball-trans.png": "/ball-save-react/static/media/black-pinball-trans.5d8bdece045ed7320c52.png",
     "static/media/dotrice.bold-expanded.otf": "/ball-save-react/static/media/dotrice.bold-expanded.6de0cb6a137f7c5df52c.otf",
     "static/media/dotrice.bold-condensed.woff": "/ball-save-react/static/media/dotrice.bold-condensed.79bc68c37bb3ac7451ce.woff",
     "static/media/camera-retro.svg": "/ball-save-react/static/media/camera-retro.869256703efc933dae7d78a51997db60.svg",
     "index.html": "/ball-save-react/index.html",
-    "static/media/.env": "/ball-save-react/static/media/.env.09f21753218fd5b7298a",
     "main.5de181bf.css.map": "/ball-save-react/static/css/main.5de181bf.css.map",
-    "main.63ae37fb.js.map": "/ball-save-react/static/js/main.63ae37fb.js.map"
+    "main.ccac2630.js.map": "/ball-save-react/static/js/main.ccac2630.js.map"
   },
   "entrypoints": [
     "static/css/main.5de181bf.css",
-    "static/js/main.63ae37fb.js"
+    "static/js/main.ccac2630.js"
   ]
 }
