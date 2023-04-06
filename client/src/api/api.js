@@ -1,7 +1,9 @@
+import PINBALL_URL from '../.env'
+
 export async function fetchMachines() {
   try {
     const pinMachines = await fetch(
-      'https://pinballmap.com/api/v1/machines.json'
+      PINBALL_URL
     );
     const result = await pinMachines.json();
     return result;
