@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const DB_NAME = 'userList';
+const LOCAL_DB = `mongodb://127.0.0.1:27017/${DB_NAME}`;
 
 // connects to mongoDB
-mongoose.connect(`mongodb://127.0.0.1:27017/${DB_NAME}`, {
+mongoose.connect(process.env['MONGODB_URI'] || LOCAL_DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
