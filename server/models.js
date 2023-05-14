@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const DB_NAME = 'userList';
 const LOCAL_DB = `mongodb://127.0.0.1:27017/${DB_NAME}`;
-const HOSTED_DB = `mongodb+srv://${process.env.username}:${process.env.password}@albotcluster0.fluv2fx.mongodb.net/?retryWrites=true&w=majority`
+const HOSTED_DB = `mongodb+srv://${process.env.username}:${process.env.password}@albotcluster0.fluv2fx.mongodb.net/?retryWrites=true&w=majority`;
 
+console.log('ENVIRONMENT===PRODUCTION?', process.env.PRODUCTION);
 // connects to mongoDB
 mongoose.connect(process.env.PRODUCTION ? HOSTED_DB : LOCAL_DB, {
   useNewUrlParser: true,
