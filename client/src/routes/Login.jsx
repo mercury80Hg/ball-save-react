@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { baseURL } from '../App';
 import { useNavigate } from 'react-router-dom';
 import pinballImage from '../images/black-pinball-trans.png';
+import { apiURL } from '../api/api';
 
 function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
@@ -11,7 +12,7 @@ function Login({ setCurrentUser }) {
 
   async function addUser(event) {
     try {
-      const user = await fetch(baseURL + '/user', {
+      const user = await fetch(apiURL + '/user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(event),

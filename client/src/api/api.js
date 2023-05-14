@@ -1,6 +1,8 @@
 export async function fetchMachines() {
   try {
-    const pinMachines = await fetch("PINBALL_URL");
+    const pinMachines = await fetch(
+      'https://pinballmap.com/api/v1/machines.json'
+    );
     const result = await pinMachines.json();
     return result;
   } catch (error) {
@@ -8,10 +10,11 @@ export async function fetchMachines() {
   }
   return { machines: [] };
 }
-
+export const apiURL = 'https://ball-save-server.onrender.com';
+// export const apiURL = 'http://localhost:3001' // for local development
 export async function fetchScores(email) {
   try {
-    const scores = await fetch(`http://localhost:3001/scores/${email}`);
+    const scores = await fetch(`${apiURL}/scores/${email}`);
     const result = await scores.json();
     return result;
   } catch (error) {
@@ -22,7 +25,7 @@ export async function fetchScores(email) {
 // TODO: am i using this?
 export async function fetchUsers() {
   try {
-    const users = await fetch(`http://localhost:3001/users/`);
+    const users = await fetch(`${apiURL}/users/`);
     const result = await users.json();
     return result;
   } catch (error) {

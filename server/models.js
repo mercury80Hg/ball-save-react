@@ -7,11 +7,6 @@ const HOSTED_DB = `mongodb+srv://${encodeURIComponent(
   process.env.password
 )}@albotcluster0.fluv2fx.mongodb.net/?retryWrites=true&w=majority`;
 
-console.log(
-  'ENSURE USER AND PASS ARE HERE',
-  process.env.username.length,
-  process.env.password.length
-);
 mongoose
   .connect(process.env.PRODUCTION ? HOSTED_DB : LOCAL_DB, {
     useNewUrlParser: true,

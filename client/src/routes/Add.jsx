@@ -5,6 +5,7 @@ import { fetchScores } from '../api/api';
 import AddButton from '../components/AddButton';
 import NavDisplay from '../components/NavDisplay';
 import cameraImage from '../images/camera-retro.svg';
+import { apiURL } from '../api/api';
 
 // import AutoComplete from './AutoComplete';
 
@@ -23,7 +24,7 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
 
   async function addScore(event) {
     try {
-      const score = await fetch(baseURL + '/score', {
+      const score = await fetch(apiURL + '/score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(event),
