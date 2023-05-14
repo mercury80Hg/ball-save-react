@@ -13,7 +13,7 @@ try {
     process.env.username.length,
     process.env.password.length
   );
-  mongoose.connect(process.env.PRODUCTION ? HOSTED_DB : LOCAL_DB, {
+  await mongoose.connect(process.env.PRODUCTION ? HOSTED_DB : LOCAL_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
