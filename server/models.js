@@ -7,20 +7,22 @@ const HOSTED_DB = `mongodb+srv://${encodeURIComponent(
   process.env.password
 )}@albotcluster0.fluv2fx.mongodb.net/?retryWrites=true&w=majority`;
 
-try {
-  console.log(
-    'ENSURE USER AND PASS AND HERE',
-    process.env.username.length,
-    process.env.password.length
-  );
-  await mongoose.connect(process.env.PRODUCTION ? HOSTED_DB : LOCAL_DB, {
+console.log(
+  'ENSURE USER AND PASS ARE HERE',
+  process.env.username.length,
+  process.env.password.length
+);
+mongoose
+  .connect(process.env.PRODUCTION ? HOSTED_DB : LOCAL_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('SUCCESSFULLY CONNECTED TO MONGODB!');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB: ', err);
   });
-  console.log('SUCCESSFULLY CONNECTED TO MONGODB!');
-} catch (err) {
-  console.error('Error connecting to MongoDB: ', err);
-}
 
 // defines the schema for the new collection in the database
 const Schema = mongoose.Schema;
@@ -46,6 +48,7 @@ const scoreSchema = new Schema({
 scoreSchema.set('timestamps', true);
 
 // Creates a collection in the database
+
 const User = mongoose.model('User', userSchema);
 const Machine = mongoose.model('Machine', machineSchema);
 const Score = mongoose.model('Score', scoreSchema);
