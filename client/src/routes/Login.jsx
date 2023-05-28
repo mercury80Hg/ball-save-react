@@ -7,7 +7,8 @@ import { apiURL } from '../api/api';
 function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
   const [initialInput, setInitialInput] = useState('');
-  const [marquee, setMarquee] = useState('Go Ahead & Login!');
+  const [marquee, setMarquee] = useState((<div style={{ padding: '20px' }}>Go Ahead Login!</div>));
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   async function addUser(event) {
@@ -34,6 +35,9 @@ function Login({ setCurrentUser }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    // if (isLoading === true) {
+      setMarquee((<div className="loading" >Loading</div>))
+    // } 
 
     function resetInputs() {
       setEmailInput('');
@@ -49,7 +53,7 @@ function Login({ setCurrentUser }) {
       console.log(newUser);
       setCurrentUser(newUser);
       resetInputs();
-
+      // setIsLoading(false);
       navigate('/history');
     } catch (error) {
       console.error(error);
@@ -100,7 +104,7 @@ function Login({ setCurrentUser }) {
 
         <input className='add-submit' type='submit' value='Login' />
       </form>
-      <div style={{ padding: '20px' }}>{marquee}</div>
+      {marquee}
     </div>
   );
 }
