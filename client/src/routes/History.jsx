@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchScores } from '../api/api';
 import AddButton from '../components/AddButton';
 import NavDisplay from '../components/NavDisplay';
+import fallbackImage from '../images/no-photo-available.webp';
 
 function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
       }
       getData();
     }
-  }, []);
+  }, [scoreHistory]);
 
   console.log('SCORE HISTORY: ', scoreHistory);
 
@@ -44,7 +45,7 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
           <div key={i} className='score-card'>
             <img
               className='score-card-img'
-              src={el.imgUrl || '/images/no-photo-available.webp'}
+              src={el.imgUrl || fallbackImage}
               alt=''
             ></img>
             <div className='score-card-info-box'>

@@ -35,9 +35,9 @@ function Login({ setCurrentUser }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    // if (isLoading === true) {
-      setMarquee((<div className="loading" >Loading</div>))
-    // } 
+    if (isLoading === true) {
+      setMarquee((<div style={{ padding: '20px' }} className="loading" >Loading</div>))
+    } 
 
     function resetInputs() {
       setEmailInput('');
@@ -53,7 +53,7 @@ function Login({ setCurrentUser }) {
       console.log(newUser);
       setCurrentUser(newUser);
       resetInputs();
-      // setIsLoading(false);
+      setIsLoading(false);
       navigate('/history');
     } catch (error) {
       console.error(error);

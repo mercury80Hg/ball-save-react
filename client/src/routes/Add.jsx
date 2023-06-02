@@ -46,15 +46,14 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
     setScoreInput('');
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const machineObj = machines.find(({ name }) => name === machineInput);
 
     const submit = {
       email: user.email,
       externalMachineId: machineObj.ipdb_id || machineObj.opdb_id,
-      machineImgUrl:
-        machineObj.opdb_img || '../../public/images/no-photo-available.webp',
+      machineImgUrl: machineObj.opdb_img || '',
       machineName: machineInput,
       score: scoreInput,
       location: locationInput,
@@ -68,7 +67,7 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
         console.error(error);
       }
       resetInputs();
-      navigate('/history');
+      await navigate('/history');
     }
   }
 
@@ -83,7 +82,6 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
   function handleScoreInput(event) {
     setScoreInput(event.target.value);
   }
-
 
   return (
     <div className='container'>
@@ -137,7 +135,6 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
             </label>
             <div className='score-input-imgButton row'>
               <input
-                
                 name='score'
                 id='score-input'
                 type='number'
@@ -146,16 +143,18 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
                 placeholder='Rad score here...'
                 required
               />
-              
-              <div className='photo-icon-box' >
+
+              <div className='photo-icon-box'>
                 <Link to='/photo'>
-                  <img className='photo-img' src={cameraImage} alt="camera button" />
+                  <img
+                    className='photo-img'
+                    src={cameraImage}
+                    alt='camera button'
+                  />
                 </Link>
               </div>
-              
             </div>
           </div>
-         
 
           <input className='add-submit' type='submit' value='Add' />
         </form>
