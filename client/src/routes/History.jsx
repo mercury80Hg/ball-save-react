@@ -33,7 +33,7 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
       }
       getData();
     }
-  }, [scoreHistory]);
+  }, []);
 
   console.log('SCORE HISTORY: ', scoreHistory);
 
