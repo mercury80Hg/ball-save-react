@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchScores } from '../api/api';
 import AddButton from '../components/AddButton';
 import NavDisplay from '../components/NavDisplay';
-import fallbackImage from '../images/no-photo-available.webp';
+import fallbackImage from '../images/pinball-game-arcade-console-design-illustration_222550-174.jpg.avif';
 
 function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
   const navigate = useNavigate();
