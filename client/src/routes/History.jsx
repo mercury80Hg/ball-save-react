@@ -28,7 +28,6 @@ function UserScoreHistory({ user, scoreHistory, setScoreHistory }) {
         });
         console.log('MACHINE HISTORY: ', machineHistory);
 
-        //\\\\
         setScoreHistory(Object.values(machineHistory));
       }
       getData();
