@@ -7,14 +7,6 @@ import { useNavigate } from 'react-router-dom';
 */
 
 function Profile({ user }) {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user.email) {
-      navigate('/login');
-    }
-  }, []);
-
   return <div className='profile'>Profile</div>;
 }
 

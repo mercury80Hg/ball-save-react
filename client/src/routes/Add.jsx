@@ -1,26 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { baseURL } from '../App';
-import { fetchScores } from '../api/api';
-import AddButton from '../components/AddButton';
 import NavDisplay from '../components/NavDisplay';
 import cameraImage from '../images/camera-retro.svg';
 import { apiURL } from '../api/api';
 
-// import AutoComplete from './AutoComplete';
-
-function Add({ user, machines, scoreHistory, setScoreHistory }) {
+function Add({ user, machines, setScoreHistory }) {
   const [machineInput, setMachineInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
   const [scoreInput, setScoreInput] = useState('');
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user.email) {
-      navigate('/login');
-    }
-  }, [user.email]);
 
   async function addScore(event) {
     try {
@@ -30,10 +19,6 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
         body: JSON.stringify(event),
       });
       const result = await score.json();
-      // setScoreHistory((prevScores) => {
-      //   const newScores = [...prevScores, event]
-      //   return newScores
-      // })
       return result;
     } catch (error) {
       console.error(error);
@@ -60,14 +45,34 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
     };
 
     if (machineInput && locationInput && scoreInput) {
-      try {
-        addScore(submit);
-        console.log('SUBMIT: ', submit);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await addScore(submit);
+
+      setScoreHistory((prevHistory) => {
+        const existingMachine = prevHistory.find(
+          (history) =>
+            history.externalMachineId === response.machine.externalMachineId
+        );
+
+        if (existingMachine) {
+          return prevHistory.map((history) =>
+            history.externalMachineId === response.machine.externalMachineId
+              ? { ...history, scores: [...history.scores, response.value] }
+              : history
+          );
+        }
+        return [
+          ...prevHistory,
+          {
+            externalMachineId: response.machine.externalMachineId,
+            imgUrl: response.machine.imgUrl,
+            name: response.machine.name,
+            scores: [response.value],
+          },
+        ];
+      });
+
       resetInputs();
-      await navigate('/history');
+      navigate('/history');
     }
   }
 
@@ -110,8 +115,6 @@ function Add({ user, machines, scoreHistory, setScoreHistory }) {
               ))}
             </datalist>
           </div>
-
-          {/* <AutoComplete machines={machines} /> */}
 
           <div className='add-input-box'>
             <label className='label' htmlFor='location-input'>

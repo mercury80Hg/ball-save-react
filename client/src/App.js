@@ -5,16 +5,11 @@ import Login from './routes/Login';
 import Add from './routes/Add';
 import UserScoreHistory from './routes/History';
 
-import { fetchMachines } from './api/api';
-// import { fetchUsers } from './api/api';
+import { fetchMachines, fetchScores } from './api/api';
 import Title from './components/Title';
-// import NavDisplay from './components/NavDisplay';
 import Photo from './routes/Photo';
 
-export const baseURL = 'http://localhost:3001';
-
 function App() {
-  // eslint-disable-next-line no-unused-vars
   const [currentUser, setCurrentUser] = useState({});
   const [machines, setMachines] = useState([]);
   const [scoreHistory, setScoreHistory] = useState([]);
@@ -27,9 +22,31 @@ function App() {
     }
     getMachineData();
   }, []);
-  console.log('Current USER: ', currentUser);
-  // console.log('PinMACHINES:', machines);
-  console.log('SCORE history:', scoreHistory);
+
+  useEffect(() => {
+    console.log(currentUser);
+    if (currentUser.email) {
+      async function getData() {
+        const result = await fetchScores(currentUser.email);
+        const machineHistory = {};
+
+        result.forEach((el) => {
+          if (machineHistory[el.machine._id]) {
+            machineHistory[el.machine._id].scores.push(el.value);
+          } else {
+            machineHistory[el.machine._id] = {
+              ...el.machine,
+              scores: [el.value],
+            };
+          }
+        });
+
+        setScoreHistory(Object.values(machineHistory));
+      }
+
+      getData();
+    }
+  }, [currentUser]);
 
   return (
     <div className='App'>
@@ -40,39 +57,43 @@ function App() {
           path='login'
           element={<Login setCurrentUser={setCurrentUser} />}
         />
-        <Route
-          path='/add'
-          element={
-            <Add
-              user={currentUser}
-              machines={machines}
-              scoreHistory={scoreHistory}
-              setScoreHistory={setScoreHistory}
-              imgSource={imgSource}
-              setImgSource={setImgSource}
+        {currentUser.email ? (
+          <>
+            <Route
+              path='/add'
+              element={
+                <Add
+                  user={currentUser}
+                  machines={machines}
+                  scoreHistory={scoreHistory}
+                  setScoreHistory={setScoreHistory}
+                  imgSource={imgSource}
+                  setImgSource={setImgSource}
+                />
+              }
             />
-          }
-        />
-        <Route
-          path='/history'
-          element={
-            <UserScoreHistory
-              user={currentUser}
-              scoreHistory={scoreHistory}
-              setScoreHistory={setScoreHistory}
+            <Route
+              path='/history'
+              element={
+                <UserScoreHistory
+                  user={currentUser}
+                  scoreHistory={scoreHistory}
+                />
+              }
             />
-          }
-        />
-        <Route
-          path='/photo'
-          element={
-            <Photo
-              user={currentUser}
-              imgSource={imgSource}
-              setImgSource={setImgSource}
+            <Route
+              path='/photo'
+              element={
+                <Photo
+                  user={currentUser}
+                  imgSource={imgSource}
+                  setImgSource={setImgSource}
+                />
+              }
             />
-          }
-        />
+          </>
+        ) : null}
+        <Route path='*' element={<Login setCurrentUser={setCurrentUser} />} />
       </Routes>
     </div>
   );

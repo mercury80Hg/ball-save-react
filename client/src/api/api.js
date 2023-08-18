@@ -19,16 +19,6 @@ export async function fetchScores(email) {
     return result;
   } catch (error) {
     console.error(error);
-  }
-}
-
-// TODO: am i using this?
-export async function fetchUsers() {
-  try {
-    const users = await fetch(`${apiURL}/users/`);
-    const result = await users.json();
-    return result;
-  } catch (error) {
-    console.error(error);
+    return [];
   }
 }

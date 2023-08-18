@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { baseURL } from '../App';
 import { useNavigate } from 'react-router-dom';
 import pinballImage from '../images/black-pinball-trans.png';
 import { apiURL } from '../api/api';
@@ -7,11 +6,11 @@ import { apiURL } from '../api/api';
 function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
   const [initialInput, setInitialInput] = useState('');
-  const [marquee, setMarquee] = useState((<div style={{ padding: '20px' }}>Go Ahead Login!</div>));
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   async function addUser(event) {
+    // consider moving this into api for consistency?
     try {
       const user = await fetch(apiURL + '/user', {
         method: 'POST',
@@ -35,28 +34,25 @@ function Login({ setCurrentUser }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    if (isLoading === true) {
-      setMarquee((<div style={{ padding: '20px' }} className="loading" >Loading</div>))
-    } 
+    setIsLoading(true);
 
     function resetInputs() {
       setEmailInput('');
       setInitialInput('');
     }
 
-    try {
-      const newUser = await addUser({
-        initials: initialInput,
-        email: emailInput,
-      });
+    const newUser = await addUser({
+      initials: initialInput,
+      email: emailInput,
+    });
 
-      console.log(newUser);
+    if (newUser) {
       setCurrentUser(newUser);
       resetInputs();
       setIsLoading(false);
       navigate('/history');
-    } catch (error) {
-      console.error(error);
+    } else {
+      setIsLoading(false);
     }
   }
 
@@ -64,10 +60,11 @@ function Login({ setCurrentUser }) {
     <div className='login-container'>
       <div className='login-main-title'></div>
 
+      {/*  nice alt text, but i think you can actually hide this since it's not semantic */}
       <img className='pinBall' src={pinballImage} alt='big black pinball' />
       <form onSubmit={handleSubmit}>
         <div className='add-input-box'>
-          <label className='label' htmlFor='location-input'>
+          <label className='label' htmlFor='email-input'>
             <div className='input-titles'>Email</div>
           </label>
 
@@ -88,7 +85,7 @@ function Login({ setCurrentUser }) {
           </label>
 
           <input
-            style={{ width: '15vw' }}
+            style={{ width: '15vw' }} // classname vs inline style
             name='initials'
             id='initials-input'
             type='text'
@@ -102,9 +99,16 @@ function Login({ setCurrentUser }) {
           <div style={{ fontSize: '1.75vh' }}>3 Characters for Initials</div>
         </div>
 
-        <input className='add-submit' type='submit' value='Login' />
+        <input
+          className='add-submit'
+          type='submit'
+          value='Login'
+          disabled={isLoading}
+        />
       </form>
-      {marquee}
+      <div style={{ padding: '20px' }} className={isLoading ? 'loading' : ''}>
+        {isLoading ? 'Loading' : 'Go Ahead, Login!'}
+      </div>
     </div>
   );
 }

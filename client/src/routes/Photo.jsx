@@ -1,15 +1,7 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import NavDisplay from '../components/NavDisplay';
 
 function Photo({ imgSource, setImgSource, user }) {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user.email) {
-      navigate('/login');
-    }
-  }, [user.email]);
+  // render this on the same route as "add"
 
   function handleCapture(target) {
     if (target.files) {
@@ -38,7 +30,6 @@ function Photo({ imgSource, setImgSource, user }) {
           capture='environment'
           onChange={(event) => handleCapture(event.target)}
         />
-
       </div>
     </div>
   );
