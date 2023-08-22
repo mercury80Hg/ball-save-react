@@ -1,28 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pinballImage from '../images/black-pinball-trans.png';
-import { apiURL } from '../api/api';
+import { addUser } from '../api/api';
 
 function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
   const [initialInput, setInitialInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  async function addUser(event) {
-    // consider moving this into api for consistency?
-    try {
-      const user = await fetch(apiURL + '/user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(event),
-      });
-      const result = await user.json();
-      return result;
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   function handleEmailInput(event) {
     setEmailInput(event.target.value);
@@ -58,9 +43,6 @@ function Login({ setCurrentUser }) {
 
   return (
     <div className='login-container'>
-      <div className='login-main-title'></div>
-
-      {/*  nice alt text, but i think you can actually hide this since it's not semantic */}
       <img className='pinBall' src={pinballImage} alt='big black pinball' />
       <form onSubmit={handleSubmit}>
         <div className='add-input-box'>

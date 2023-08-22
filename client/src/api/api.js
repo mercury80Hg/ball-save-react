@@ -22,3 +22,31 @@ export async function fetchScores(email) {
     return [];
   }
 }
+
+export async function addUser(event) {
+  try {
+    const user = await fetch(apiURL + '/user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(event),
+    });
+    const result = await user.json();
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function addScore(event) {
+  try {
+    const score = await fetch(apiURL + '/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(event),
+    });
+    const result = await score.json();
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}

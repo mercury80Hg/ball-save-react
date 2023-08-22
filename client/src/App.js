@@ -24,7 +24,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(currentUser);
     if (currentUser.email) {
       async function getData() {
         const result = await fetchScores(currentUser.email);
@@ -58,7 +57,7 @@ function App() {
           element={<Login setCurrentUser={setCurrentUser} />}
         />
         {currentUser.email ? (
-          <div >
+          <>
             <Route
               path='/add'
               element={
@@ -91,7 +90,7 @@ function App() {
                 />
               }
             />
-          </div>
+          </>
         ) : null}
         <Route path='*' element={<Login setCurrentUser={setCurrentUser} />} />
       </Routes>
