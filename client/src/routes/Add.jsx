@@ -13,8 +13,8 @@ function Add({ user, machines, setScoreHistory }) {
   const navigate = useNavigate();
 
   function resetInputs() {
-    setLocationInput('');
     setMachineInput('');
+    setLocationInput('');
     setScoreInput('');
   }
 
@@ -60,9 +60,9 @@ function Add({ user, machines, setScoreHistory }) {
             },
           ];
         });
-        setIsLoading(false);
         resetInputs();
-        navigate('/history');
+        setIsLoading(false);
+         navigate('/history');
       } else {
         setIsLoading(false);
       }
@@ -102,7 +102,7 @@ function Add({ user, machines, setScoreHistory }) {
               placeholder='Name of machine...'
               required
             />
-            <datalist id='games'>
+            <datalist id='games' data-testid='datalist'>
               {machines.map(({ name }, i) => (
                 <option key={name + i} value={name} />
               ))}
