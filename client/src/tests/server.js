@@ -7,18 +7,20 @@ export function createServer(handlerConfig) {
       return res(ctx.json(config.res(req, res, ctx)))
     })
   })
+
+  const server = setupServer(...handlers)
+
+  beforeAll(() => {
+    server.listen()
+  }) 
+
+  afterEach(() => {
+    server.resetHandlers()
+  }) 
+
+  afterAll((
+  ) => {
+    server.close()
+  })
+
 }
-const server = setupServer(...handlers)
-
-beforeAll(() => {
-  server.listen()
-})
-
-afterEach(() => {
-  server.resetHandlers()
-})
-
-afterAll((
-) => {
-  server.close()
-})

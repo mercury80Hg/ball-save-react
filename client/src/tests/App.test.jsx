@@ -14,3 +14,8 @@ createServer([
     }
   }
 ])
+
+
+test('should render Login component', () => {
+
+})
