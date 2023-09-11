@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 );
 
 serviceWorker.register();
-// eslint-disable-next-line no-restricted-globals
+// eslint-disable-next-line no-restricted-globals, no-unused-vars
 const ignored = self.__WB_MANIFEST;
 
 // Your custom service worker code goes here.

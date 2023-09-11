@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 /* Nav Bar and logged in user display.  'burger' is a placeholder
 for the dropdown which will contain the links currently just 

@@ -2,7 +2,9 @@ import AddButton from '../components/AddButton';
 import NavDisplay from '../components/NavDisplay';
 import fallbackImage from '../images/pinball-game-arcade-console-design-illustration_222550-174.jpg.avif';
 
+
 function UserScoreHistory({ user, scoreHistory }) {
+
   return (
     <div className='container'>
       <NavDisplay user={user} />

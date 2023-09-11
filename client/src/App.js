@@ -24,7 +24,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(currentUser);
     if (currentUser.email) {
       async function getData() {
         const result = await fetchScores(currentUser.email);

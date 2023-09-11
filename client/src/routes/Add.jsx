@@ -2,77 +2,70 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import NavDisplay from '../components/NavDisplay';
 import cameraImage from '../images/camera-retro.svg';
-import { apiURL } from '../api/api';
+import { addScore } from '../api/api';
 
 function Add({ user, machines, setScoreHistory }) {
   const [machineInput, setMachineInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
   const [scoreInput, setScoreInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  async function addScore(event) {
-    try {
-      const score = await fetch(apiURL + '/score', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(event),
-      });
-      const result = await score.json();
-      return result;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   function resetInputs() {
-    setLocationInput('');
     setMachineInput('');
+    setLocationInput('');
     setScoreInput('');
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const machineObj = machines.find(({ name }) => name === machineInput);
-
-    const submit = {
-      email: user.email,
-      externalMachineId: machineObj.ipdb_id || machineObj.opdb_id,
-      machineImgUrl: machineObj.opdb_img || '',
-      machineName: machineInput,
-      score: scoreInput,
-      location: locationInput,
-    };
 
     if (machineInput && locationInput && scoreInput) {
-      const response = await addScore(submit);
+      setIsLoading(true);
 
-      setScoreHistory((prevHistory) => {
-        const existingMachine = prevHistory.find(
-          (history) =>
-            history.externalMachineId === response.machine.externalMachineId
-        );
+      const machineObj = machines.find(({ name }) => name === machineInput);
 
-        if (existingMachine) {
-          return prevHistory.map((history) =>
-            history.externalMachineId === response.machine.externalMachineId
-              ? { ...history, scores: [...history.scores, response.value] }
-              : history
+      const submit = {
+        email: user.email,
+        externalMachineId: machineObj.ipdb_id || machineObj.opdb_id,
+        machineImgUrl: machineObj.opdb_img || '',
+        machineName: machineInput,
+        score: scoreInput,
+        location: locationInput,
+      };
+      const newScore = await addScore(submit);
+
+      if (newScore) {
+        setScoreHistory((prevHistory) => {
+          const existingMachine = prevHistory.find(
+            (history) =>
+              history.externalMachineId === newScore.machine.externalMachineId
           );
-        }
-        return [
-          ...prevHistory,
-          {
-            externalMachineId: response.machine.externalMachineId,
-            imgUrl: response.machine.imgUrl,
-            name: response.machine.name,
-            scores: [response.value],
-          },
-        ];
-      });
 
-      resetInputs();
-      navigate('/history');
+          if (existingMachine) {
+            return prevHistory.map((history) =>
+              history.externalMachineId === newScore.machine.externalMachineId
+                ? { ...history, scores: [...history.scores, newScore.value] }
+                : history
+            );
+          }
+          return [
+            ...prevHistory,
+            {
+              externalMachineId: newScore.machine.externalMachineId,
+              imgUrl: newScore.machine.imgUrl,
+              name: newScore.machine.name,
+              scores: [newScore.value],
+            },
+          ];
+        });
+        resetInputs();
+        setIsLoading(false);
+         navigate('/history');
+      } else {
+        setIsLoading(false);
+      }
     }
   }
 
@@ -109,7 +102,7 @@ function Add({ user, machines, setScoreHistory }) {
               placeholder='Name of machine...'
               required
             />
-            <datalist id='games'>
+            <datalist id='games' data-testid='datalist'>
               {machines.map(({ name }, i) => (
                 <option key={name + i} value={name} />
               ))}
@@ -159,7 +152,12 @@ function Add({ user, machines, setScoreHistory }) {
             </div>
           </div>
 
-          <input className='add-submit' type='submit' value='Add' />
+          <input
+            className='add-submit'
+            type='submit'
+            value='Add'
+            disabled={isLoading}
+          />
         </form>
       </div>
     </div>
