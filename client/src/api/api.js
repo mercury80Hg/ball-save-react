@@ -12,6 +12,7 @@ export async function fetchMachines() {
 }
 export const apiURL = 'https://ball-save-server.onrender.com';
 // export const apiURL = 'http://localhost:3001' // for local development
+
 export async function fetchScores(email) {
   try {
     const scores = await fetch(`${apiURL}/scores/${email}`);
