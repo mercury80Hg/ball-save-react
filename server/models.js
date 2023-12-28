@@ -13,7 +13,10 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log('SUCCESSFULLY CONNECTED TO MONGODB!');
+    console.log(
+      'SUCCESSFULLY CONNECTED TO MONGODB!',
+      `environment: ${process.env.PRODUCTION ? 'deployed' : 'local'}`
+    );
   })
   .catch((err) => {
     console.error('Error connecting to MongoDB: ', err);
