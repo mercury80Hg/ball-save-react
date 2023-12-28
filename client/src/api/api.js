@@ -10,8 +10,11 @@ export async function fetchMachines() {
   }
   return { machines: [] };
 }
-export const apiURL = 'https://ball-save-server.onrender.com';
-// export const apiURL = 'http://localhost:3001' // for local development
+
+const deployedServer = 'https://ball-save-server.onrender.com';
+const localServer = 'http://localhost:3001';
+export const apiURL =
+  process.env.NODE_ENV === 'development' ? localServer : deployedServer;
 
 export async function fetchScores(email) {
   try {
