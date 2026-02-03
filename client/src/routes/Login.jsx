@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pinballImage from '../images/black-pinball-trans.png';
 import { addUser } from '../api/api';
@@ -7,6 +7,7 @@ function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
   const [initialInput, setInitialInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const navigate = useNavigate();
 
   function handleEmailInput(event) {
@@ -14,7 +15,8 @@ function Login({ setCurrentUser }) {
   }
 
   function handleInitialsInput(event) {
-    setInitialInput(event.target.value);
+    const upperValue = event.target.value.toUpperCase();
+    setInitialInput(upperValue);
   }
 
   async function handleSubmit(event) {
@@ -26,18 +28,38 @@ function Login({ setCurrentUser }) {
       setInitialInput('');
     }
 
-    const newUser = await addUser({
-      initials: initialInput,
-      email: emailInput,
-    });
+    try {
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout')), 30000);
+      });
 
-    if (newUser) {
-      setCurrentUser(newUser);
-      resetInputs();
+      const newUser = await Promise.race([
+        addUser({
+          initials: initialInput,
+          email: emailInput,
+        }),
+        timeoutPromise,
+      ]);
+
+      if (newUser) {
+        setCurrentUser(newUser);
+        resetInputs();
+        setIsLoading(false);
+        navigate('/history');
+      } else {
+        setIsLoading(false);
+        alert('Login failed. Please try again.');
+      }
+    } catch (error) {
       setIsLoading(false);
-      navigate('/history');
-    } else {
-      setIsLoading(false);
+      console.error('Login error:', error);
+      if (error.message === 'Request timeout') {
+        alert(
+          'Login is taking too long. The server may be starting up. Please try again in a moment.',
+        );
+      } else {
+        alert('Login failed. Please check your connection and try again.');
+      }
     }
   }
 
@@ -67,14 +89,17 @@ function Login({ setCurrentUser }) {
           </label>
 
           <input
-            style={{ width: '15vw' }} // classname vs inline style
+            style={{
+              width: '15vw',
+              textTransform: 'uppercase',
+            }} // classname vs inline style
             name='initials'
             id='initials-input'
             type='text'
             value={initialInput}
             onChange={handleInitialsInput}
             placeholder='BBC'
-            pattern='\w{3}'
+            pattern='[A-Z]{3}'
             maxLength={3}
             required
           />
@@ -91,6 +116,85 @@ function Login({ setCurrentUser }) {
       <div style={{ padding: '20px' }} className={isLoading ? 'loading' : ''}>
         {isLoading ? 'Loading' : 'Go Ahead, Login!'}
       </div>
+
+      {showModal && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: 'rgb(31, 28, 28)',
+              padding: '4vh',
+              borderRadius: '25px',
+              maxWidth: '80vw',
+              width: '60vh',
+              textAlign: 'center',
+              borderStyle: 'outset',
+              borderTop: 'solid 2px rgb(33, 33, 33)',
+              borderLeft: 'solid 2px rgb(33, 33, 33)',
+              borderBottom: 'solid 2px rgb(118, 118, 118)',
+              borderRight: 'solid 2px rgb(118, 118, 118)',
+              boxShadow: '0px 20px 40px 0px black',
+            }}
+          >
+            <h2
+              style={{
+                marginBottom: '3vh',
+                color: 'orange',
+                fontFamily: 'dotrice',
+                fontSize: '3.5vh',
+                fontWeight: 'normal',
+              }}
+            >
+              ⏳ Server Notice
+            </h2>
+            <p
+              style={{
+                marginBottom: '3vh',
+                lineHeight: '1.5',
+                color: 'orange',
+                fontFamily: 'dotrice',
+                fontSize: '2.5vh',
+              }}
+            >
+              This app uses a free server and cold starts can take a couple
+              minutes. Your patience is appreciated.
+            </p>
+            <button
+              onClick={() => setShowModal(false)}
+              style={{
+                backgroundColor: 'black',
+                color: 'orange',
+                border: 'none',
+                padding: '1.5vh 3vh',
+                borderRadius: '50px',
+                cursor: 'pointer',
+                fontSize: '3vh',
+                fontFamily: 'dotrice',
+                borderStyle: 'outset',
+                borderTop: 'solid 2px rgb(33, 33, 33)',
+                borderLeft: 'solid 2px rgb(33, 33, 33)',
+                borderBottom: 'solid 2px rgb(118, 118, 118)',
+                borderRight: 'solid 2px rgb(118, 118, 118)',
+                boxShadow: '0px 10px 20px 0px rgb(48, 48, 48)',
+              }}
+            >
+              Got it!
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

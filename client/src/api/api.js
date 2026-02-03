@@ -1,7 +1,7 @@
 export async function fetchMachines() {
   try {
     const pinMachines = await fetch(
-      'https://pinballmap.com/api/v1/machines.json'
+      'https://pinballmap.com/api/v1/machines.json',
     );
     const result = await pinMachines.json();
     return result;
@@ -29,15 +29,30 @@ export async function fetchScores(email) {
 
 export async function addUser(event) {
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 25000);
+
     const user = await fetch(apiURL + '/user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(event),
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
+
+    if (!user.ok) {
+      throw new Error(`HTTP error! status: ${user.status}`);
+    }
+
     const result = await user.json();
     return result;
   } catch (error) {
-    console.error(error);
+    console.error('API Error:', error);
+    if (error.name === 'AbortError') {
+      throw new Error('Request timeout');
+    }
+    throw error;
   }
 }
 

@@ -13,10 +13,8 @@
 }
 
 body {
-  
   background-color: rgb(48, 48, 48);
   background: linear-gradient(black, rgb(48, 48, 48));
-
 }
 
 .App {
@@ -31,8 +29,8 @@ body {
   font-family: dotrice;
   font-size: 2vh;
   color: orange;
-  padding: 5vh 0 ;
-  overscroll-behavior-y:none ;
+  padding: 5vh 0;
+  overscroll-behavior-y: none;
 }
 
 .container {
@@ -63,7 +61,6 @@ input {
 
 /* ///////// Title ///////// */
 
-
 .ball-save-title {
   display: flex;
   justify-content: center;
@@ -72,7 +69,7 @@ input {
   font-size: 4vh;
   font-weight: 800;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  letter-spacing: .4vh;
+  letter-spacing: 0.4vh;
   text-align: center;
   background-color: rgb(163, 29, 29);
   border-radius: 50px;
@@ -92,7 +89,7 @@ input {
   align-items: center;
   height: 5vh;
   width: 80vw;
-  background-color:  rgb(31, 28, 28);
+  background-color: rgb(31, 28, 28);
   color: orange;
   font-family: dotrice;
   font-size: 3vh;
@@ -135,7 +132,6 @@ input {
   padding: unset;
   border: unset;
   box-shadow: 0px 20px 40px 0px rgb(48, 48, 48);
-  
 }
 
 /* ///////// Profile ///////// */
@@ -145,7 +141,6 @@ input {
   flex-direction: column;
   color: white;
 }
-
 
 /* /////// ADD //////// */
 
@@ -163,7 +158,7 @@ input {
 .add-title {
   display: flex;
   font-size: 4.5vh;
-  width:60vw;
+  width: 60vw;
   justify-content: center;
   padding: 0 0 7vh 0;
 }
@@ -191,7 +186,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;  
+  text-align: center;
   color: orange;
 }
 .login-container {
@@ -204,8 +199,6 @@ input {
   color: white;
 }
 
-
-
 .input-titles {
   font-family: dotrice;
   color: orange;
@@ -215,38 +208,37 @@ input {
 /* ////////////// Loading /////////////// */
 
 .loading {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	/* font-size: 10vh; */
-	height: 10vh;
-	width: 30vh;
-	/* border: solid 1px #335; */
-	/* border-radius: 5px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 10vh; */
+  height: 10vh;
+  width: 30vh;
+  /* border: solid 1px #335; */
+  /* border-radius: 5px; */
 }
 
 .loading:after {
-	overflow: hidden;
-	display: inline-block;
-	vertical-align: bottom;
-	-webkit-animation: ellipsis steps(4, end) 900ms infinite;
-	animation: ellipsis steps(4, end) 900ms infinite;
-	content: "\2026"; /* ascii code for the ellipsis character */
-	width: 0px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+  animation: ellipsis steps(4, end) 900ms infinite;
+  content: '\2026'; /* ascii code for the ellipsis character */
+  width: 0px;
 }
 
-
 @keyframes ellipsis {
-	to {
-		width: 1.25em;
-	}
+  to {
+    width: 1.25em;
+  }
 }
 
 @-webkit-keyframes ellipsis {
-	to {
-		width: 1.25em;
-	}
+  to {
+    width: 1.25em;
+  }
 }
 
 /* ////////////// History ////////////// */
@@ -285,7 +277,6 @@ input {
 ul {
   padding-inline-start: unset;
   overflow: scroll;
-
 }
 
 .score-card-img {
@@ -296,50 +287,106 @@ ul {
   border-left: solid 2px rgb(33, 33, 33);
   border-bottom: solid 2px rgb(118, 118, 118);
   border-right: solid 2px rgb(118, 118, 118);
-  
 }
-
 
 /* /////////// Hamburger Menu ////////// */
 
 .hamburger-button {
-  color:orange;
+  color: orange;
   background-color: rgb(31, 28, 28);
-  border-style:none;
+  border-style: none;
   font-size: 3vh;
   text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  position: relative;
+  width: 40px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background-color: orange;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger-button.open .hamburger-line:nth-child(1) {
+  transform: translateY(13.5px) rotate(45deg);
+}
+
+.hamburger-button.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.hamburger-button.open .hamburger-line:nth-child(3) {
+  transform: translateY(-13.5px) rotate(-45deg);
 }
 
 .dropmenu {
   display: inline-block;
   position: relative;
-
-  
 }
+
 .dropmenu-content {
   display: none;
   position: absolute;
   width: 100%;
-  overflow: auto;
-  box-shadow: 0px 10px 10px 0px rgba(0,0,0,1);
-  
+  overflow: hidden;
+  box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 1);
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.3s ease;
+  transform: translateY(-10px);
 }
-.dropmenu:hover .dropmenu-content {
+
+.dropmenu-content.show {
   display: block;
+  max-height: 200px;
+  opacity: 1;
+  transform: translateY(0);
   width: 20vh;
-  
 }
+
 .dropmenu-content a {
   display: block;
   color: orange;
-  padding: 5px;
+  padding: 8px;
   text-decoration: none;
   background-color: rgb(31, 28, 28);
- 
+  transition: all 0.2s ease;
+  transform: translateX(-10px);
+  opacity: 0;
+  animation: slideIn 0.3s ease forwards;
 }
+
+.dropmenu-content.show a:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.dropmenu-content.show a:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
 .dropmenu-content a:hover {
   color: orangered;
-  
+  background-color: rgb(41, 38, 38);
+  transform: translateX(0);
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* /////////// Photo //////////// */
@@ -361,7 +408,6 @@ ul {
   border-right: solid 2px rgb(33, 33, 33);
   border-top: solid 2px rgb(118, 118, 118);
   border-left: solid 2px rgb(118, 118, 118);
-  
 }
 
 .score-input-imgButton {
@@ -378,7 +424,6 @@ ul {
   align-items: center;
   width: 100vw;
   height: 85vh;
-  
 }
 
 .add-photo-box {
@@ -386,12 +431,11 @@ ul {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
 
 .photo-capture {
   display: flex;
-  width:fit-content;
+  width: fit-content;
   width: 80vw;
   height: 55vh;
   border-radius: 25px;
@@ -399,7 +443,6 @@ ul {
   border-left: solid 2px rgb(33, 33, 33);
   border-bottom: solid 2px rgb(118, 118, 118);
   border-right: solid 2px rgb(118, 118, 118);
-  
 }
 
 #icon-button-file {
