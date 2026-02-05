@@ -1,6 +1,6 @@
 import NavDisplay from '../components/NavDisplay';
 
-function Photo({ imgSource, setImgSource, user }) {
+function Photo({ imgSource, setImgSource, user, onLogout }) {
   // render this on the same route as "add"
 
   function handleCapture(target) {
@@ -15,7 +15,7 @@ function Photo({ imgSource, setImgSource, user }) {
 
   return (
     <div className='photo-container'>
-      <NavDisplay user={user} />
+      <NavDisplay user={user} onLogout={onLogout} />
 
       <div className='add-photo-box'>
         {/* <label className='label' htmlFor='icon-button-file'>

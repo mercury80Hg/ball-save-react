@@ -1,16 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 /* Nav Bar and logged in user display.  'burger' is a placeholder
 for the dropdown which will contain the links currently just 
 sitting there*/
 
-function NavDisplay({ user }) {
+function NavDisplay({ user, onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    function handleEscapeKey(event) {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscapeKey);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [isOpen]);
 
   return (
     <div className='nav-box row'>
-      <div className='dropmenu'>
+      <div className='dropmenu' ref={dropdownRef}>
         <button
           className={`hamburger-button ${isOpen ? 'open' : ''}`}
           onClick={() => setIsOpen(!isOpen)}
@@ -27,6 +52,15 @@ function NavDisplay({ user }) {
           <Link to='/add' onClick={() => setIsOpen(false)}>
             add
           </Link>
+          <button
+            className='logout-button'
+            onClick={() => {
+              onLogout();
+              setIsOpen(false);
+            }}
+          >
+            logout
+          </button>
         </div>
       </div>
 

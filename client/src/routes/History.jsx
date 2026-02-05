@@ -2,12 +2,10 @@ import AddButton from '../components/AddButton';
 import NavDisplay from '../components/NavDisplay';
 import fallbackImage from '../images/pinball-game-arcade-console-design-illustration_222550-174.jpg.avif';
 
-
-function UserScoreHistory({ user, scoreHistory }) {
-
+function UserScoreHistory({ user, scoreHistory, onLogout }) {
   return (
     <div className='container'>
-      <NavDisplay user={user} />
+      <NavDisplay user={user} onLogout={onLogout} />
       <div className='history-container'>
         {scoreHistory.length
           ? scoreHistory.map((el, i) => (

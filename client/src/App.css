@@ -71,15 +71,52 @@ input {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   letter-spacing: 0.4vh;
   text-align: center;
-  background-color: rgb(163, 29, 29);
+  background: linear-gradient(
+    135deg,
+    rgb(163, 29, 29) 0%,
+    rgb(200, 50, 50) 50%,
+    rgb(163, 29, 29) 100%
+  );
   border-radius: 50px;
   border-style: outset;
   border-top: solid 3px rgb(33, 33, 33);
   border-left: solid 1.5px rgb(33, 33, 33);
   border-bottom: solid 2px rgb(118, 118, 118);
   border-right: solid 1.5px rgb(118, 118, 118);
-
   width: 80vw;
+  box-shadow:
+    0px 8px 16px 0px rgba(0, 0, 0, 0.8),
+    inset 0px 1px 0px 0px rgba(255, 255, 255, 0.2),
+    inset 0px -1px 0px 0px rgba(0, 0, 0, 0.3),
+    0px 0px 16px 1px rgba(255, 165, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.ball-save-title::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: metallicShine 12s ease-in-out infinite;
+}
+
+.ball-save-title:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0px 12px 24px 0px rgba(0, 0, 0, 0.9),
+    inset 0px 1px 0px 0px rgba(255, 255, 255, 0.3),
+    inset 0px -1px 0px 0px rgba(0, 0, 0, 0.4),
+    0px 0px 24px 2px rgba(255, 165, 0, 0.2);
 }
 
 /* ///////// Nav Box ///////// */
@@ -131,7 +168,17 @@ input {
   border-radius: 100px;
   padding: unset;
   border: unset;
-  box-shadow: 0px 20px 40px 0px rgb(48, 48, 48);
+  box-shadow:
+    0px 20px 40px 0px rgb(48, 48, 48),
+    0px 0px 20px 2px rgba(255, 165, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.pinBall:hover {
+  box-shadow:
+    0px 20px 40px 0px rgb(48, 48, 48),
+    0px 0px 30px 4px rgba(255, 165, 0, 0.3);
+  transform: scale(1.05);
 }
 
 /* ///////// Profile ///////// */
@@ -188,6 +235,16 @@ input {
   align-items: center;
   text-align: center;
   color: orange;
+  text-shadow:
+    0px 0px 8px rgba(255, 165, 0, 0.6),
+    0px 0px 16px rgba(255, 165, 0, 0.4),
+    0px 0px 24px rgba(255, 165, 0, 0.2),
+    2px 2px 4px rgba(0, 0, 0, 0.8);
+  font-weight: 900;
+  letter-spacing: 0.6vh;
+  position: relative;
+  z-index: 1;
+  animation: titlePulse 12s ease-in-out infinite alternate;
 }
 .login-container {
   display: flex;
@@ -298,37 +355,58 @@ ul {
   font-size: 3vh;
   text-align: center;
   cursor: pointer;
-  padding: 10px;
+  padding: 12px;
   border-radius: 5px;
   position: relative;
-  width: 40px;
-  height: 30px;
+  width: 50px;
+  height: 40px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  transition: all 0.3s ease;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hamburger-line {
-  width: 100%;
-  height: 3px;
+  width: 30px;
+  height: 4px;
   background-color: orange;
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hamburger-line:nth-child(1) {
+  top: 8px;
+}
+
+.hamburger-line:nth-child(2) {
+  top: 18px;
+}
+
+.hamburger-line:nth-child(3) {
+  top: 28px;
 }
 
 .hamburger-button.open .hamburger-line:nth-child(1) {
-  transform: translateY(13.5px) rotate(45deg);
+  top: 18px;
+  transform: translateX(-50%) rotate(45deg);
+  width: 35px;
 }
 
 .hamburger-button.open .hamburger-line:nth-child(2) {
   opacity: 0;
-  transform: translateX(-10px);
+  transform: translateX(-50%) scale(0);
 }
 
 .hamburger-button.open .hamburger-line:nth-child(3) {
-  transform: translateY(-13.5px) rotate(-45deg);
+  top: 18px;
+  transform: translateX(-50%) rotate(-45deg);
+  width: 35px;
 }
 
 .dropmenu {
@@ -341,11 +419,13 @@ ul {
   position: absolute;
   width: 100%;
   overflow: hidden;
-  box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 20px 2px rgba(255, 165, 0, 0.2);
   max-height: 0;
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateY(-10px);
+  border: 1px solid rgba(255, 165, 0, 0.2);
+  background: linear-gradient(135deg, rgb(31, 28, 28) 0%, rgb(41, 38, 38) 100%);
 }
 
 .dropmenu-content.show {
@@ -354,18 +434,24 @@ ul {
   opacity: 1;
   transform: translateY(0);
   width: 20vh;
+  animation: glitch 0.3s ease-in-out;
 }
 
 .dropmenu-content a {
   display: block;
   color: orange;
-  padding: 8px;
+  padding: 10px;
   text-decoration: none;
-  background-color: rgb(31, 28, 28);
+  background-color: transparent;
   transition: all 0.2s ease;
   transform: translateX(-10px);
   opacity: 0;
-  animation: slideIn 0.3s ease forwards;
+  animation: slideIn 0.4s ease forwards;
+  font-family: dotrice;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255, 165, 0, 0.1);
+  position: relative;
 }
 
 .dropmenu-content.show a:nth-child(1) {
@@ -376,16 +462,176 @@ ul {
   animation-delay: 0.2s;
 }
 
-.dropmenu-content a:hover {
-  color: orangered;
-  background-color: rgb(41, 38, 38);
+.logout-button {
+  display: block;
+  color: orange;
+  padding: 10px;
+  text-decoration: none;
+  background-color: transparent;
+  transition: all 0.2s ease;
+  transform: translateX(-10px);
+  opacity: 0;
+  animation: slideIn 0.4s ease forwards;
+  font-family: dotrice;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255, 165, 0, 0.1);
+  position: relative;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: inherit;
+}
+
+.dropmenu-content.show .logout-button {
+  animation-delay: 0.3s;
+}
+
+.dropmenu-content a:hover,
+.dropmenu-content .logout-button:hover {
+  color: #fff;
+  background-color: rgba(255, 165, 0, 0.1);
   transform: translateX(0);
+  text-shadow: 0 0 10px rgba(255, 165, 0, 0.6);
+  animation: flicker 3s ease-in-out infinite;
 }
 
 @keyframes slideIn {
   to {
     transform: translateX(0);
     opacity: 1;
+  }
+}
+
+@keyframes glitch {
+  0% {
+    transform: translateY(-10px) scaleX(1);
+    filter: hue-rotate(0deg);
+  }
+  20% {
+    transform: translateY(2px) scaleX(1.02);
+    filter: hue-rotate(90deg);
+  }
+  40% {
+    transform: translateY(-2px) scaleX(0.98);
+    filter: hue-rotate(180deg);
+  }
+  60% {
+    transform: translateY(1px) scaleX(1.01);
+    filter: hue-rotate(270deg);
+  }
+  80% {
+    transform: translateY(-1px) scaleX(0.99);
+    filter: hue-rotate(360deg);
+  }
+  100% {
+    transform: translateY(0) scaleX(1);
+    filter: hue-rotate(0deg);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  8%,
+  100% {
+    opacity: 1;
+  }
+  2%,
+  3%,
+  5%,
+  6%,
+  7% {
+    opacity: 0.4;
+  }
+  4% {
+    opacity: 0.8;
+  }
+  25%,
+  100% {
+    opacity: 1;
+  }
+  27%,
+  28%,
+  30%,
+  32%,
+  33%,
+  35% {
+    opacity: 0.3;
+  }
+  29%,
+  31%,
+  34% {
+    opacity: 0.7;
+  }
+  50%,
+  100% {
+    opacity: 1;
+  }
+  52%,
+  53%,
+  54% {
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    opacity: 1;
+  }
+  72%,
+  73%,
+  74%,
+  75%,
+  76%,
+  77%,
+  78%,
+  79%,
+  80%,
+  81%,
+  82%,
+  83% {
+    opacity: 0.6;
+  }
+  71%,
+  84% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes metallicShine {
+  0%,
+  70% {
+    left: -100%;
+  }
+  80% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes titlePulse {
+  0%,
+  60% {
+    text-shadow:
+      0px 0px 8px rgba(255, 165, 0, 0.6),
+      0px 0px 16px rgba(255, 165, 0, 0.4),
+      0px 0px 24px rgba(255, 165, 0, 0.2),
+      2px 2px 4px rgba(0, 0, 0, 0.8);
+  }
+  80% {
+    text-shadow:
+      0px 0px 12px rgba(255, 165, 0, 0.8),
+      0px 0px 24px rgba(255, 165, 0, 0.5),
+      0px 0px 36px rgba(255, 165, 0, 0.3),
+      2px 2px 4px rgba(0, 0, 0, 0.8);
+  }
+  100% {
+    text-shadow:
+      0px 0px 8px rgba(255, 165, 0, 0.6),
+      0px 0px 16px rgba(255, 165, 0, 0.4),
+      0px 0px 24px rgba(255, 165, 0, 0.2),
+      2px 2px 4px rgba(0, 0, 0, 0.8);
   }
 }
 

@@ -110,7 +110,7 @@ function App() {
 
   return (
     <div className='App'>
-      <Title currentUser={currentUser} onLogout={handleLogout} />
+      <Title currentUser={currentUser} />
       <Routes>
         <Route
           path='/'
@@ -132,6 +132,7 @@ function App() {
                   setScoreHistory={setScoreHistory}
                   imgSource={imgSource}
                   setImgSource={setImgSource}
+                  onLogout={handleLogout}
                 />
               }
             />
@@ -141,6 +142,7 @@ function App() {
                 <UserScoreHistory
                   user={currentUser}
                   scoreHistory={scoreHistory}
+                  onLogout={handleLogout}
                 />
               }
             />
@@ -151,6 +153,7 @@ function App() {
                   user={currentUser}
                   imgSource={imgSource}
                   setImgSource={setImgSource}
+                  onLogout={handleLogout}
                 />
               }
             />

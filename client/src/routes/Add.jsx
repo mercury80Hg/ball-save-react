@@ -4,7 +4,15 @@ import NavDisplay from '../components/NavDisplay';
 import cameraImage from '../images/camera-retro.svg';
 import { addScore } from '../api/api';
 
-function Add({ user, machines, setScoreHistory }) {
+function Add({
+  user,
+  machines,
+  setScoreHistory,
+  scoreHistory,
+  imgSource,
+  setImgSource,
+  onLogout,
+}) {
   const [machineInput, setMachineInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
   const [scoreInput, setScoreInput] = useState('');
@@ -40,14 +48,14 @@ function Add({ user, machines, setScoreHistory }) {
         setScoreHistory((prevHistory) => {
           const existingMachine = prevHistory.find(
             (history) =>
-              history.externalMachineId === newScore.machine.externalMachineId
+              history.externalMachineId === newScore.machine.externalMachineId,
           );
 
           if (existingMachine) {
             return prevHistory.map((history) =>
               history.externalMachineId === newScore.machine.externalMachineId
                 ? { ...history, scores: [...history.scores, newScore.value] }
-                : history
+                : history,
             );
           }
           return [
@@ -62,7 +70,7 @@ function Add({ user, machines, setScoreHistory }) {
         });
         resetInputs();
         setIsLoading(false);
-         navigate('/history');
+        navigate('/history');
       } else {
         setIsLoading(false);
       }
@@ -83,7 +91,7 @@ function Add({ user, machines, setScoreHistory }) {
 
   return (
     <div className='container'>
-      <NavDisplay user={user} />
+      <NavDisplay user={user} onLogout={onLogout} />
       <div className='add-machine-container'>
         <div className='add-title'>Add-a-Score</div>
         <form onSubmit={handleSubmit}>
