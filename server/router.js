@@ -3,6 +3,7 @@ const router = new Router();
 
 const controller = require('./controller');
 
+router.get('/health', controller.healthCheck);
 router.get('/users', controller.getUsers);
 router.get('/scores/:email', controller.getScoresByEmail);
 

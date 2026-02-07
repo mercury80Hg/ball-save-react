@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const DB_NAME = 'userList';
 const LOCAL_DB = `mongodb://127.0.0.1:27017/${DB_NAME}`;
 const HOSTED_DB = `mongodb+srv://${encodeURIComponent(
-  process.env.username
+  process.env.username,
 )}:${encodeURIComponent(
-  process.env.password
+  process.env.password,
 )}@albotcluster0.fluv2fx.mongodb.net/?retryWrites=true&w=majority`;
 
 mongoose
@@ -15,7 +15,7 @@ mongoose
   .then(() => {
     console.log(
       'SUCCESSFULLY CONNECTED TO MONGODB!',
-      `environment: ${process.env.PRODUCTION ? 'deployed' : 'local'}`
+      `environment: ${process.env.PRODUCTION ? 'deployed' : 'local'}`,
     );
   })
   .catch((err) => {

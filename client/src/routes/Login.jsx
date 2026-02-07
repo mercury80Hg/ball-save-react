@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pinballImage from '../images/black-pinball-trans.png';
 import { addUser } from '../api/api';
+import PinballPopup from '../components/PinballPopup';
 
 function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
   const [initialInput, setInitialInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [showPinball, setShowPinball] = useState(false);
+  const [miniGameHighScore, setMiniGameHighScore] = useState(0);
   const navigate = useNavigate();
 
   function handleEmailInput(event) {
@@ -19,9 +22,22 @@ function Login({ setCurrentUser }) {
     setInitialInput(upperValue);
   }
 
+  function handleMiniGameHighScore(highScore) {
+    setMiniGameHighScore(highScore);
+  }
+
+  function handlePinballOpen() {
+    setShowPinball(true);
+  }
+
+  function handlePinballClose() {
+    setShowPinball(false);
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
+    setShowModal(true); // Show modal with pinball option after login attempt
 
     function resetInputs() {
       setEmailInput('');
@@ -37,6 +53,7 @@ function Login({ setCurrentUser }) {
         addUser({
           initials: initialInput,
           email: emailInput,
+          miniGameHighScore: miniGameHighScore,
         }),
         timeoutPromise,
       ]);
@@ -45,6 +62,7 @@ function Login({ setCurrentUser }) {
         setCurrentUser(newUser);
         resetInputs();
         setIsLoading(false);
+        setShowModal(false); // Close modal when server is ready
         navigate('/history');
       } else {
         setIsLoading(false);
@@ -171,30 +189,68 @@ function Login({ setCurrentUser }) {
               This app uses a free server and cold starts can take a couple
               minutes. Your patience is appreciated.
             </p>
-            <button
-              onClick={() => setShowModal(false)}
+
+            <div
               style={{
-                backgroundColor: 'black',
-                color: 'orange',
-                border: 'none',
-                padding: '1.5vh 3vh',
-                borderRadius: '50px',
-                cursor: 'pointer',
-                fontSize: '3vh',
-                fontFamily: 'dotrice',
-                borderStyle: 'outset',
-                borderTop: 'solid 2px rgb(33, 33, 33)',
-                borderLeft: 'solid 2px rgb(33, 33, 33)',
-                borderBottom: 'solid 2px rgb(118, 118, 118)',
-                borderRight: 'solid 2px rgb(118, 118, 118)',
-                boxShadow: '0px 10px 20px 0px rgb(48, 48, 48)',
+                display: 'flex',
+                gap: '15px',
+                justifyContent: 'center',
+                marginBottom: '2vh',
               }}
             >
-              Got it!
-            </button>
+              <button
+                onClick={handlePinballOpen}
+                style={{
+                  backgroundColor: 'rgb(163, 29, 29)',
+                  color: 'orange',
+                  border: 'none',
+                  padding: '1.5vh 3vh',
+                  borderRadius: '50px',
+                  cursor: 'pointer',
+                  fontSize: '3vh',
+                  fontFamily: 'dotrice',
+                  borderStyle: 'outset',
+                  borderTop: 'solid 2px rgb(33, 33, 33)',
+                  borderLeft: 'solid 2px rgb(33, 33, 33)',
+                  borderBottom: 'solid 2px rgb(118, 118, 118)',
+                  borderRight: 'solid 2px rgb(118, 118, 118)',
+                  boxShadow: '0px 10px 20px 0px rgb(48, 48, 48)',
+                }}
+              >
+                🎮 Play Pinball
+              </button>
+
+              <button
+                onClick={() => setShowModal(false)}
+                style={{
+                  backgroundColor: 'black',
+                  color: 'orange',
+                  border: 'none',
+                  padding: '1.5vh 3vh',
+                  borderRadius: '50px',
+                  cursor: 'pointer',
+                  fontSize: '3vh',
+                  fontFamily: 'dotrice',
+                  borderStyle: 'outset',
+                  borderTop: 'solid 2px rgb(33, 33, 33)',
+                  borderLeft: 'solid 2px rgb(33, 33, 33)',
+                  borderBottom: 'solid 2px rgb(118, 118, 118)',
+                  borderRight: 'solid 2px rgb(118, 118, 118)',
+                  boxShadow: '0px 10px 20px 0px rgb(48, 48, 48)',
+                }}
+              >
+                Skip
+              </button>
+            </div>
           </div>
         </div>
       )}
+
+      <PinballPopup
+        isOpen={showPinball}
+        onClose={handlePinballClose}
+        onHighScoreUpdate={handleMiniGameHighScore}
+      />
     </div>
   );
 }
