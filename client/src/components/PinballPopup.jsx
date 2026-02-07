@@ -16,25 +16,29 @@ function PinballPopup({ isOpen, onClose, onHighScoreUpdate }) {
     if (isOpen && !gameStarted) {
       // Load the pinball game script when popup opens
       const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js';
+      script.src =
+        'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js';
       script.async = true;
       document.head.appendChild(script);
 
       script.onload = () => {
         const decompScript = document.createElement('script');
-        decompScript.src = 'https://cdn.rawgit.com/schteppe/poly-decomp.js/1ef946f1/build/decomp.min.js';
+        decompScript.src =
+          'https://cdn.rawgit.com/schteppe/poly-decomp.js/1ef946f1/build/decomp.min.js';
         decompScript.async = true;
         document.head.appendChild(decompScript);
 
         decompScript.onload = () => {
           const matterScript = document.createElement('script');
-          matterScript.src = 'https://cdn.rawgit.com/liabru/matter-js/0895d81f/build/matter.min.js';
+          matterScript.src =
+            'https://cdn.rawgit.com/liabru/matter-js/0895d81f/build/matter.min.js';
           matterScript.async = true;
           document.head.appendChild(matterScript);
 
           matterScript.onload = () => {
             const attractorsScript = document.createElement('script');
-            attractorsScript.src = 'https://cdn.rawgit.com/liabru/matter-attractors/c470ed42/build/matter-attractors.min.js';
+            attractorsScript.src =
+              'https://cdn.rawgit.com/liabru/matter-attractors/c470ed42/build/matter-attractors.min.js';
             attractorsScript.async = true;
             document.head.appendChild(attractorsScript);
 
@@ -70,8 +74,8 @@ function PinballPopup({ isOpen, onClose, onHighScoreUpdate }) {
                   const MAX_VELOCITY = 50;
 
                   // score elements
-                  let $currentScore = \$('.current-score span');
-                  let $highScore = \$('.high-score span');
+                  let $currentScore = window.$('.current-score span');
+                  let $highScore = window.$('.high-score span');
 
                   // shared variables
                   let currentScore, highScore;
@@ -101,7 +105,7 @@ function PinballPopup({ isOpen, onClose, onHighScoreUpdate }) {
 
                     // render (shared)
                     render = Matter.Render.create({
-                      element: \$('.container')[0],
+                      element: window.$('.container')[0],
                       engine: engine,
                       options: {
                         width: world.bounds.max.x,
@@ -334,14 +338,14 @@ function PinballPopup({ isOpen, onClose, onHighScoreUpdate }) {
                     }));
 
                     // keyboard paddle events
-                    \$('body').on('keydown', function(e) {
+                    window.$('body').on('keydown', function(e) {
                       if (e.which === 37) { // left arrow key
                         isLeftPaddleUp = true;
                       } else if (e.which === 39) { // right arrow key
                         isRightPaddleUp = true;
                       }
                     });
-                    \$('body').on('keyup', function(e) {
+                    window.$('body').on('keyup', function(e) {
                       if (e.which === 37) { // left arrow key
                         isLeftPaddleUp = false;
                       } else if (e.which === 39) { // right arrow key
@@ -350,14 +354,14 @@ function PinballPopup({ isOpen, onClose, onHighScoreUpdate }) {
                     });
 
                     // click/tap paddle events
-                    \$('.left-trigger')
+                    window.$('.left-trigger')
                       .on('mousedown touchstart', function(e) {
                         isLeftPaddleUp = true;
                       })
                       .on('mouseup touchend', function(e) {
                         isLeftPaddleUp = false;
                       });
-                    \$('.right-trigger')
+                    window.$('.right-trigger')
                     .on('mousedown touchstart', function(e) {
                         isRightPaddleUp = true;
                       })
@@ -534,30 +538,37 @@ function PinballPopup({ isOpen, onClose, onHighScoreUpdate }) {
   if (!isOpen) return null;
 
   return (
-    <div className="pinball-popup-overlay">
-      <div className="pinball-popup" ref={popupRef}>
-        <div className="pinball-popup-header">
+    <div className='pinball-popup-overlay'>
+      <div className='pinball-popup' ref={popupRef}>
+        <div className='pinball-popup-header'>
           <h3>🎮 Pinball Game</h3>
-          <p>Play while the server warms up! Your high score will be saved to your profile.</p>
-          <button className="pinball-popup-close" onClick={onClose}>
+          <p>
+            Play while the server warms up! Your high score will be saved to
+            your profile.
+          </p>
+          <button className='pinball-popup-close' onClick={onClose}>
             ✕
           </button>
         </div>
-        
-        <div className="pinball-game-container">
-          <div className="container">
-            <div className="score current-score">
-              score<br/><span></span>
+
+        <div className='pinball-game-container'>
+          <div className='container'>
+            <div className='score current-score'>
+              score
+              <br />
+              <span></span>
             </div>
-            <div className="score high-score">
-              high score<br/><span>{highScore}</span>
+            <div className='score high-score'>
+              high score
+              <br />
+              <span>{highScore}</span>
             </div>
-            <button className="trigger left-trigger">tap!</button>
-            <button className="trigger right-trigger">tap!</button>
+            <button className='trigger left-trigger'>tap!</button>
+            <button className='trigger right-trigger'>tap!</button>
           </div>
         </div>
-        
-        <div className="pinball-popup-footer">
+
+        <div className='pinball-popup-footer'>
           <p>Use ← → arrow keys or tap buttons to control flippers</p>
         </div>
       </div>
