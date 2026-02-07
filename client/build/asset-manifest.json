@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ball-save-react/static/css/main.d4b561fd.css",
-    "main.js": "/ball-save-react/static/js/main.30a54a44.js",
+    "main.js": "/ball-save-react/static/js/main.fca6e570.js",
     "static/media/black-pinball-trans.png": "/ball-save-react/static/media/black-pinball-trans.5d8bdece045ed7320c52.png",
     "static/media/dotrice.bold-expanded.otf": "/ball-save-react/static/media/dotrice.bold-expanded.6de0cb6a137f7c5df52c.otf",
     "static/media/pinball-game-arcade-console-design-illustration_222550-174.jpg.avif": "/ball-save-react/static/media/pinball-game-arcade-console-design-illustration_222550-174.jpg.4255838c299a5df62571.avif",
@@ -9,10 +9,10 @@
     "static/media/camera-retro.svg": "/ball-save-react/static/media/camera-retro.869256703efc933dae7d78a51997db60.svg",
     "index.html": "/ball-save-react/index.html",
     "main.d4b561fd.css.map": "/ball-save-react/static/css/main.d4b561fd.css.map",
-    "main.30a54a44.js.map": "/ball-save-react/static/js/main.30a54a44.js.map"
+    "main.fca6e570.js.map": "/ball-save-react/static/js/main.fca6e570.js.map"
   },
   "entrypoints": [
     "static/css/main.d4b561fd.css",
-    "static/js/main.30a54a44.js"
+    "static/js/main.fca6e570.js"
   ]
 }
