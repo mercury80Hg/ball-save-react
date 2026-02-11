@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pinballImage from '../images/black-pinball-trans.png';
 import { addUser } from '../api/api';
+import PinballGame from '../components/PinballGame';
 
 function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
@@ -9,6 +10,8 @@ function Login({ setCurrentUser }) {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [serverStatus, setServerStatus] = useState('warming'); // 'warming' or 'ready'
+  const [pinballHighScore, setPinballHighScore] = useState(0);
   const navigate = useNavigate();
 
   // Navigate to app after successful login when modal is manually closed
@@ -17,6 +20,10 @@ function Login({ setCurrentUser }) {
       navigate('/history');
     }
   }, [loginSuccess, showModal, navigate]);
+
+  const handlePinballHighScore = (score) => {
+    setPinballHighScore(score);
+  };
 
   function handleEmailInput(event) {
     setEmailInput(event.target.value);
@@ -47,6 +54,7 @@ function Login({ setCurrentUser }) {
         addUser({
           initials: initialInput,
           email: emailInput,
+          miniGameHighScore: pinballHighScore, // Include pinball high score
         }),
         timeoutPromise,
       ]);
@@ -57,6 +65,7 @@ function Login({ setCurrentUser }) {
         resetInputs();
         setIsLoading(false);
         setLoginSuccess(true); // Mark login as successful
+        setServerStatus('ready'); // Server is now ready
         // Keep modal open - user must close it manually
       } else {
         setIsLoading(false);
@@ -169,7 +178,9 @@ function Login({ setCurrentUser }) {
                 fontWeight: 'normal',
               }}
             >
-              ⏳ Server Notice
+              {serverStatus === 'warming'
+                ? '⏳ Server Warming Up'
+                : '✅ Server Ready'}
             </h2>
             <p
               style={{
@@ -180,9 +191,25 @@ function Login({ setCurrentUser }) {
                 fontSize: '2.5vh',
               }}
             >
-              This app uses a free server and cold starts can take a couple
-              minutes. Your patience is appreciated.
+              {serverStatus === 'warming'
+                ? 'Server is starting up. Play pinball while you wait!'
+                : 'Server is ready! You can continue playing or close to proceed to the app.'}
             </p>
+
+            <div
+              style={{
+                height: '400px',
+                marginBottom: '3vh',
+                borderRadius: '10px',
+                overflow: 'hidden',
+              }}
+            >
+              <PinballGame
+                onHighScoreUpdate={handlePinballHighScore}
+                onServerReady={() => setServerStatus('ready')}
+              />
+            </div>
+
             <button
               onClick={() => {
                 console.log('Close button clicked, hiding modal');
