@@ -7,8 +7,16 @@ function Login({ setCurrentUser }) {
   const [emailInput, setEmailInput] = useState('');
   const [initialInput, setInitialInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const navigate = useNavigate();
+
+  // Navigate to app after successful login when modal is manually closed
+  useEffect(() => {
+    if (loginSuccess && !showModal) {
+      navigate('/history');
+    }
+  }, [loginSuccess, showModal, navigate]);
 
   function handleEmailInput(event) {
     setEmailInput(event.target.value);
@@ -21,7 +29,9 @@ function Login({ setCurrentUser }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    console.log('Login button clicked, showing modal');
     setIsLoading(true);
+    setShowModal(true); // Show modal after login button is pressed
 
     function resetInputs() {
       setEmailInput('');
@@ -42,10 +52,12 @@ function Login({ setCurrentUser }) {
       ]);
 
       if (newUser) {
+        console.log('Login successful, keeping modal open');
         setCurrentUser(newUser);
         resetInputs();
         setIsLoading(false);
-        navigate('/history');
+        setLoginSuccess(true); // Mark login as successful
+        // Keep modal open - user must close it manually
       } else {
         setIsLoading(false);
         alert('Login failed. Please try again.');
@@ -172,7 +184,10 @@ function Login({ setCurrentUser }) {
               minutes. Your patience is appreciated.
             </p>
             <button
-              onClick={() => setShowModal(false)}
+              onClick={() => {
+                console.log('Close button clicked, hiding modal');
+                setShowModal(false);
+              }}
               style={{
                 backgroundColor: 'black',
                 color: 'orange',
