@@ -139,71 +139,20 @@ function Login({ setCurrentUser }) {
       </div>
 
       {showModal && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: 'rgb(31, 28, 28)',
-              padding: '4vh',
-              borderRadius: '25px',
-              maxWidth: '80vw',
-              width: '60vh',
-              textAlign: 'center',
-              borderStyle: 'outset',
-              borderTop: 'solid 2px rgb(33, 33, 33)',
-              borderLeft: 'solid 2px rgb(33, 33, 33)',
-              borderBottom: 'solid 2px rgb(118, 118, 118)',
-              borderRight: 'solid 2px rgb(118, 118, 118)',
-              boxShadow: '0px 20px 40px 0px black',
-            }}
-          >
-            <h2
-              style={{
-                marginBottom: '3vh',
-                color: 'orange',
-                fontFamily: 'dotrice',
-                fontSize: '3.5vh',
-                fontWeight: 'normal',
-              }}
-            >
+        <div className='modal-overlay'>
+          <div className='modal-container'>
+            <h2 className='server-modal-title'>
               {serverStatus === 'warming'
                 ? '⏳ Server Warming Up'
                 : '✅ Server Ready'}
             </h2>
-            <p
-              style={{
-                marginBottom: '3vh',
-                lineHeight: '1.5',
-                color: 'orange',
-                fontFamily: 'dotrice',
-                fontSize: '2.5vh',
-              }}
-            >
+            <p className='server-modal-message'>
               {serverStatus === 'warming'
                 ? 'Server is starting up. Play pinball while you wait!'
                 : 'Server is ready! You can continue playing or close to proceed to the app.'}
             </p>
 
-            <div
-              style={{
-                height: '400px',
-                marginBottom: '3vh',
-                borderRadius: '10px',
-                overflow: 'hidden',
-              }}
-            >
+            <div className='pinball-game-container'>
               <PinballGame
                 onHighScoreUpdate={handlePinballHighScore}
                 onServerReady={() => setServerStatus('ready')}
@@ -211,25 +160,10 @@ function Login({ setCurrentUser }) {
             </div>
 
             <button
+              className='server-modal-close-button'
               onClick={() => {
                 console.log('Close button clicked, hiding modal');
                 setShowModal(false);
-              }}
-              style={{
-                backgroundColor: 'black',
-                color: 'orange',
-                border: 'none',
-                padding: '1.5vh 3vh',
-                borderRadius: '50px',
-                cursor: 'pointer',
-                fontSize: '3vh',
-                fontFamily: 'dotrice',
-                borderStyle: 'outset',
-                borderTop: 'solid 2px rgb(33, 33, 33)',
-                borderLeft: 'solid 2px rgb(33, 33, 33)',
-                borderBottom: 'solid 2px rgb(118, 118, 118)',
-                borderRight: 'solid 2px rgb(118, 118, 118)',
-                boxShadow: '0px 10px 20px 0px rgb(48, 48, 48)',
               }}
             >
               Got it!

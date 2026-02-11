@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css?family=Hind');
+
+/* Pinball Game Container */
+.pinball-game-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.pinball-container {
+  position: relative;
+  line-height: 0;
+  background: #212529;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Start Screen */
+.pinball-start-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  background: #212529;
+  border-radius: 10px;
+  color: orange;
+  font-family: 'Hind', sans-serif;
+}
+
+.pinball-start-screen h3 {
+  margin-bottom: 20px;
+}
+
+.pinball-start-screen p {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.pinball-start-button {
+  background-color: rgb(163, 29, 29);
+  color: orange;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Hind', sans-serif;
+  border-style: outset;
+  border-top: solid 2px rgb(33, 33, 33);
+  border-left: solid 2px rgb(33, 33, 33);
+  border-bottom: solid 2px rgb(118, 118, 118);
+  border-right: solid 2px rgb(118, 118, 118);
+  box-shadow: 0px 5px 10px 0px rgb(48, 48, 48);
+}
+
+.pinball-start-button:hover {
+  background-color: rgb(200, 50, 50);
+}
+
+/* Score Display */
+.score {
+  position: absolute;
+  top: 10px;
+  line-height: 1;
+  z-index: 10;
+}
+
+.score span {
+  font-size: 1.5rem;
+  color: orange;
+  font-family: 'Hind', sans-serif;
+}
+
+.current-score {
+  left: 10px;
+}
+
+.high-score {
+  text-align: right;
+  right: 10px;
+}
+
+/* Paddle Controls */
+.trigger {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  border: 0;
+  border-radius: 50%;
+  color: inherit;
+  background-color: #e64980;
+  text-align: center;
+  line-height: 60px;
+  font-size: 1rem;
+  text-transform: inherit;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+  font-family: 'Hind', sans-serif;
+  z-index: 10;
+}
+
+.trigger:hover {
+  background-color: #f06595;
+}
+
+.trigger:active {
+  background-color: #d6336c;
+}
+
+.left-trigger {
+  left: 20px;
+}
+
+.right-trigger {
+  right: 20px;
+}
+
+/* Canvas Styling */
+canvas {
+  border-radius: 5px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.75);
+}
+
+/* Matter.js Game Elements - CSS Classes */
+.matter-outer {
+  fill: #495057 !important;
+}
+
+.matter-inner {
+  fill: #15aabf !important;
+}
+
+.matter-bumper {
+  fill: #fab005 !important;
+}
+
+.matter-bumper-lit {
+  fill: #fff3bf !important;
+}
+
+.matter-paddle {
+  fill: #e64980 !important;
+}
+
+.matter-pinball {
+  fill: #dee2e6 !important;
+}
+
+.matter-reset {
+  fill: #ffffff !important;
+}
+
+/* Responsive Scaling */
+@media (min-height: 0px) {
+  .pinball-container {
+    transform: scale(0.3);
+  }
+}
+
+@media (min-height: 400px) {
+  .pinball-container {
+    transform: scale(0.4);
+  }
+}
+
+@media (min-height: 600px) {
+  .pinball-container {
+    transform: scale(0.6);
+  }
+}
+
+@media (min-height: 800px) {
+  .pinball-container {
+    transform: scale(0.8);
+  }
+}
+
+/* Game Container Layout */
+.pinball-game-active {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
