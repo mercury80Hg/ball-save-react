@@ -1,23 +1,38 @@
 import { useState, useEffect, useRef } from 'react';
 import './PinballGame.css';
 
-function PinballGame({ onHighScoreUpdate, onServerReady }) {
-  const [highScore, setHighScore] = useState(0);
+function PinballGame({
+  onHighScoreUpdate,
+  onServerReady,
+  initialHighScore = 0,
+}) {
+  const [highScore, setHighScore] = useState(initialHighScore);
   const [currentScore, setCurrentScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const gameContainerRef = useRef(null);
   const currentScoreRef = useRef(0);
+  const highScoreRef = useRef(initialHighScore);
 
   useEffect(() => {
-    const savedHighScore = localStorage.getItem('pinballHighScore');
-    if (savedHighScore) {
-      setHighScore(parseInt(savedHighScore));
+    // Use the maximum of initialHighScore and localStorage
+    const localHighScore = localStorage.getItem('pinballHighScore');
+    const localHighScoreValue = localHighScore ? parseInt(localHighScore) : 0;
+    const finalHighScore = Math.max(initialHighScore, localHighScoreValue);
+
+    if (finalHighScore > 0) {
+      setHighScore(finalHighScore);
+      highScoreRef.current = finalHighScore;
+      localStorage.setItem('pinballHighScore', finalHighScore.toString());
     }
-  }, []);
+  }, [initialHighScore]);
 
   useEffect(() => {
     currentScoreRef.current = currentScore;
   }, [currentScore]);
+
+  useEffect(() => {
+    highScoreRef.current = highScore;
+  }, [highScore]);
 
   useEffect(() => {
     if (gameStarted && gameContainerRef.current) {
@@ -408,8 +423,10 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
       const scoreElement = document.querySelector('.current-score span');
       if (scoreElement) scoreElement.textContent = newScore;
 
-      if (newScore > highScore) {
+      // Only update high score if new score is actually higher
+      if (newScore > highScoreRef.current) {
         setHighScore(newScore);
+        highScoreRef.current = newScore;
         localStorage.setItem('pinballHighScore', newScore.toString());
         onHighScoreUpdate(newScore);
         const highScoreElement = document.querySelector('.high-score span');

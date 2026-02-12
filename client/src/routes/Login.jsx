@@ -12,6 +12,7 @@ function Login({ setCurrentUser }) {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [serverStatus, setServerStatus] = useState('warming'); // 'warming' or 'ready'
   const [pinballHighScore, setPinballHighScore] = useState(0);
+  const [userHighScore, setUserHighScore] = useState(0); // User's saved high score
   const navigate = useNavigate();
 
   // Navigate to app after successful login when modal is manually closed
@@ -62,6 +63,10 @@ function Login({ setCurrentUser }) {
       if (newUser) {
         console.log('Login successful, keeping modal open');
         setCurrentUser(newUser);
+        // Set user's high score from their account
+        if (newUser.miniGameHighScore) {
+          setUserHighScore(newUser.miniGameHighScore);
+        }
         resetInputs();
         setIsLoading(false);
         setLoginSuccess(true); // Mark login as successful
@@ -156,6 +161,7 @@ function Login({ setCurrentUser }) {
               <PinballGame
                 onHighScoreUpdate={handlePinballHighScore}
                 onServerReady={() => setServerStatus('ready')}
+                initialHighScore={userHighScore}
               />
             </div>
 
