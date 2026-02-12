@@ -143,8 +143,8 @@ function Login({ setCurrentUser }) {
           <div className='modal-container'>
             <h2 className='server-modal-title'>
               {serverStatus === 'warming'
-                ? '⏳ Server Warming Up'
-                : '✅ Server Ready'}
+                ? ' Server Warming Up'
+                : ' Server Ready'}
             </h2>
             <p className='server-modal-message'>
               {serverStatus === 'warming'

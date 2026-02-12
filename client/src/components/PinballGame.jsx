@@ -25,7 +25,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
       'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js',
       'https://cdn.rawgit.com/schteppe/poly-decomp.js/1ef946f1/build/decomp.min.js',
       'https://cdn.rawgit.com/liabru/matter-js/0895d81f/build/matter.min.js',
-      'https://cdn.rawgit.com/liabru/matter-attractors/c470ed42/build/matter-attractors.min.js'
+      'https://cdn.rawgit.com/liabru/matter-attractors/c470ed42/build/matter-attractors.min.js',
     ];
 
     let loadedCount = 0;
@@ -54,7 +54,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
       DROP_LEFT: '0 0 20 0 70 100 20 150 0 150 0 0',
       DROP_RIGHT: '50 0 68 0 68 150 50 150 0 100 50 0',
       APRON_LEFT: '0 0 180 120 0 120 0 0',
-      APRON_RIGHT: '180 0 180 120 0 120 180 0'
+      APRON_RIGHT: '180 0 180 120 0 120 180 0',
     };
 
     // Color constants
@@ -65,7 +65,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
       BUMPER: '#fab005',
       BUMPER_LIT: '#fff3bf',
       PADDLE: '#e64980',
-      PINBALL: '#dee2e6'
+      PINBALL: '#dee2e6',
     };
 
     const GRAVITY = 0.75;
@@ -84,8 +84,8 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
       engine = Matter.Engine.create();
       world = engine.world;
       world.bounds = {
-        min: { x: 0, y: 0},
-        max: { x: 500, y: 800 }
+        min: { x: 0, y: 0 },
+        max: { x: 500, y: 800 },
       };
       world.gravity.y = GRAVITY;
 
@@ -96,8 +96,8 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
           width: world.bounds.max.x,
           height: world.bounds.max.y,
           wireframes: WIREFRAMES,
-          background: COLORS.BACKGROUND
-        }
+          background: COLORS.BACKGROUND,
+        },
       });
       Matter.Render.run(render);
 
@@ -114,21 +114,21 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
 
       function createStaticBodies() {
         Matter.World.add(world, [
-          Matter.Bodies.rectangle(250, -30, 500, 100, { 
-            isStatic: true, 
-            render: { fillStyle: COLORS.OUTER } 
+          Matter.Bodies.rectangle(250, -30, 500, 100, {
+            isStatic: true,
+            render: { fillStyle: COLORS.OUTER },
           }),
-          Matter.Bodies.rectangle(250, 830, 500, 100, { 
-            isStatic: true, 
-            render: { fillStyle: COLORS.OUTER } 
+          Matter.Bodies.rectangle(250, 830, 500, 100, {
+            isStatic: true,
+            render: { fillStyle: COLORS.OUTER },
           }),
-          Matter.Bodies.rectangle(-30, 400, 100, 800, { 
-            isStatic: true, 
-            render: { fillStyle: COLORS.OUTER } 
+          Matter.Bodies.rectangle(-30, 400, 100, 800, {
+            isStatic: true,
+            render: { fillStyle: COLORS.OUTER },
           }),
-          Matter.Bodies.rectangle(530, 400, 100, 800, { 
-            isStatic: true, 
-            render: { fillStyle: COLORS.OUTER } 
+          Matter.Bodies.rectangle(530, 400, 100, 800, {
+            isStatic: true,
+            render: { fillStyle: COLORS.OUTER },
           }),
           createPath(239, 86, PATHS.DOME, COLORS.OUTER),
           createWall(140, 140, 20, 40, COLORS.INNER),
@@ -151,7 +151,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
           createPath(79, 740, PATHS.APRON_LEFT, COLORS.OUTER),
           createPath(371, 740, PATHS.APRON_RIGHT, COLORS.OUTER),
           createReset(225, 50),
-          createReset(465, 30)
+          createReset(465, 30),
         ]);
       }
 
@@ -160,7 +160,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
           angle: angle,
           isStatic: true,
           chamfer: { radius: 10 },
-          render: { fillStyle: color }
+          render: { fillStyle: color },
         });
       }
 
@@ -171,8 +171,8 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
           render: {
             fillStyle: color || COLORS.OUTER,
             strokeStyle: color || COLORS.OUTER,
-            lineWidth: 1
-          }
+            lineWidth: 1,
+          },
         });
       }
 
@@ -180,7 +180,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
         const bumper = Matter.Bodies.circle(x, y, 25, {
           label: 'bumper',
           isStatic: true,
-          render: { fillStyle: COLORS.BUMPER }
+          render: { fillStyle: COLORS.BUMPER },
         });
         bumper.restitution = BUMPER_BOUNCE;
         return bumper;
@@ -190,7 +190,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
         return Matter.Bodies.rectangle(x, 781, width, 2, {
           label: 'reset',
           isStatic: true,
-          render: { fillStyle: '#fff' }
+          render: { fillStyle: '#fff' },
         });
       }
 
@@ -198,12 +198,14 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
         const paddleGroup = Matter.Body.nextGroup(true);
 
         const paddleLeft = createPaddleMechanism(170, 660, 'left', paddleGroup);
-        const rightPaddle = createPaddleMechanism(280, 660, 'right', paddleGroup);
+        const rightPaddle = createPaddleMechanism(
+          280,
+          660,
+          'right',
+          paddleGroup,
+        );
 
-        Matter.World.add(world, [
-          ...paddleLeft,
-          ...rightPaddle
-        ]);
+        Matter.World.add(world, [...paddleLeft, ...rightPaddle]);
       }
 
       function createPaddleMechanism(x, y, side, paddleGroup) {
@@ -216,23 +218,29 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
           label: label,
           angle: isLeft ? 1.57 : -1.57,
           chamfer: {},
-          render: { fillStyle: COLORS.PADDLE }
+          render: { fillStyle: COLORS.PADDLE },
         });
 
-        const brick = Matter.Bodies.rectangle(x + (isLeft ? 2 : -2), y + 12, 40, 80, {
-          angle: isLeft ? 1.62 : -1.62,
-          chamfer: {},
-          render: { visible: false }
-        });
+        const brick = Matter.Bodies.rectangle(
+          x + (isLeft ? 2 : -2),
+          y + 12,
+          40,
+          80,
+          {
+            angle: isLeft ? 1.62 : -1.62,
+            chamfer: {},
+            render: { visible: false },
+          },
+        );
 
         const comp = Matter.Body.create({
           label: label + 'Comp',
-          parts: [paddle, brick]
+          parts: [paddle, brick],
         });
 
         const hinge = Matter.Bodies.circle(hingeX, y, 5, {
           isStatic: true,
-          render: { visible: false }
+          render: { visible: false },
         });
 
         [comp, hinge].forEach((piece) => {
@@ -244,7 +252,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
           pointA: { x: isLeft ? -29.5 : 29.5, y: -8.5 },
           bodyB: hinge,
           length: 0,
-          stiffness: 0
+          stiffness: 0,
         });
 
         Matter.Body.rotate(comp, angle, { x: hingeX, y: y });
@@ -256,16 +264,16 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
         pinball = Matter.Bodies.circle(465, 765, 14, {
           label: 'pinball',
           collisionFilter: { group: stopperGroup },
-          render: { fillStyle: COLORS.PINBALL }
+          render: { fillStyle: COLORS.PINBALL },
         });
         Matter.World.add(world, pinball);
         Matter.Body.setVelocity(pinball, { x: 0, y: -25 });
       }
 
       function createEvents() {
-        Matter.Events.on(engine, 'collisionStart', function(event) {
+        Matter.Events.on(engine, 'collisionStart', function (event) {
           const pairs = event.pairs;
-          pairs.forEach(function(pair) {
+          pairs.forEach(function (pair) {
             if (pair.bodyB.label === 'pinball') {
               switch (pair.bodyA.label) {
                 case 'reset':
@@ -287,14 +295,47 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
           });
         });
 
-        Matter.Events.on(engine, 'beforeUpdate', function(event) {
+        Matter.Events.on(engine, 'beforeUpdate', function (event) {
           Matter.Body.setVelocity(pinball, {
-            x: Math.max(Math.min(pinball.velocity.x, MAX_VELOCITY), -MAX_VELOCITY),
-            y: Math.max(Math.min(pinball.velocity.y, MAX_VELOCITY), -MAX_VELOCITY),
+            x: Math.max(
+              Math.min(pinball.velocity.x, MAX_VELOCITY),
+              -MAX_VELOCITY,
+            ),
+            y: Math.max(
+              Math.min(pinball.velocity.y, MAX_VELOCITY),
+              -MAX_VELOCITY,
+            ),
           });
 
           if (pinball.position.x > 450 && pinball.velocity.y > 0) {
             Matter.Body.setVelocity(pinball, { x: 0, y: -10 });
+          }
+
+          // Paddle movement logic
+          const paddleForce = 0.02;
+          const leftPaddle = Matter.Composite.allBodies(world).find(
+            (body) => body.label === 'paddleLeft',
+          );
+          const rightPaddle = Matter.Composite.allBodies(world).find(
+            (body) => body.label === 'paddleRight',
+          );
+
+          if (leftPaddle) {
+            if (isLeftPaddleUp) {
+              Matter.Body.setAngle(leftPaddle, -0.5);
+              Matter.Body.setAngularVelocity(leftPaddle, -paddleForce);
+            } else {
+              Matter.Body.setAngularVelocity(leftPaddle, paddleForce);
+            }
+          }
+
+          if (rightPaddle) {
+            if (isRightPaddleUp) {
+              Matter.Body.setAngle(rightPaddle, 0.5);
+              Matter.Body.setAngularVelocity(rightPaddle, paddleForce);
+            } else {
+              Matter.Body.setAngularVelocity(rightPaddle, -paddleForce);
+            }
           }
         });
 
@@ -317,17 +358,26 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
         const rightBtn = document.querySelector('.right-trigger');
 
         if (leftBtn) {
-          leftBtn.addEventListener('mousedown', () => isLeftPaddleUp = true);
-          leftBtn.addEventListener('mouseup', () => isLeftPaddleUp = false);
-          leftBtn.addEventListener('touchstart', () => isLeftPaddleUp = true);
-          leftBtn.addEventListener('touchend', () => isLeftPaddleUp = false);
+          leftBtn.addEventListener('mousedown', () => (isLeftPaddleUp = true));
+          leftBtn.addEventListener('mouseup', () => (isLeftPaddleUp = false));
+          leftBtn.addEventListener('touchstart', () => (isLeftPaddleUp = true));
+          leftBtn.addEventListener('touchend', () => (isLeftPaddleUp = false));
         }
 
         if (rightBtn) {
-          rightBtn.addEventListener('mousedown', () => isRightPaddleUp = true);
-          rightBtn.addEventListener('mouseup', () => isRightPaddleUp = false);
-          rightBtn.addEventListener('touchstart', () => isRightPaddleUp = true);
-          rightBtn.addEventListener('touchend', () => isRightPaddleUp = false);
+          rightBtn.addEventListener(
+            'mousedown',
+            () => (isRightPaddleUp = true),
+          );
+          rightBtn.addEventListener('mouseup', () => (isRightPaddleUp = false));
+          rightBtn.addEventListener(
+            'touchstart',
+            () => (isRightPaddleUp = true),
+          );
+          rightBtn.addEventListener(
+            'touchend',
+            () => (isRightPaddleUp = false),
+          );
         }
       }
 
@@ -352,28 +402,32 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
   };
 
   return (
-    <div className="pinball-game-wrapper">
+    <div className='pinball-game-wrapper'>
       {!gameStarted ? (
-        <div className="pinball-start-screen">
+        <div className='pinball-start-screen'>
           <h3>Pinball Mini-Game</h3>
           <p>Play while the server warms up!</p>
-          <button className="pinball-start-button" onClick={startGame}>
+          <button className='pinball-start-button' onClick={startGame}>
             Start Game
           </button>
         </div>
       ) : (
-        <div 
-          ref={gameContainerRef} 
-          className="pinball-container pinball-game-active"
+        <div
+          ref={gameContainerRef}
+          className='pinball-container pinball-game-active'
         >
-          <div className="score current-score">
-            score<br/><span>{currentScore}</span>
+          <div className='score current-score'>
+            score
+            <br />
+            <span>{currentScore}</span>
           </div>
-          <div className="score high-score">
-            high score<br/><span>{highScore}</span>
+          <div className='score high-score'>
+            high score
+            <br />
+            <span>{highScore}</span>
           </div>
-          <button className="trigger left-trigger">tap!</button>
-          <button className="trigger right-trigger">tap!</button>
+          <button className='trigger left-trigger'>tap!</button>
+          <button className='trigger right-trigger'>tap!</button>
         </div>
       )}
     </div>

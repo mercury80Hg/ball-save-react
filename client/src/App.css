@@ -32,7 +32,7 @@ body {
 
 /* Server Modal Styles */
 .server-modal-title {
-  margin-bottom: 3vh;
+  margin-bottom: 2vh;
   color: orange;
   font-family: dotrice;
   font-size: 3.5vh;
@@ -40,7 +40,7 @@ body {
 }
 
 .server-modal-message {
-  margin-bottom: 3vh;
+  margin-bottom: 2vh;
   line-height: 1.5;
   color: orange;
   font-family: dotrice;
@@ -48,8 +48,8 @@ body {
 }
 
 .pinball-game-container {
-  height: 400px;
-  margin-bottom: 3vh;
+  height: 65vh;
+  margin-bottom: 2vh;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -91,10 +91,11 @@ body {
 
 .modal-container {
   background-color: rgb(31, 28, 28);
-  padding: 4vh;
+  padding: 2vh;
   border-radius: 25px;
   max-width: 80vw;
-  width: 60vh;
+  width: 85vh;
+  height: 85vh;
   text-align: center;
   border-style: outset;
   border-top: solid 2px rgb(33, 33, 33);
