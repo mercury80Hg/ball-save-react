@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import './PinballGame.css';
 
 function PinballGame({ onHighScoreUpdate, onServerReady }) {
@@ -14,13 +14,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
     }
   }, []);
 
-  useEffect(() => {
-    if (gameStarted) {
-      loadScripts();
-    }
-  }, [gameStarted]);
-
-  const loadScripts = () => {
+  const loadScripts = useCallback(() => {
     const scripts = [
       'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js',
       'https://cdn.rawgit.com/schteppe/poly-decomp.js/1ef946f1/build/decomp.min.js',
@@ -40,7 +34,13 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
       };
       document.head.appendChild(script);
     });
-  };
+  }, []);
+
+  useEffect(() => {
+    if (gameStarted) {
+      loadScripts();
+    }
+  }, [gameStarted, loadScripts]);
 
   const initializeGame = () => {
     if (!gameContainerRef.current) return;
@@ -71,6 +71,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
     const GRAVITY = 0.75;
     const WIREFRAMES = false;
     const BUMPER_BOUNCE = 1.5;
+    const PADDLE_PULL = 0.002;
     const MAX_VELOCITY = 50;
 
     let engine, world, render, pinball, stopperGroup;
@@ -194,70 +195,138 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
         });
       }
 
-      function createPaddles() {
-        const paddleGroup = Matter.Body.nextGroup(true);
+      function createStopper(x, y, side, position) {
+        const attracteeLabel =
+          side === 'left' ? 'paddleLeftComp' : 'paddleRightComp';
 
-        const paddleLeft = createPaddleMechanism(170, 660, 'left', paddleGroup);
-        const rightPaddle = createPaddleMechanism(
-          280,
-          660,
-          'right',
-          paddleGroup,
-        );
-
-        Matter.World.add(world, [...paddleLeft, ...rightPaddle]);
+        return Matter.Bodies.circle(x, y, 40, {
+          isStatic: true,
+          render: {
+            visible: false,
+          },
+          collisionFilter: {
+            group: stopperGroup,
+          },
+          plugin: {
+            attractors: [
+              function (a, b) {
+                if (b.label === attracteeLabel) {
+                  const isPaddleUp =
+                    side === 'left' ? isLeftPaddleUp : isRightPaddleUp;
+                  const isPullingUp = position === 'up' && isPaddleUp;
+                  const isPullingDown = position === 'down' && !isPaddleUp;
+                  if (isPullingUp || isPullingDown) {
+                    return {
+                      x: (a.position.x - b.position.x) * PADDLE_PULL,
+                      y: (a.position.y - b.position.y) * PADDLE_PULL,
+                    };
+                  }
+                }
+              },
+            ],
+          },
+        });
       }
 
-      function createPaddleMechanism(x, y, side, paddleGroup) {
-        const isLeft = side === 'left';
-        const hingeX = isLeft ? 142 : 308;
-        const angle = isLeft ? 0.57 : -0.57;
-        const label = isLeft ? 'paddleLeft' : 'paddleRight';
+      function createPaddles() {
+        const leftUpStopper = createStopper(160, 591, 'left', 'up');
+        const leftDownStopper = createStopper(140, 743, 'left', 'down');
+        const rightUpStopper = createStopper(290, 591, 'right', 'up');
+        const rightDownStopper = createStopper(310, 743, 'right', 'down');
+        Matter.World.add(world, [
+          leftUpStopper,
+          leftDownStopper,
+          rightUpStopper,
+          rightDownStopper,
+        ]);
 
-        const paddle = Matter.Bodies.trapezoid(x, y, 20, 80, 0.33, {
-          label: label,
-          angle: isLeft ? 1.57 : -1.57,
+        const paddleGroup = Matter.Body.nextGroup(true);
+
+        const paddleLeft = {};
+        paddleLeft.paddle = Matter.Bodies.trapezoid(170, 660, 20, 80, 0.33, {
+          label: 'paddleLeft',
+          angle: 1.57,
           chamfer: {},
-          render: { fillStyle: COLORS.PADDLE },
-        });
-
-        const brick = Matter.Bodies.rectangle(
-          x + (isLeft ? 2 : -2),
-          y + 12,
-          40,
-          80,
-          {
-            angle: isLeft ? 1.62 : -1.62,
-            chamfer: {},
-            render: { visible: false },
+          render: {
+            fillStyle: COLORS.PADDLE,
           },
-        );
-
-        const comp = Matter.Body.create({
-          label: label + 'Comp',
-          parts: [paddle, brick],
         });
-
-        const hinge = Matter.Bodies.circle(hingeX, y, 5, {
+        paddleLeft.brick = Matter.Bodies.rectangle(172, 672, 40, 80, {
+          angle: 1.62,
+          chamfer: {},
+          render: {
+            visible: false,
+          },
+        });
+        paddleLeft.comp = Matter.Body.create({
+          label: 'paddleLeftComp',
+          parts: [paddleLeft.paddle, paddleLeft.brick],
+        });
+        paddleLeft.hinge = Matter.Bodies.circle(142, 660, 5, {
           isStatic: true,
-          render: { visible: false },
+          render: {
+            visible: false,
+          },
         });
-
-        [comp, hinge].forEach((piece) => {
+        Object.values(paddleLeft).forEach((piece) => {
           piece.collisionFilter.group = paddleGroup;
         });
-
-        const con = Matter.Constraint.create({
-          bodyA: comp,
-          pointA: { x: isLeft ? -29.5 : 29.5, y: -8.5 },
-          bodyB: hinge,
+        paddleLeft.con = Matter.Constraint.create({
+          bodyA: paddleLeft.comp,
+          pointA: { x: -29.5, y: -8.5 },
+          bodyB: paddleLeft.hinge,
           length: 0,
           stiffness: 0,
         });
+        Matter.World.add(world, [
+          paddleLeft.comp,
+          paddleLeft.hinge,
+          paddleLeft.con,
+        ]);
+        Matter.Body.rotate(paddleLeft.comp, 0.57, { x: 142, y: 660 });
 
-        Matter.Body.rotate(comp, angle, { x: hingeX, y: y });
-
-        return [comp, hinge, con];
+        const paddleRight = {};
+        paddleRight.paddle = Matter.Bodies.trapezoid(280, 660, 20, 80, 0.33, {
+          label: 'paddleRight',
+          angle: -1.57,
+          chamfer: {},
+          render: {
+            fillStyle: COLORS.PADDLE,
+          },
+        });
+        paddleRight.brick = Matter.Bodies.rectangle(278, 672, 40, 80, {
+          angle: -1.62,
+          chamfer: {},
+          render: {
+            visible: false,
+          },
+        });
+        paddleRight.comp = Matter.Body.create({
+          label: 'paddleRightComp',
+          parts: [paddleRight.paddle, paddleRight.brick],
+        });
+        paddleRight.hinge = Matter.Bodies.circle(308, 660, 5, {
+          isStatic: true,
+          render: {
+            visible: false,
+          },
+        });
+        Object.values(paddleRight).forEach((piece) => {
+          piece.collisionFilter.group = paddleGroup;
+        });
+        paddleRight.con = Matter.Constraint.create({
+          bodyA: paddleRight.comp,
+          pointA: { x: 29.5, y: -8.5 },
+          bodyB: paddleRight.hinge,
+          length: 0,
+          stiffness: 0,
+        });
+        Matter.World.add(world, [
+          paddleRight.comp,
+          paddleRight.hinge,
+          paddleRight.con,
+        ]);
+        Matter.Body.rotate(paddleRight.comp, -0.57, { x: 308, y: 660 });
       }
 
       function createPinball() {
@@ -310,36 +379,8 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
           if (pinball.position.x > 450 && pinball.velocity.y > 0) {
             Matter.Body.setVelocity(pinball, { x: 0, y: -10 });
           }
-
-          // Paddle movement logic
-          const paddleForce = 0.02;
-          const leftPaddle = Matter.Composite.allBodies(world).find(
-            (body) => body.label === 'paddleLeft',
-          );
-          const rightPaddle = Matter.Composite.allBodies(world).find(
-            (body) => body.label === 'paddleRight',
-          );
-
-          if (leftPaddle) {
-            if (isLeftPaddleUp) {
-              Matter.Body.setAngle(leftPaddle, -0.5);
-              Matter.Body.setAngularVelocity(leftPaddle, -paddleForce);
-            } else {
-              Matter.Body.setAngularVelocity(leftPaddle, paddleForce);
-            }
-          }
-
-          if (rightPaddle) {
-            if (isRightPaddleUp) {
-              Matter.Body.setAngle(rightPaddle, 0.5);
-              Matter.Body.setAngularVelocity(rightPaddle, paddleForce);
-            } else {
-              Matter.Body.setAngularVelocity(rightPaddle, -paddleForce);
-            }
-          }
         });
 
-        // Keyboard controls
         const handleKeyDown = (e) => {
           if (e.which === 37) isLeftPaddleUp = true;
           if (e.which === 39) isRightPaddleUp = true;
@@ -353,7 +394,6 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
         document.addEventListener('keydown', handleKeyDown);
         document.addEventListener('keyup', handleKeyUp);
 
-        // Button controls
         const leftBtn = document.querySelector('.left-trigger');
         const rightBtn = document.querySelector('.right-trigger');
 
