@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './PinballGame.css';
 
 function PinballGame({ onHighScoreUpdate, onServerReady }) {
@@ -6,6 +6,7 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
   const [currentScore, setCurrentScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const gameContainerRef = useRef(null);
+  const currentScoreRef = useRef(0);
 
   useEffect(() => {
     const savedHighScore = localStorage.getItem('pinballHighScore');
@@ -14,38 +15,34 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
     }
   }, []);
 
-  const loadScripts = useCallback(() => {
-    const scripts = [
-      'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js',
-      'https://cdn.rawgit.com/schteppe/poly-decomp.js/1ef946f1/build/decomp.min.js',
-      'https://cdn.rawgit.com/liabru/matter-js/0895d81f/build/matter.min.js',
-      'https://cdn.rawgit.com/liabru/matter-attractors/c470ed42/build/matter-attractors.min.js',
-    ];
-
-    let loadedCount = 0;
-    scripts.forEach((src) => {
-      const script = document.createElement('script');
-      script.src = src;
-      script.onload = () => {
-        loadedCount++;
-        if (loadedCount === scripts.length) {
-          initializeGame();
-        }
-      };
-      document.head.appendChild(script);
-    });
-  }, []);
+  useEffect(() => {
+    currentScoreRef.current = currentScore;
+  }, [currentScore]);
 
   useEffect(() => {
-    if (gameStarted) {
-      loadScripts();
-    }
-  }, [gameStarted, loadScripts]);
+    if (gameStarted && gameContainerRef.current) {
+      // Load scripts and initialize game
+      const scripts = [
+        'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js',
+        'https://cdn.rawgit.com/schteppe/poly-decomp.js/1ef946f1/build/decomp.min.js',
+        'https://cdn.rawgit.com/liabru/matter-js/0895d81f/build/matter.min.js',
+        'https://cdn.rawgit.com/liabru/matter-attractors/c470ed42/build/matter-attractors.min.js',
+      ];
 
-  const initializeGame = () => {
-    if (!gameContainerRef.current) return;
-    initializePinballGame();
-  };
+      let loadedCount = 0;
+      scripts.forEach((src) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => {
+          loadedCount++;
+          if (loadedCount === scripts.length) {
+            initializePinballGame();
+          }
+        };
+        document.head.appendChild(script);
+      });
+    }
+  }, [gameStarted]);
 
   const initializePinballGame = () => {
     // Game constants
@@ -57,7 +54,6 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
       APRON_RIGHT: '180 0 180 120 0 120 180 0',
     };
 
-    // Color constants
     const COLORS = {
       BACKGROUND: '#212529',
       OUTER: '#495057',
@@ -79,362 +75,353 @@ function PinballGame({ onHighScoreUpdate, onServerReady }) {
     let isRightPaddleUp = false;
 
     // Initialize Matter.js
-    if (window.Matter) {
-      Matter.use(window.MatterAttractors);
+    Matter.use(window.MatterAttractors);
 
-      engine = Matter.Engine.create();
-      world = engine.world;
-      world.bounds = {
-        min: { x: 0, y: 0 },
-        max: { x: 500, y: 800 },
-      };
-      world.gravity.y = GRAVITY;
+    engine = Matter.Engine.create();
+    world = engine.world;
+    world.bounds = {
+      min: { x: 0, y: 0 },
+      max: { x: 500, y: 800 },
+    };
+    world.gravity.y = GRAVITY;
 
-      render = Matter.Render.create({
-        element: gameContainerRef.current,
-        engine: engine,
-        options: {
-          width: world.bounds.max.x,
-          height: world.bounds.max.y,
-          wireframes: WIREFRAMES,
-          background: COLORS.BACKGROUND,
+    render = Matter.Render.create({
+      element: gameContainerRef.current,
+      engine: engine,
+      options: {
+        width: world.bounds.max.x,
+        height: world.bounds.max.y,
+        wireframes: WIREFRAMES,
+        background: COLORS.BACKGROUND,
+      },
+    });
+    Matter.Render.run(render);
+
+    const runner = Matter.Runner.create();
+    Matter.Runner.run(runner, engine);
+
+    stopperGroup = Matter.Body.nextGroup(true);
+
+    function createStaticBodies() {
+      Matter.World.add(world, [
+        Matter.Bodies.rectangle(250, -30, 500, 100, {
+          isStatic: true,
+          render: { fillStyle: COLORS.OUTER },
+        }),
+        Matter.Bodies.rectangle(250, 830, 500, 100, {
+          isStatic: true,
+          render: { fillStyle: COLORS.OUTER },
+        }),
+        Matter.Bodies.rectangle(-30, 400, 100, 800, {
+          isStatic: true,
+          render: { fillStyle: COLORS.OUTER },
+        }),
+        Matter.Bodies.rectangle(530, 400, 100, 800, {
+          isStatic: true,
+          render: { fillStyle: COLORS.OUTER },
+        }),
+        createPath(239, 86, PATHS.DOME, COLORS.OUTER),
+        createWall(140, 140, 20, 40, COLORS.INNER),
+        createWall(225, 140, 20, 40, COLORS.INNER),
+        createWall(310, 140, 20, 40, COLORS.INNER),
+        createBumper(105, 250),
+        createBumper(225, 250),
+        createBumper(345, 250),
+        createBumper(165, 340),
+        createBumper(285, 340),
+        createWall(440, 520, 20, 560, COLORS.OUTER),
+        createPath(25, 360, PATHS.DROP_LEFT, COLORS.OUTER),
+        createPath(425, 360, PATHS.DROP_RIGHT, COLORS.OUTER),
+        createWall(120, 510, 20, 120, COLORS.INNER),
+        createWall(330, 510, 20, 120, COLORS.INNER),
+        createWall(60, 529, 20, 160, COLORS.INNER),
+        createWall(390, 529, 20, 160, COLORS.INNER),
+        createWall(93, 624, 20, 98, COLORS.INNER, -0.96),
+        createWall(357, 624, 20, 98, COLORS.INNER, 0.96),
+        createPath(79, 740, PATHS.APRON_LEFT, COLORS.OUTER),
+        createPath(371, 740, PATHS.APRON_RIGHT, COLORS.OUTER),
+        createReset(225, 50),
+        createReset(465, 30),
+      ]);
+    }
+
+    function createWall(x, y, width, height, color, angle = 0) {
+      return Matter.Bodies.rectangle(x, y, width, height, {
+        angle: angle,
+        isStatic: true,
+        chamfer: { radius: 10 },
+        render: { fillStyle: color },
+      });
+    }
+
+    function createPath(x, y, path, color) {
+      const vertices = Matter.Vertices.fromPath(path);
+      return Matter.Bodies.fromVertices(x, y, vertices, {
+        isStatic: true,
+        render: {
+          fillStyle: color || COLORS.OUTER,
+          strokeStyle: color || COLORS.OUTER,
+          lineWidth: 1,
         },
       });
-      Matter.Render.run(render);
+    }
 
-      const runner = Matter.Runner.create();
-      Matter.Runner.run(runner, engine);
+    function createBumper(x, y) {
+      const bumper = Matter.Bodies.circle(x, y, 25, {
+        label: 'bumper',
+        isStatic: true,
+        render: { fillStyle: COLORS.BUMPER },
+      });
+      bumper.restitution = BUMPER_BOUNCE;
+      return bumper;
+    }
 
-      stopperGroup = Matter.Body.nextGroup(true);
+    function createReset(x, width) {
+      return Matter.Bodies.rectangle(x, 781, width, 2, {
+        label: 'reset',
+        isStatic: true,
+        render: { fillStyle: '#fff' },
+      });
+    }
 
-      // Create game bodies
-      createStaticBodies();
-      createPaddles();
-      createPinball();
-      createEvents();
+    function createStopper(x, y, side, position) {
+      const attracteeLabel =
+        side === 'left' ? 'paddleLeftComp' : 'paddleRightComp';
 
-      function createStaticBodies() {
-        Matter.World.add(world, [
-          Matter.Bodies.rectangle(250, -30, 500, 100, {
-            isStatic: true,
-            render: { fillStyle: COLORS.OUTER },
-          }),
-          Matter.Bodies.rectangle(250, 830, 500, 100, {
-            isStatic: true,
-            render: { fillStyle: COLORS.OUTER },
-          }),
-          Matter.Bodies.rectangle(-30, 400, 100, 800, {
-            isStatic: true,
-            render: { fillStyle: COLORS.OUTER },
-          }),
-          Matter.Bodies.rectangle(530, 400, 100, 800, {
-            isStatic: true,
-            render: { fillStyle: COLORS.OUTER },
-          }),
-          createPath(239, 86, PATHS.DOME, COLORS.OUTER),
-          createWall(140, 140, 20, 40, COLORS.INNER),
-          createWall(225, 140, 20, 40, COLORS.INNER),
-          createWall(310, 140, 20, 40, COLORS.INNER),
-          createBumper(105, 250),
-          createBumper(225, 250),
-          createBumper(345, 250),
-          createBumper(165, 340),
-          createBumper(285, 340),
-          createWall(440, 520, 20, 560, COLORS.OUTER),
-          createPath(25, 360, PATHS.DROP_LEFT, COLORS.OUTER),
-          createPath(425, 360, PATHS.DROP_RIGHT, COLORS.OUTER),
-          createWall(120, 510, 20, 120, COLORS.INNER),
-          createWall(330, 510, 20, 120, COLORS.INNER),
-          createWall(60, 529, 20, 160, COLORS.INNER),
-          createWall(390, 529, 20, 160, COLORS.INNER),
-          createWall(93, 624, 20, 98, COLORS.INNER, -0.96),
-          createWall(357, 624, 20, 98, COLORS.INNER, 0.96),
-          createPath(79, 740, PATHS.APRON_LEFT, COLORS.OUTER),
-          createPath(371, 740, PATHS.APRON_RIGHT, COLORS.OUTER),
-          createReset(225, 50),
-          createReset(465, 30),
-        ]);
-      }
-
-      function createWall(x, y, width, height, color, angle = 0) {
-        return Matter.Bodies.rectangle(x, y, width, height, {
-          angle: angle,
-          isStatic: true,
-          chamfer: { radius: 10 },
-          render: { fillStyle: color },
-        });
-      }
-
-      function createPath(x, y, path, color) {
-        const vertices = Matter.Vertices.fromPath(path);
-        return Matter.Bodies.fromVertices(x, y, vertices, {
-          isStatic: true,
-          render: {
-            fillStyle: color || COLORS.OUTER,
-            strokeStyle: color || COLORS.OUTER,
-            lineWidth: 1,
-          },
-        });
-      }
-
-      function createBumper(x, y) {
-        const bumper = Matter.Bodies.circle(x, y, 25, {
-          label: 'bumper',
-          isStatic: true,
-          render: { fillStyle: COLORS.BUMPER },
-        });
-        bumper.restitution = BUMPER_BOUNCE;
-        return bumper;
-      }
-
-      function createReset(x, width) {
-        return Matter.Bodies.rectangle(x, 781, width, 2, {
-          label: 'reset',
-          isStatic: true,
-          render: { fillStyle: '#fff' },
-        });
-      }
-
-      function createStopper(x, y, side, position) {
-        const attracteeLabel =
-          side === 'left' ? 'paddleLeftComp' : 'paddleRightComp';
-
-        return Matter.Bodies.circle(x, y, 40, {
-          isStatic: true,
-          render: {
-            visible: false,
-          },
-          collisionFilter: {
-            group: stopperGroup,
-          },
-          plugin: {
-            attractors: [
-              function (a, b) {
-                if (b.label === attracteeLabel) {
-                  const isPaddleUp =
-                    side === 'left' ? isLeftPaddleUp : isRightPaddleUp;
-                  const isPullingUp = position === 'up' && isPaddleUp;
-                  const isPullingDown = position === 'down' && !isPaddleUp;
-                  if (isPullingUp || isPullingDown) {
-                    return {
-                      x: (a.position.x - b.position.x) * PADDLE_PULL,
-                      y: (a.position.y - b.position.y) * PADDLE_PULL,
-                    };
-                  }
+      return Matter.Bodies.circle(x, y, 40, {
+        isStatic: true,
+        render: {
+          visible: false,
+        },
+        collisionFilter: {
+          group: stopperGroup,
+        },
+        plugin: {
+          attractors: [
+            function (a, b) {
+              if (b.label === attracteeLabel) {
+                const isPaddleUp =
+                  side === 'left' ? isLeftPaddleUp : isRightPaddleUp;
+                const isPullingUp = position === 'up' && isPaddleUp;
+                const isPullingDown = position === 'down' && !isPaddleUp;
+                if (isPullingUp || isPullingDown) {
+                  return {
+                    x: (a.position.x - b.position.x) * PADDLE_PULL,
+                    y: (a.position.y - b.position.y) * PADDLE_PULL,
+                  };
                 }
-              },
-            ],
-          },
-        });
-      }
-
-      function createPaddles() {
-        const leftUpStopper = createStopper(160, 591, 'left', 'up');
-        const leftDownStopper = createStopper(140, 743, 'left', 'down');
-        const rightUpStopper = createStopper(290, 591, 'right', 'up');
-        const rightDownStopper = createStopper(310, 743, 'right', 'down');
-        Matter.World.add(world, [
-          leftUpStopper,
-          leftDownStopper,
-          rightUpStopper,
-          rightDownStopper,
-        ]);
-
-        const paddleGroup = Matter.Body.nextGroup(true);
-
-        const paddleLeft = {};
-        paddleLeft.paddle = Matter.Bodies.trapezoid(170, 660, 20, 80, 0.33, {
-          label: 'paddleLeft',
-          angle: 1.57,
-          chamfer: {},
-          render: {
-            fillStyle: COLORS.PADDLE,
-          },
-        });
-        paddleLeft.brick = Matter.Bodies.rectangle(172, 672, 40, 80, {
-          angle: 1.62,
-          chamfer: {},
-          render: {
-            visible: false,
-          },
-        });
-        paddleLeft.comp = Matter.Body.create({
-          label: 'paddleLeftComp',
-          parts: [paddleLeft.paddle, paddleLeft.brick],
-        });
-        paddleLeft.hinge = Matter.Bodies.circle(142, 660, 5, {
-          isStatic: true,
-          render: {
-            visible: false,
-          },
-        });
-        Object.values(paddleLeft).forEach((piece) => {
-          piece.collisionFilter.group = paddleGroup;
-        });
-        paddleLeft.con = Matter.Constraint.create({
-          bodyA: paddleLeft.comp,
-          pointA: { x: -29.5, y: -8.5 },
-          bodyB: paddleLeft.hinge,
-          length: 0,
-          stiffness: 0,
-        });
-        Matter.World.add(world, [
-          paddleLeft.comp,
-          paddleLeft.hinge,
-          paddleLeft.con,
-        ]);
-        Matter.Body.rotate(paddleLeft.comp, 0.57, { x: 142, y: 660 });
-
-        const paddleRight = {};
-        paddleRight.paddle = Matter.Bodies.trapezoid(280, 660, 20, 80, 0.33, {
-          label: 'paddleRight',
-          angle: -1.57,
-          chamfer: {},
-          render: {
-            fillStyle: COLORS.PADDLE,
-          },
-        });
-        paddleRight.brick = Matter.Bodies.rectangle(278, 672, 40, 80, {
-          angle: -1.62,
-          chamfer: {},
-          render: {
-            visible: false,
-          },
-        });
-        paddleRight.comp = Matter.Body.create({
-          label: 'paddleRightComp',
-          parts: [paddleRight.paddle, paddleRight.brick],
-        });
-        paddleRight.hinge = Matter.Bodies.circle(308, 660, 5, {
-          isStatic: true,
-          render: {
-            visible: false,
-          },
-        });
-        Object.values(paddleRight).forEach((piece) => {
-          piece.collisionFilter.group = paddleGroup;
-        });
-        paddleRight.con = Matter.Constraint.create({
-          bodyA: paddleRight.comp,
-          pointA: { x: 29.5, y: -8.5 },
-          bodyB: paddleRight.hinge,
-          length: 0,
-          stiffness: 0,
-        });
-        Matter.World.add(world, [
-          paddleRight.comp,
-          paddleRight.hinge,
-          paddleRight.con,
-        ]);
-        Matter.Body.rotate(paddleRight.comp, -0.57, { x: 308, y: 660 });
-      }
-
-      function createPinball() {
-        pinball = Matter.Bodies.circle(465, 765, 14, {
-          label: 'pinball',
-          collisionFilter: { group: stopperGroup },
-          render: { fillStyle: COLORS.PINBALL },
-        });
-        Matter.World.add(world, pinball);
-        Matter.Body.setVelocity(pinball, { x: 0, y: -25 });
-      }
-
-      function createEvents() {
-        Matter.Events.on(engine, 'collisionStart', function (event) {
-          const pairs = event.pairs;
-          pairs.forEach(function (pair) {
-            if (pair.bodyB.label === 'pinball') {
-              switch (pair.bodyA.label) {
-                case 'reset':
-                  Matter.Body.setPosition(pinball, { x: 465, y: 765 });
-                  Matter.Body.setVelocity(pinball, { x: 0, y: -25 });
-                  updateScore(0);
-                  break;
-                case 'bumper':
-                  updateScore(currentScore + 10);
-                  pair.bodyA.render.fillStyle = COLORS.BUMPER_LIT;
-                  setTimeout(() => {
-                    pair.bodyA.render.fillStyle = COLORS.BUMPER;
-                  }, 100);
-                  break;
-                default:
-                  break;
               }
+            },
+          ],
+        },
+      });
+    }
+
+    function createPaddles() {
+      const leftUpStopper = createStopper(160, 591, 'left', 'up');
+      const leftDownStopper = createStopper(140, 743, 'left', 'down');
+      const rightUpStopper = createStopper(290, 591, 'right', 'up');
+      const rightDownStopper = createStopper(310, 743, 'right', 'down');
+      Matter.World.add(world, [
+        leftUpStopper,
+        leftDownStopper,
+        rightUpStopper,
+        rightDownStopper,
+      ]);
+
+      const paddleGroup = Matter.Body.nextGroup(true);
+
+      const paddleLeft = {};
+      paddleLeft.paddle = Matter.Bodies.trapezoid(170, 660, 20, 80, 0.33, {
+        label: 'paddleLeft',
+        angle: 1.57,
+        chamfer: {},
+        render: {
+          fillStyle: COLORS.PADDLE,
+        },
+      });
+      paddleLeft.brick = Matter.Bodies.rectangle(172, 672, 40, 80, {
+        angle: 1.62,
+        chamfer: {},
+        render: {
+          visible: false,
+        },
+      });
+      paddleLeft.comp = Matter.Body.create({
+        label: 'paddleLeftComp',
+        parts: [paddleLeft.paddle, paddleLeft.brick],
+      });
+      paddleLeft.hinge = Matter.Bodies.circle(142, 660, 5, {
+        isStatic: true,
+        render: {
+          visible: false,
+        },
+      });
+      Object.values(paddleLeft).forEach((piece) => {
+        piece.collisionFilter.group = paddleGroup;
+      });
+      paddleLeft.con = Matter.Constraint.create({
+        bodyA: paddleLeft.comp,
+        pointA: { x: -29.5, y: -8.5 },
+        bodyB: paddleLeft.hinge,
+        length: 0,
+        stiffness: 0,
+      });
+      Matter.World.add(world, [
+        paddleLeft.comp,
+        paddleLeft.hinge,
+        paddleLeft.con,
+      ]);
+      Matter.Body.rotate(paddleLeft.comp, 0.57, { x: 142, y: 660 });
+
+      const paddleRight = {};
+      paddleRight.paddle = Matter.Bodies.trapezoid(280, 660, 20, 80, 0.33, {
+        label: 'paddleRight',
+        angle: -1.57,
+        chamfer: {},
+        render: {
+          fillStyle: COLORS.PADDLE,
+        },
+      });
+      paddleRight.brick = Matter.Bodies.rectangle(278, 672, 40, 80, {
+        angle: -1.62,
+        chamfer: {},
+        render: {
+          visible: false,
+        },
+      });
+      paddleRight.comp = Matter.Body.create({
+        label: 'paddleRightComp',
+        parts: [paddleRight.paddle, paddleRight.brick],
+      });
+      paddleRight.hinge = Matter.Bodies.circle(308, 660, 5, {
+        isStatic: true,
+        render: {
+          visible: false,
+        },
+      });
+      Object.values(paddleRight).forEach((piece) => {
+        piece.collisionFilter.group = paddleGroup;
+      });
+      paddleRight.con = Matter.Constraint.create({
+        bodyA: paddleRight.comp,
+        pointA: { x: 29.5, y: -8.5 },
+        bodyB: paddleRight.hinge,
+        length: 0,
+        stiffness: 0,
+      });
+      Matter.World.add(world, [
+        paddleRight.comp,
+        paddleRight.hinge,
+        paddleRight.con,
+      ]);
+      Matter.Body.rotate(paddleRight.comp, -0.57, { x: 308, y: 660 });
+    }
+
+    function createPinball() {
+      pinball = Matter.Bodies.circle(465, 765, 14, {
+        label: 'pinball',
+        collisionFilter: { group: stopperGroup },
+        render: { fillStyle: COLORS.PINBALL },
+      });
+      Matter.World.add(world, pinball);
+      Matter.Body.setVelocity(pinball, { x: 0, y: -25 });
+    }
+
+    function createEvents() {
+      Matter.Events.on(engine, 'collisionStart', function (event) {
+        const pairs = event.pairs;
+        pairs.forEach(function (pair) {
+          if (pair.bodyB.label === 'pinball') {
+            switch (pair.bodyA.label) {
+              case 'reset':
+                Matter.Body.setPosition(pinball, { x: 465, y: 765 });
+                Matter.Body.setVelocity(pinball, { x: 0, y: -25 });
+                updateScore(0);
+                break;
+              case 'bumper':
+                updateScore(currentScoreRef.current + 10);
+                pair.bodyA.render.fillStyle = COLORS.BUMPER_LIT;
+                setTimeout(() => {
+                  pair.bodyA.render.fillStyle = COLORS.BUMPER;
+                }, 100);
+                break;
+              default:
+                break;
             }
-          });
-        });
-
-        Matter.Events.on(engine, 'beforeUpdate', function (event) {
-          Matter.Body.setVelocity(pinball, {
-            x: Math.max(
-              Math.min(pinball.velocity.x, MAX_VELOCITY),
-              -MAX_VELOCITY,
-            ),
-            y: Math.max(
-              Math.min(pinball.velocity.y, MAX_VELOCITY),
-              -MAX_VELOCITY,
-            ),
-          });
-
-          if (pinball.position.x > 450 && pinball.velocity.y > 0) {
-            Matter.Body.setVelocity(pinball, { x: 0, y: -10 });
           }
         });
+      });
 
-        const handleKeyDown = (e) => {
-          if (e.which === 37) isLeftPaddleUp = true;
-          if (e.which === 39) isRightPaddleUp = true;
-        };
+      Matter.Events.on(engine, 'beforeUpdate', function (event) {
+        Matter.Body.setVelocity(pinball, {
+          x: Math.max(
+            Math.min(pinball.velocity.x, MAX_VELOCITY),
+            -MAX_VELOCITY,
+          ),
+          y: Math.max(
+            Math.min(pinball.velocity.y, MAX_VELOCITY),
+            -MAX_VELOCITY,
+          ),
+        });
 
-        const handleKeyUp = (e) => {
-          if (e.which === 37) isLeftPaddleUp = false;
-          if (e.which === 39) isRightPaddleUp = false;
-        };
-
-        document.addEventListener('keydown', handleKeyDown);
-        document.addEventListener('keyup', handleKeyUp);
-
-        const leftBtn = document.querySelector('.left-trigger');
-        const rightBtn = document.querySelector('.right-trigger');
-
-        if (leftBtn) {
-          leftBtn.addEventListener('mousedown', () => (isLeftPaddleUp = true));
-          leftBtn.addEventListener('mouseup', () => (isLeftPaddleUp = false));
-          leftBtn.addEventListener('touchstart', () => (isLeftPaddleUp = true));
-          leftBtn.addEventListener('touchend', () => (isLeftPaddleUp = false));
+        if (pinball.position.x > 450 && pinball.velocity.y > 0) {
+          Matter.Body.setVelocity(pinball, { x: 0, y: -10 });
         }
+      });
 
-        if (rightBtn) {
-          rightBtn.addEventListener(
-            'mousedown',
-            () => (isRightPaddleUp = true),
-          );
-          rightBtn.addEventListener('mouseup', () => (isRightPaddleUp = false));
-          rightBtn.addEventListener(
-            'touchstart',
-            () => (isRightPaddleUp = true),
-          );
-          rightBtn.addEventListener(
-            'touchend',
-            () => (isRightPaddleUp = false),
-          );
-        }
+      // Keyboard controls
+      const handleKeyDown = (e) => {
+        if (e.which === 37) isLeftPaddleUp = true;
+        if (e.which === 39) isRightPaddleUp = true;
+      };
+
+      const handleKeyUp = (e) => {
+        if (e.which === 37) isLeftPaddleUp = false;
+        if (e.which === 39) isRightPaddleUp = false;
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('keyup', handleKeyUp);
+
+      // Button controls
+      const leftBtn = document.querySelector('.left-trigger');
+      const rightBtn = document.querySelector('.right-trigger');
+
+      if (leftBtn) {
+        leftBtn.addEventListener('mousedown', () => (isLeftPaddleUp = true));
+        leftBtn.addEventListener('mouseup', () => (isLeftPaddleUp = false));
+        leftBtn.addEventListener('touchstart', () => (isLeftPaddleUp = true));
+        leftBtn.addEventListener('touchend', () => (isLeftPaddleUp = false));
       }
 
-      function updateScore(newScore) {
-        setCurrentScore(newScore);
-        const scoreElement = document.querySelector('.current-score span');
-        if (scoreElement) scoreElement.textContent = newScore;
-
-        if (newScore > highScore) {
-          setHighScore(newScore);
-          localStorage.setItem('pinballHighScore', newScore.toString());
-          onHighScoreUpdate(newScore);
-          const highScoreElement = document.querySelector('.high-score span');
-          if (highScoreElement) highScoreElement.textContent = newScore;
-        }
+      if (rightBtn) {
+        rightBtn.addEventListener('mousedown', () => (isRightPaddleUp = true));
+        rightBtn.addEventListener('mouseup', () => (isRightPaddleUp = false));
+        rightBtn.addEventListener('touchstart', () => (isRightPaddleUp = true));
+        rightBtn.addEventListener('touchend', () => (isRightPaddleUp = false));
       }
     }
+
+    function updateScore(newScore) {
+      setCurrentScore(newScore);
+      const scoreElement = document.querySelector('.current-score span');
+      if (scoreElement) scoreElement.textContent = newScore;
+
+      if (newScore > highScore) {
+        setHighScore(newScore);
+        localStorage.setItem('pinballHighScore', newScore.toString());
+        onHighScoreUpdate(newScore);
+        const highScoreElement = document.querySelector('.high-score span');
+        if (highScoreElement) highScoreElement.textContent = newScore;
+      }
+    }
+
+    // Create game bodies
+    createStaticBodies();
+    createPaddles();
+    createPinball();
+    createEvents();
   };
 
   const startGame = () => {
