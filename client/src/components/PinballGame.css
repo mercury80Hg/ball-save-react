@@ -11,7 +11,10 @@
   line-height: 0;
   background: #212529;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: visible;
+  max-width: 100%;
+  max-height: 100%;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.75);
 }
 
 /* Start Screen */
@@ -127,6 +130,7 @@
 canvas {
   border-radius: 5px;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.75);
+  display: block;
 }
 
 /* Matter.js Game Elements - CSS Classes */
@@ -158,35 +162,77 @@ canvas {
   fill: #ffffff !important;
 }
 
-/* Responsive Scaling */
-@media (min-height: 0px) {
-  .pinball-container {
-    transform: scale(0.3);
-  }
-}
-
-@media (min-height: 400px) {
-  .pinball-container {
-    transform: scale(0.4);
-  }
-}
-
-@media (min-height: 600px) {
-  .pinball-container {
-    transform: scale(0.6);
-  }
-}
-
-@media (min-height: 800px) {
+/* Responsive Scaling - Better approach */
+@media (max-width: 480px) {
+  /* Mobile phones - fill screen well */
   .pinball-container {
     transform: scale(0.8);
+    transform-origin: center center;
+  }
+
+  .pinball-game-wrapper {
+    /* padding: 5px; */
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  /* Tablets - medium scale */
+  .pinball-container {
+    transform: scale(1);
+    transform-origin: center center;
+  }
+
+  .pinball-game-wrapper {
+    padding: 10px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Small desktop - larger scale */
+  .pinball-container {
+    transform: scale(1.15);
+    transform-origin: center center;
+    max-width: 550px;
+    max-height: 880px;
+  }
+
+  .pinball-game-wrapper {
+    padding: 15px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+  /* Desktop - even larger scale */
+  .pinball-container {
+    transform: scale(1.25);
+    transform-origin: center center;
+    max-width: 600px;
+    max-height: 960px;
+  }
+
+  .pinball-game-wrapper {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 1441px) {
+  /* Large desktop - maximum scale */
+  .pinball-container {
+    transform: scale(1.35);
+    transform-origin: center center;
+    max-width: 650px;
+    max-height: 1040px;
+  }
+
+  .pinball-game-wrapper {
+    padding: 25px;
   }
 }
 
 /* Game Container Layout */
 .pinball-game-active {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;

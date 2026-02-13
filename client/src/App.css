@@ -48,8 +48,8 @@ body {
 }
 
 .pinball-game-container {
-  height: 65vh;
-  margin-bottom: 2vh;
+  height: 85vh;
+  margin-bottom: 1vh;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -91,11 +91,11 @@ body {
 
 .modal-container {
   background-color: rgb(31, 28, 28);
-  padding: 2vh;
+  /* padding: 1vh; */
   border-radius: 25px;
-  max-width: 80vw;
-  width: 85vh;
-  height: 85vh;
+  max-width: 95vw;
+  width: 95vw;
+  height: 95vh;
   text-align: center;
   border-style: outset;
   border-top: solid 2px rgb(33, 33, 33);
