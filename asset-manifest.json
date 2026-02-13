@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/ball-save-react/static/css/main.d4b561fd.css",
-    "main.js": "/ball-save-react/static/js/main.fca6e570.js",
-    "static/media/black-pinball-trans.png": "/ball-save-react/static/media/black-pinball-trans.5d8bdece045ed7320c52.png",
-    "static/media/dotrice.bold-expanded.otf": "/ball-save-react/static/media/dotrice.bold-expanded.6de0cb6a137f7c5df52c.otf",
-    "static/media/pinball-game-arcade-console-design-illustration_222550-174.jpg.avif": "/ball-save-react/static/media/pinball-game-arcade-console-design-illustration_222550-174.jpg.4255838c299a5df62571.avif",
-    "static/media/dotrice.bold-condensed.woff": "/ball-save-react/static/media/dotrice.bold-condensed.79bc68c37bb3ac7451ce.woff",
-    "static/media/camera-retro.svg": "/ball-save-react/static/media/camera-retro.869256703efc933dae7d78a51997db60.svg",
-    "index.html": "/ball-save-react/index.html",
-    "main.d4b561fd.css.map": "/ball-save-react/static/css/main.d4b561fd.css.map",
-    "main.fca6e570.js.map": "/ball-save-react/static/js/main.fca6e570.js.map"
+    "main.css": "/static/css/main.72a09528.css",
+    "main.js": "/static/js/main.dc4eea69.js",
+    "static/media/black-pinball-trans.png": "/static/media/black-pinball-trans.5d8bdece045ed7320c52.png",
+    "static/media/dotrice.bold-expanded.otf": "/static/media/dotrice.bold-expanded.6de0cb6a137f7c5df52c.otf",
+    "static/media/pinball-game-arcade-console-design-illustration_222550-174.jpg.avif": "/static/media/pinball-game-arcade-console-design-illustration_222550-174.jpg.4255838c299a5df62571.avif",
+    "static/media/dotrice.bold-condensed.woff": "/static/media/dotrice.bold-condensed.79bc68c37bb3ac7451ce.woff",
+    "static/media/camera-retro.svg": "/static/media/camera-retro.869256703efc933dae7d78a51997db60.svg",
+    "index.html": "/index.html",
+    "main.72a09528.css.map": "/static/css/main.72a09528.css.map",
+    "main.dc4eea69.js.map": "/static/js/main.dc4eea69.js.map"
   },
   "entrypoints": [
-    "static/css/main.d4b561fd.css",
-    "static/js/main.fca6e570.js"
+    "static/css/main.72a09528.css",
+    "static/js/main.dc4eea69.js"
   ]
 }
