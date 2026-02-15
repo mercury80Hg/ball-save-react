@@ -102,7 +102,7 @@ function Login({ setCurrentUser }) {
 
           <input
             style={{
-              width: '15vw',
+              width: '120px',
               textTransform: 'uppercase',
             }} // classname vs inline style
             name='initials'
