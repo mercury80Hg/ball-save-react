@@ -636,6 +636,10 @@ ul {
 
 /* /////////// Photo //////////// */
 
+.pinball-container h2 {
+  text-align: center;
+}
+
 .photo-img {
   height: 4vh;
 }

@@ -4,6 +4,7 @@ import './App.css';
 import Login from './routes/Login';
 import Add from './routes/Add';
 import UserScoreHistory from './routes/History';
+import PinballGame from './routes/Games';
 
 import { fetchMachines, fetchScores } from './api/api';
 import Title from './components/Title';
@@ -144,6 +145,12 @@ function App() {
                   scoreHistory={scoreHistory}
                   onLogout={handleLogout}
                 />
+              }
+            />
+            <Route
+              path='/games'
+              element={
+                <PinballGame user={currentUser} onLogout={handleLogout} />
               }
             />
             <Route

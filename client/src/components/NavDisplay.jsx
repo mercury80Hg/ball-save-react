@@ -49,6 +49,9 @@ function NavDisplay({ user, onLogout }) {
           <Link to='/history' onClick={() => setIsOpen(false)}>
             history
           </Link>
+          <Link to='/games' onClick={() => setIsOpen(false)}>
+            games
+          </Link>
           <Link to='/add' onClick={() => setIsOpen(false)}>
             add
           </Link>
