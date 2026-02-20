@@ -461,6 +461,10 @@ ul {
   animation-delay: 0.2s;
 }
 
+.dropmenu-content.show a:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
 .logout-button {
   display: block;
   color: orange;
@@ -484,7 +488,7 @@ ul {
 }
 
 .dropmenu-content.show .logout-button {
-  animation-delay: 0.3s;
+  animation-delay: 0.4s;
 }
 
 .dropmenu-content a:hover,

@@ -1,19 +1,17 @@
 import React from 'react';
 import NavDisplay from '../components/NavDisplay';
+import PinballGame from '../components/PinballGame';
 
-function PinballGame({ user, onLogout }) {
+function Games({ user, onLogout }) {
   return (
     <div className='container'>
       <NavDisplay user={user} onLogout={onLogout} />
       <div className='pinball-container'>
         <h2>Pinball Game</h2>
-        <p style={{ padding: '0 20px' }}>
-          Module placeholder - following exact same patterns as working
-          components
-        </p>
+        <PinballGame user={user} onLogout={onLogout} />
       </div>
     </div>
   );
 }
 
-export default PinballGame;
+export default Games;
